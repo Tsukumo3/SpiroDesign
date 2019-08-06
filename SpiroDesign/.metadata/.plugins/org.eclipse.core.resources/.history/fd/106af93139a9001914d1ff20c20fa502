@@ -1,0 +1,296 @@
+package spiroDesign;
+
+import java.awt.Color;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
+/**
+ * ピニオンギアの処理を専門に行う
+ */
+public class PinionGear extends SpiroGear{
+	/**
+	 * ペンの座標を束縛する
+	 */
+	private Point2D.Double penPosition;
+
+	/**
+	 * ペンの色を束縛する
+	 */
+	private Color penColor;
+
+	/**
+	 * ペンの太さを束縛する
+	 */
+	private int penNib;
+
+	/**
+	 * ピニオンギアの角度を束縛する
+	 */
+	private Double pinionDegrees;
+
+	/**
+	 * ピニオンギアとスパーギアとの距離を束縛する
+	 */
+	private Double pinionDistance;
+
+	/**
+	 * ピニオンギアとスパーギアの間の角度について束縛する
+	 */
+	private Double phi;
+
+	/**
+	 * ピニオンギアとペンの間の角度について束縛する
+	 */
+	private Double psi;
+
+	/**
+	 * ピニオンギアとペンの間の距離を束縛する
+	 */
+	private Double penDistance;
+
+	/**
+	 * 回転角を束縛する
+	 */
+	private Double theta;
+
+	/**
+	 * 引数のスパーギアから座標を受け取り、初期位置を親に伝える
+	 * また、その他のインスタンスを初期化する
+	 * @param aSpurGear スパーギア
+	 */
+	public PinionGear(SpurGear aSpurGear) {
+
+		super( aSpurGear.getCenter().getX() + (aSpurGear.getRadius() - 50)*Math.cos(0),
+				aSpurGear.getCenter().getY() + (aSpurGear.getRadius() - 50)*Math.sin(0),
+		 		 50.0);
+
+		Point2D.Double aPen = new Point2D.Double(500.0,300.0);
+
+		this.setPenPosition(aPen);
+		this.setPenColor(new Color(0,0,0));
+		this.setPenNib(5);
+
+		this.setPinionDegrees(0.0);
+		this.setPsi(0.0);
+		this.setPhi(0.0);
+
+		this.pinionDistance = 50.0;
+		this.penDistance = 50.0;
+
+		this.theta = 0.0;
+	}
+
+	/**
+	 * 引数のスパーギアから座標と半径を受け取り、初期位置を親に伝える
+	 * また、その他のインスタンスを初期化する
+	 * @param aSpurGear スパーギア
+	 * @param r 半径
+	 */
+	public PinionGear(SpurGear aSpurGear,Double r) {
+		super( aSpurGear.getCenter().getX() + (aSpurGear.getRadius() - r)*Math.cos(0),
+				aSpurGear.getCenter().getY() + (aSpurGear.getRadius() - r)*Math.sin(0),
+		 		 r);
+
+		Point2D.Double aPen = new Point2D.Double(500.0,300.0);
+
+		this.setPenPosition(aPen);
+		this.setPenColor(new Color(0,0,0));
+		this.setPenNib(5);
+
+		this.setPinionDegrees(0.0);
+		this.setPsi(0.0);
+		this.setPhi(0.0);
+
+		this.pinionDistance = r;
+		this.penDistance = r;
+
+		this.theta = 0.0;
+	}
+
+	/**
+	 * 引数のスパーギアから座標と半径受け取り、初期位置を親に伝える
+	 * また、ペン座標を設定し、その他のインスタンスを初期化する
+	 * @param aSpurGear スパーギア
+	 * @param r 半径
+	 * @param uv ペン座標
+	 */
+	public PinionGear(Point2D.Double p, Double r, Point2D.Double uv) {
+		super(p,r);
+		this.setPenPosition(uv);
+		this.setPenColor(Color.black);
+		this.setPenNib(5);
+		this.setPinionDegrees(0.0);
+		this.setPsi(0.0);
+		this.setPhi(0.0);
+		this.theta = 0.0;
+	}
+
+	/**
+	 * 引数のスパーギアから座標と半径受け取り、初期位置を親に伝える
+	 * また、ペン座標、ペンの色、ペンの太さを設定し、その他のインスタンスを初期化する
+	 * @param aSpurGear スパーギア
+	 * @param r 半径
+	 * @param uv ペン座標
+	 * @param c ペンの色
+	 * @param n ペンの太さ
+	 */
+	public PinionGear(Point2D.Double p, Double r, Point2D.Double uv, Color c, int n) {
+
+		super(p,r);
+		this.setPenPosition(uv);
+		this.setPenColor(c);
+		this.setPenNib(n);
+		this.setPinionDegrees(0.0);
+		this.setPsi(0.0);
+		this.setPhi(0.0);
+		this.theta = 0.0;
+	}
+
+	/**
+	 * 引数のスパーギアから座標と半径受け取り、初期位置を親に伝える
+	 * また、ペン座標、ペンの色、ペンの太さ、角度を設定し、その他のインスタンスを初期化する
+	 * @param aSpurGear スパーギア
+	 * @param r 半径
+	 * @param uv ペン座標
+	 * @param c ペンの色
+	 * @param n ペンの太さ
+	 * @param d 角度
+	 */
+	public PinionGear(Point2D.Double p, Double r, Point2D.Double uv, Color c, int n, Double d) {
+		super(p,r);
+		this.setPenPosition(uv);
+		this.setPenColor(c);
+		this.setPenNib(n);
+		this.setPinionDegrees(d);
+		this.setPsi(0.0);
+		this.setPhi(0.0);
+		this.theta = 0.0;
+	}
+
+	public Color getPenColor() {//getPenColor
+		return this.penColor;
+	}
+
+	public void setPenColor(Color aColor) {//setPenColor
+		this.penColor = aColor;
+	}
+
+	public int getPenNib() {//getPenNib
+		return this.penNib;
+	}
+
+	public void setPenNib(int anInteger) {//setPenNib
+		this.penNib = anInteger;
+	}
+
+	public Point2D.Double getPenPosition() {//getPenPosotion Double →　Point2D.Double
+		return this.penPosition;
+	}
+
+	public void setPenPosition(Point2D.Double aPoint2D) {//setPenPosition
+		Point2D.Double penPoint2D = aPoint2D;
+		this.penPosition = penPoint2D;
+	}
+
+	public Double getPinionDegrees(){
+		return this.pinionDegrees;
+	}
+
+	public void setPinionDegrees(Double aDegrees){
+		this.pinionDegrees = aDegrees;
+	}
+
+	public Double getPsi(){
+		return this.psi;
+	}
+
+	public void setPsi(Double aDegrees){
+		this.psi = aDegrees;
+	}
+
+	public Double getPhi(){
+		return this.phi;
+	}
+
+	public void setPhi(Double aDegrees){
+		this.phi = aDegrees;
+	}
+
+
+	public Double getTheta(){
+		return this.theta;
+	}
+
+	public void setTheta(Double aDegrees){
+		this.theta = aDegrees;
+	}
+
+
+	public Double getPinionDistance(){
+		return this.pinionDistance;
+	}
+
+	public void setPinionDistance(Double aDistance){
+		this.pinionDistance = aDistance;
+	}
+	public Double getPenDistance(){
+		return this.penDistance;
+	}
+
+	public void setPenDistance(Double aDistance){
+		this.penDistance = aDistance;
+	}
+
+	public Point2D.Double right() {
+		Double aX = getCenter().getX() + getRadius() * Math.cos(this.getPinionDegrees());
+		Double aY = getCenter().getY() + getRadius() * Math.sin(this.getPinionDegrees());
+		Point2D.Double aPoint2D = new Point2D.Double(aX,aY);
+		return aPoint2D;
+	}
+
+	public Point2D.Double top() { //以下、計算で四方の座標を求める
+		Double aX = getCenter().getX() + getRadius() * Math.cos(this.getPinionDegrees() + (0.5*Math.PI));
+		Double aY = getCenter().getY() + getRadius() * Math.sin(this.getPinionDegrees() + (0.5*Math.PI));
+		Point2D.Double aPoint2D = new Point2D.Double(aX,aY);
+		return aPoint2D;
+	}
+
+	public Point2D.Double left() {
+		Double aX = getCenter().getX() + getRadius() * Math.cos(this.getPinionDegrees() + Math.PI);
+		Double aY = getCenter().getY() + getRadius() * Math.sin(this.getPinionDegrees() + Math.PI);
+		Point2D.Double aPoint2D = new Point2D.Double(aX,aY);
+		return aPoint2D;
+	}
+
+
+	public Point2D.Double bottom() { //以下、計算で四方の座標を求める
+		Double aX = getCenter().getX() + getRadius() * Math.cos(this.getPinionDegrees() + (1.5*Math.PI));
+		Double aY = getCenter().getY() + getRadius() * Math.sin(this.getPinionDegrees() + (1.5*Math.PI));
+		Point2D.Double aPoint2D = new Point2D.Double(aX,aY);
+		return aPoint2D;
+	}
+
+	public Rectangle2D bottomRectangle2D(){
+		return super.toRectangle2D(this.bottom(),10.0);
+	}
+
+	public Rectangle2D leftRectangle2D(){
+		return super.toRectangle2D(this.left(),10.0);
+	}
+
+	public Rectangle2D rightRectangle2D(){
+		return super.toRectangle2D(this.right(),10.0);
+	}
+
+	public Rectangle2D topRectangle2D(){
+		return super.toRectangle2D(this.top(),10.0);
+	}
+
+	public Rectangle2D centerRectangle2D(){
+		return super.toRectangle2D(super.getCenter(),10.0);
+	}
+
+	public Rectangle2D penRectangle2D() {//PenのPoint2D.Doubleをつくる penPositionとか
+		return super.toRectangle2D(this.getPenPosition(),20.0);
+	}
+}

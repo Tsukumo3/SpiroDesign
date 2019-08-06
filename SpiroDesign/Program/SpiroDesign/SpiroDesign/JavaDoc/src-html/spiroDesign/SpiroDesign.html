@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+<title>ソース・コード</title>
+<link rel="stylesheet" type="text/css" href="../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">package spiroDesign;</a>
+<span class="sourceLineNo">002</span><a id="line.2"></a>
+<span class="sourceLineNo">003</span><a id="line.3">import java.awt.Dimension;</a>
+<span class="sourceLineNo">004</span><a id="line.4">import java.awt.Point;</a>
+<span class="sourceLineNo">005</span><a id="line.5"></a>
+<span class="sourceLineNo">006</span><a id="line.6">import javax.swing.JFrame;</a>
+<span class="sourceLineNo">007</span><a id="line.7"></a>
+<span class="sourceLineNo">008</span><a id="line.8">/**</a>
+<span class="sourceLineNo">009</span><a id="line.9"> * メイン ウィンドウを開いて、モデルを呼ぶ</a>
+<span class="sourceLineNo">010</span><a id="line.10"> */</a>
+<span class="sourceLineNo">011</span><a id="line.11">public class SpiroDesign {</a>
+<span class="sourceLineNo">012</span><a id="line.12"></a>
+<span class="sourceLineNo">013</span><a id="line.13">        public static void main(String[] arguments) throws InterruptedException</a>
+<span class="sourceLineNo">014</span><a id="line.14">        {</a>
+<span class="sourceLineNo">015</span><a id="line.15">                // ウィンドウのサイズを決め、モデルを作る。</a>
+<span class="sourceLineNo">016</span><a id="line.16">                Dimension aDimension = new Dimension(800, 600);</a>
+<span class="sourceLineNo">017</span><a id="line.17">                SpiroModel aModel = new SpiroModel();</a>
+<span class="sourceLineNo">018</span><a id="line.18"></a>
+<span class="sourceLineNo">019</span><a id="line.19">                Integer width = aDimension.width;</a>
+<span class="sourceLineNo">020</span><a id="line.20">                Integer height = aDimension.height;</a>
+<span class="sourceLineNo">021</span><a id="line.21">                Integer x = (width / 2) - (width / 2);</a>
+<span class="sourceLineNo">022</span><a id="line.22">                Integer y = (height / 2) - (height / 2);</a>
+<span class="sourceLineNo">023</span><a id="line.23">                Point displayPoint = new Point(x, y);</a>
+<span class="sourceLineNo">024</span><a id="line.24"></a>
+<span class="sourceLineNo">025</span><a id="line.25">                // 上記のモデルのビューとコンピュローラのペアを作り、ウィンドウに乗せる。</a>
+<span class="sourceLineNo">026</span><a id="line.26">                SpiroView aView = new SpiroView(aModel);</a>
+<span class="sourceLineNo">027</span><a id="line.27">                JFrame aWindow = new JFrame("スピロデザイン");</a>
+<span class="sourceLineNo">028</span><a id="line.28">                aWindow.getContentPane().add(aView);</a>
+<span class="sourceLineNo">029</span><a id="line.29"></a>
+<span class="sourceLineNo">030</span><a id="line.30">                // 高さはタイトルバーの高さを考慮してウィンドウの大きさを決定する。</a>
+<span class="sourceLineNo">031</span><a id="line.31">                aWindow.addNotify();</a>
+<span class="sourceLineNo">032</span><a id="line.32">                Integer titleBarHeight = aWindow.getInsets().top;</a>
+<span class="sourceLineNo">033</span><a id="line.33">                width = aDimension.width;</a>
+<span class="sourceLineNo">034</span><a id="line.34">                height = aDimension.height + titleBarHeight;</a>
+<span class="sourceLineNo">035</span><a id="line.35">                Dimension windowSize = new Dimension(width, height);</a>
+<span class="sourceLineNo">036</span><a id="line.36">                aWindow.setSize(windowSize.width, windowSize.height);</a>
+<span class="sourceLineNo">037</span><a id="line.37"></a>
+<span class="sourceLineNo">038</span><a id="line.38">                // ウィンドウに各種の設定を行って出現させる。</a>
+<span class="sourceLineNo">039</span><a id="line.39">                aWindow.setMinimumSize(new Dimension(400, 300 + titleBarHeight));</a>
+<span class="sourceLineNo">040</span><a id="line.40">                aWindow.setResizable(true);</a>
+<span class="sourceLineNo">041</span><a id="line.41">                aWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</a>
+<span class="sourceLineNo">042</span><a id="line.42">                x = displayPoint.x;</a>
+<span class="sourceLineNo">043</span><a id="line.43">                y = displayPoint.y;</a>
+<span class="sourceLineNo">044</span><a id="line.44">                aWindow.setLocation(x, y);</a>
+<span class="sourceLineNo">045</span><a id="line.45">                aWindow.setVisible(true);</a>
+<span class="sourceLineNo">046</span><a id="line.46">                aWindow.toFront();</a>
+<span class="sourceLineNo">047</span><a id="line.47">                //モデルを動かす</a>
+<span class="sourceLineNo">048</span><a id="line.48"></a>
+<span class="sourceLineNo">049</span><a id="line.49">                Thread aThread = new Thread(aModel);</a>
+<span class="sourceLineNo">050</span><a id="line.50"></a>
+<span class="sourceLineNo">051</span><a id="line.51"></a>
+<span class="sourceLineNo">052</span><a id="line.52">                aThread.run();</a>
+<span class="sourceLineNo">053</span><a id="line.53"></a>
+<span class="sourceLineNo">054</span><a id="line.54">        }</a>
+<span class="sourceLineNo">055</span><a id="line.55">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>

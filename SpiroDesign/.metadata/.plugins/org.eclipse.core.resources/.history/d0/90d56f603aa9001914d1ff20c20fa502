@@ -1,0 +1,708 @@
+package spiroDesign;
+
+import java.awt.Color;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+/**
+ * モデル。 計算処理、データの格納を専門に行う
+ *
+ */
+public class SpiroModel extends Object implements Runnable {
+	/**
+	 * 依存物:SpiroViewのインスタンスたちを束縛する
+	 */
+	protected ArrayList<SpiroView> dependents;
+
+	/**
+	 * 依存物:SpurGearのインスタンスを束縛する
+	 */
+	private SpurGear spurGear;
+
+	/**
+	 * 依存物:PinionGearのインスタンスを束縛する
+	 */
+	private PinionGear pinionGear;
+
+	/**
+	 * 回転角を束縛する
+	 */
+	private Double theta;
+
+	/**
+	 * pinionGearの回転角を束縛する
+	 */
+	public Double pinionDegree;
+
+	/**
+	 * 軌跡のインスタンスを束縛する
+	 */
+	public ArrayList<DesignLocus> designLoci;
+
+	/**
+	 * 画像を束縛する
+	 */
+	private BufferedImage img;
+
+	/**
+	 * 描画中の実行速度を束縛する
+	 */
+	private int tickTime;
+
+	/**
+	 * 描画中がどうかの状態を束縛する
+	 */
+	public boolean isAnimated;
+
+	/**
+	 * 操作中かどうかの状態を束縛する
+	 */
+	public boolean isEdited;
+
+	/**
+	 * PinionPenのColorが虹色かどうかを束縛する
+	 */
+	public boolean isRainbow;
+
+	/**
+	 * インスタンスを生成して初期化して応答する
+	 */
+	public SpiroModel()
+	{
+		super();
+		initialize();
+		return;
+	}
+	/**
+	 * 初期化して応答する
+	 */
+	private void initialize()
+	{
+		spurGear = new SpurGear(300.0,300.0,200.0);
+		pinionGear = new PinionGear(spurGear,50.0);
+		this.dependents = new ArrayList<SpiroView>();
+		this.theta = 0.0;
+		this.pinionDegree = 0.0d;
+		this.designLoci = new ArrayList<>();
+		this.tickTime = 30;
+		this.isAnimated = false;
+		this.isEdited = false;
+		this.isRainbow = false;
+		return;
+	}
+	/**
+	 * 指定されたViewを依存物に設定する。
+	 * @param aView このモデルの依存物となるビュー
+	 */
+	public void addDependent(SpiroView aView)
+	{
+		dependents.add(aView);
+		return;
+	}
+
+	/**
+	 * 全体のループ処理を内容を実行する
+	 */
+	public void run() {
+		while(true){//ru-pu
+
+			if(getIsAnimated()){
+				this.perform();
+			}
+			//計算処理
+			if(!getIsEdited()){
+				this.reCalcPinionGear();
+			}
+			if(getIsRainbow()){
+				this.rainbow();
+			}
+				//Viewに渡す
+			this.changed();
+			try {
+				Thread.sleep(this.getTickTime());
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+	/**
+	 * modelの内部状態が変化していたので自分の依存物へupdateを送信する。
+	 */
+	public void changed()
+	{
+		Iterator<SpiroView> anIterator = dependents.iterator();
+		while (anIterator.hasNext())
+		{
+			SpiroView aView = anIterator.next();
+
+			aView.repaint();
+		}
+		return;
+	}
+
+	/*
+	 * ここから状態を管理する
+	 */
+
+
+	/**
+	 * アニメーション中かどうかをの状態を応答する。
+	 * @return このモデルのisAnimatedフィールドに格納されている状態
+	 */
+	public boolean getIsAnimated(){
+		return this.isAnimated;
+	}
+
+
+	/**
+	 * アニメーション中かどうかの状態を設定する
+	 */
+	public void setIsAnimated(){
+		if(this.getIsAnimated()){
+			this.isAnimated = false;
+			this.addDesignLoci();
+		}
+		else{
+			this.isAnimated = true;
+		}
+		return;
+	}
+
+	/**
+	 * スピロギアを編集中かどうかを応答する。
+	 * @return このモデルのisEditedフィールドに格納されている状態
+	 */
+	public boolean getIsEdited(){
+		return this.isEdited;
+	}
+
+	/**
+	 * スピロギアを編集中かどうかを設定する
+	 */
+	public void setIsEdited(boolean state){
+		this.isEdited = state;
+		return;
+	}
+
+	/**
+	 * アニメーション中の実際の動作を実行する
+	 */
+	public void perform(){
+
+		//回転させる
+		getPinionGear().setTheta(getPinionGear().getTheta() + 0.01  );
+
+		//軌跡と色ろペンの太さをリストdesignLociに格納するための値を取得す
+		Double x = getPinionGear().getPenPosition().getX();
+		Double y = getPinionGear().getPenPosition().getY();
+
+		Point2D.Double aPoint2D = new Point2D.Double(x,y);
+
+		int r = getPinionGear().getPenColor().getRed();
+		int g = getPinionGear().getPenColor().getGreen();
+		int b = getPinionGear().getPenColor().getBlue();
+
+		Color aColor = new Color(r,g,b);
+
+		int nib = getPinionGear().getPenNib();
+
+		addDesignLoci(aPoint2D,aColor,nib);
+
+		//Listがサイズが9999になったときListの中身を前から削除していく
+		listFlush();
+
+		//実行速度を遅延させることで描画速度を管理する.
+
+	}
+
+	//通常の格納
+	/**
+	 * 軌跡と色ろペンの太さをリストdesignLociに格納する
+	 * @param aPoint2D ペンの座標
+	 * @param aColor ペンの色
+	 * @param aNib ペンの太さ
+	 */
+	public void addDesignLoci(Point2D.Double aPoint2D, Color aColor,Integer aNib){
+		getDesignLoci().add(new DesignLocus(aPoint2D,aColor,aNib));
+	}
+
+	/**
+	 * diveしたときにListにNull値を確認する
+	 */
+	public void addDesignLoci(){
+		designLoci.add(null);
+		return;
+	}
+
+	/**
+	 * 実行速度の遅延時間を設定する
+	 * @param aInteger
+	 */
+	public void setTickTime(int aInteger){
+		this.tickTime = aInteger;
+		return;
+	}
+	/**
+	 * 実行速度の遅延時間を応答する
+	 * @return このモデルのtickTimeフィールドに格納されている整数
+	 */
+	public int getTickTime(){
+		return this.tickTime;
+	}
+
+	/**
+	 * リストに格納されるデータ量を制限する
+	 */
+
+	public void listFlush(){
+		int i = 0;
+		Iterator<DesignLocus> it = getDesignLoci().iterator();
+		while (it.hasNext()) {
+			it.next();
+			System.out.println(getDesignLoci().size()-1);
+			if(getDesignLoci().size() > 9999 && i == 0){
+				it.remove();
+			}
+			break;
+		}
+		return;
+	}
+
+	/*
+	 * メニュー関連
+	 */
+
+	/**
+	 * スピロギアを回転させる
+	 */
+	public void spiroStartAndStop(){
+		this.setIsAnimated();
+		return;
+	}
+
+	/**
+	 * スピロギアの回転速度を設定する
+	 * @param aSpeed 待機時間
+	 */
+	public void spiroSetSpeed(int aSpeed){
+		this.setTickTime(aSpeed);
+		return;
+	}
+
+
+
+	/*
+	 * rainbow処理
+	 */
+
+	/**
+	 * ペンの色が虹色かどうか状態を設定する
+	 */
+	public void setIsRainbow(){
+		if(this.isRainbow){
+			this.isRainbow = false;
+		}
+		else{
+			this.isRainbow = true;
+		}
+	}
+	/**
+	 * ペンの色が虹色華道家の状態を応答する
+	 * @return このモデル内のisRainbowフィールドに格納されている状態
+	 */
+	public boolean getIsRainbow(){
+		return this.isRainbow;
+	}
+
+	//rainbow処理
+	/**
+	 * ペンの色をレインボーにするための処理を実行する。
+	 */
+	public void rainbow(){
+
+		int r = 255;
+		int g = 0;
+		int b = 0;//Red Green Blue
+		//180度ごとに虹色にへんかするようにする
+		Double parTheta = this.getPinionGear().getTheta();
+		//初期位置の角度を取得
+		Double firstPinionTheta = this.getPinionGear().getPhi();
+		//初期位置からの位相ずれを取得
+		Double phaseShift = parTheta - firstPinionTheta;
+
+		phaseShift = phaseShift%Math.PI;
+
+		if(phaseShift>=0 && phaseShift<Math.PI/6){
+			r = 255;
+			g = 0 + (int)(255/(Math.PI/6) * (phaseShift));
+			b = 0;
+		}
+		else if(phaseShift>=Math.PI/6 && phaseShift<Math.PI/3){
+			r = 255 - (int)(255/(Math.PI/6) * (phaseShift -  Math.PI/6));
+			g = 255;
+			b = 0;
+		}
+		else if(phaseShift>=Math.PI/3 && phaseShift<Math.PI/2){
+			r = 0;
+			g = 255;
+			b = 0 + (int)(255/(Math.PI/6) * (phaseShift -  Math.PI/3));
+		}
+		else if(phaseShift>=Math.PI/2 && phaseShift<Math.PI*2/3){
+			r = 0;
+			g = 255 - (int)(255/(Math.PI/6) * (phaseShift -  Math.PI/2));
+			b = 255;
+		}
+		else if(phaseShift>=Math.PI*2/3 && phaseShift<Math.PI*5/6){
+			r = 0 + (int)(255/(Math.PI/6) * (phaseShift -  Math.PI*2/3));
+			g = 0;
+			b = 255;
+		}
+		else if(phaseShift>=Math.PI*5/6 && phaseShift<Math.PI){
+			r = 255;
+			g = 0;
+			b = 255 - (int)(255/(Math.PI/6) * (phaseShift -  Math.PI*5/6));
+		}
+
+		Color rainbowColor = new Color(r,g,b);
+
+		this.getPinionGear().setPenColor(rainbowColor);
+	}
+
+	/**
+	 * 絵画の画像データを設定する
+	 * @param anImage 絵画の画像データ
+	 */
+	public void setImage(BufferedImage anImage) {
+		this.img = anImage;
+	}
+
+	/**
+	 *　絵画の画像データを応答する
+	 * @return img 絵画の画像データ
+	 */
+	public BufferedImage getImage() {
+		return this.img;
+	}
+
+	/**
+	 *	絵画の画像データをJPEG形式で保存し、画像データを用いて プレビューを実行する
+	 */
+	public void SpiroSaveImage() {
+		SpiroIO.saveImage(img);
+	}
+
+	/**
+	 * 軌跡の絵をセーブファイルとして出力を実行する
+	 */
+	void spiroSaveLoci(){
+		SpiroIO.makeSaveData(designLoci);
+	}
+
+	/**
+	 * 軌跡の絵を保存しているファイルを取得し出力を実行する
+	 * @throws FileNotFoundException
+	 */
+	void spiroLoadLoci() throws FileNotFoundException{
+		designLoci.addAll(SpiroIO.loadSaveData());
+	}
+
+	/**
+	 * スピロギアの状態を初期化する
+	 */
+	void spiroDive(){
+		this.getPinionGear().setTheta(0.0);
+		this.addDesignLoci();
+	}
+
+	/**
+	 * 一つ前に描かれた絵を削除する
+	 */
+	void spiroUndo(){
+		/*
+	     * リスト内のnullを検索
+	     * nullがないとき：->絵は一枚だけ->全削除
+	     * nullがあるとき：複数枚の絵がある->最後のnullから最後までを削除
+		 *
+		 */
+		if(designLoci.size() != 0 ){
+			int last = designLoci.size();
+			int lastNull;
+
+			if(designLoci.subList(0, last-1).contains(null)){
+				lastNull = designLoci.subList(0,last-1).lastIndexOf(null);
+	        }
+	        else{
+	        	lastNull = 0;
+	        }
+			designLoci.subList(lastNull,last).clear();
+		}
+		return;
+	}
+
+	/**
+	 * 軌跡を全て削除する
+	 */
+	public void spiroClear(){
+		this.designLoci.clear();
+		return;
+	}
+
+
+	//designlociゲッター
+	/**
+	 * 軌跡のデータを応答する
+	 * @return このモデルのdesignLociフィールドに格納されている軌跡
+	 */
+	public ArrayList<DesignLocus> getDesignLoci(){
+		return this.designLoci;
+	}
+
+
+	/*
+	 * ここから計算処理
+	 */
+
+	/**
+	 * 回転角の値を設定する
+	 * @param aRadian モデル内のthetaフィールドに格納されている値
+	 */
+	public void setTheta(Double aRadian){
+		this.theta = aRadian;
+	}
+
+	/**
+	 * 回転角の値を応答する
+	 * @return 回転角
+	 */
+	public Double getTheta(){
+		return this.theta;
+	}
+
+	/**
+	 * スパーギアを応答する
+	 * @return モデル内のspurGearフィールドに格納されているスパーギア
+	 */
+	public SpurGear getSpurGear() {
+		return this.spurGear;
+	}
+
+	/**
+	 * スパーギアの中心座標を設定する
+	 * @param aPoint2D マウスカーソルの座標
+	 */
+	public void setSpurCenter(Point2D.Double aPoint2D) { //スパーギアの中心について
+		this.getSpurGear().setCenter(aPoint2D); //spurGearの中心の座標を更新
+	}
+
+	/**
+	 * スパーギアの半径を設定する。
+	 * @param aPoint2D マウスカーソルの画像
+	 */
+	public void setSpurRadius(Point2D.Double aPoint2D){
+		Point2D.Double aCenterPoint2D = this.getSpurGear().getCenter();
+		Double aRadius = Math.sqrt(Math.pow(aCenterPoint2D.getX() - aPoint2D.getX(),2.0d) + Math.pow(aCenterPoint2D.getY() - aPoint2D.getY(),2.0d));
+		this.getSpurGear().setRadius(aRadius);
+	}
+
+	/**
+	 * ピニオンギアを応答する
+	 * @return モデル内のpinionGearフィールドに格納されているピニオンギア
+	 */
+	public PinionGear getPinionGear() {
+		return this.pinionGear;
+	}
+
+	/**
+	 * ピニオンギアのパラメータを設定する
+	 * @param aPoint2D マウスカーソルの座標
+	 */
+	public void setPinionParameter(Point2D.Double aPoint2D)
+	{
+		//1 dの計算mouseとSpurの距離を計算
+		//2 rの計算
+		//3 φの計算piniondegreeのこと
+		//4 penDegreesも更新
+
+		getPinionGear().setCenter(aPoint2D);
+		//1
+		Double spd = getDistanceBetweenAToB(this.getSpurGear().getCenter(),aPoint2D);
+		getPinionGear().setPinionDistance(spd);
+
+		//2
+		Double pinionRadius;
+		if(this.isInscribe()){
+			pinionRadius = this.getSpurGear().getRadius() - spd;
+
+		}else{
+			pinionRadius = spd -this.getSpurGear().getRadius();
+			//pinionの半径がspdより大きくなった時
+			if(spd > this.getSpurGear().getRadius()*2-1){
+				pinionRadius  = this.getSpurGear().getRadius();
+			}
+
+		}
+		getPinionGear().setRadius(pinionRadius);
+
+		//3
+		getPinionGear().setTheta(this.getPinionDegrees());
+		pinionGear.setPhi(this.getPinionDegrees());
+
+	}
+
+	/**
+	 * 座標上で二点間の距離を応答する
+	 * @param aPointA 一つ目の座標
+	 * @param aPointB 二つ目の座標
+	 * @return 二点間の距離
+	 */
+	public Double getDistanceBetweenAToB(Point2D.Double aPointA,Point2D.Double aPointB){
+		return Math.sqrt(Math.pow(aPointA.getX() - aPointB.getX(),2.0)
+						+ Math.pow(aPointA.getY() - aPointB.getY(),2.0));
+	}
+
+	/**
+	 * ピニオンギアの回転角を応答する
+	 * @return ピニオンギアの回転角
+	 */
+	public Double getPinionDegrees() { //pinionGearの初期位相ずれ
+		Double aPinionDegrees;
+
+		Point2D.Double aPinionCenter = this.getPinionGear().getCenter();
+		Point2D.Double aSpurCenter = this.getSpurGear().getCenter();
+
+		if(aPinionCenter.getX() > aSpurCenter.getX()) {
+			aPinionDegrees = Math.atan((aSpurCenter.getY() - aPinionCenter.getY()) / (aSpurCenter.getX() - aPinionCenter.getX()));
+		} else {
+			aPinionDegrees = Math.PI + Math.atan((aSpurCenter.getY() - aPinionCenter.getY()) / (aSpurCenter.getX() - aPinionCenter.getX()));
+		}
+		return aPinionDegrees;
+	}
+
+	/**
+	 * ギアが内接しているかどうかを応答する
+	 * @return 内接しているかどうかの状態
+	 */
+	public boolean isInscribe(){
+
+		if(this.getSpurGear().getRadius() >  getDistanceBetweenAToB(getSpurGear().getCenter(),getPinionGear().getCenter()) )
+		{
+			return true;
+		}
+		//外接
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
+	 * ピニオンペンのパラメータを設定する
+	 * @param aPoint2D マウスカーソルの座標
+	 */
+	public void setPenParameter(Point2D.Double aPoint2D){
+
+		//1 dの計算mouseとpinionの距離を計算
+		//3 φの計算piniondegreeのこと
+		//4 penDegreesも更新
+
+		getPinionGear().setPenPosition(aPoint2D);
+
+		Double ppd = getDistanceBetweenAToB(this.getPinionGear().getCenter(),aPoint2D);
+
+		getPinionGear().setPenDistance(ppd);
+
+		//psiの角度を求める
+		getPinionGear().setPsi( calcPenDegrees(aPoint2D) - getPinionGear().getPinionDegrees() );
+		return;
+	}
+
+	/**
+	 * ピニオンペンの角度を応答する
+	 * @param aPoint2D マウスカーソルの座標
+	 * @return ピニオンペンの角度
+	 */
+	public Double calcPenDegrees(Point2D.Double aPoint2D){
+		//外接時の計算
+		if(!isInscribe()){
+			if(aPoint2D.getX() > getPinionGear().getCenter().getX()){
+				return Math.PI + Math.atan( (aPoint2D.getY() -  getPinionGear().getCenter().getY())/(aPoint2D.getX() -  getPinionGear().getCenter().getX() ));
+			}
+			else{
+				return  Math.atan( (aPoint2D.getY() -  getPinionGear().getCenter().getY())/(aPoint2D.getX() -  getPinionGear().getCenter().getX() ));
+			}
+		}
+		//内接時の計算
+		else{
+			if(aPoint2D.getX() > getPinionGear().getCenter().getX()){
+				return Math.atan( (aPoint2D.getY() -  getPinionGear().getCenter().getY())/(aPoint2D.getX() -  getPinionGear().getCenter().getX() ));
+			}
+			else{
+				return Math.PI + Math.atan( (aPoint2D.getY() -  getPinionGear().getCenter().getY())/(aPoint2D.getX() -  getPinionGear().getCenter().getX() ));
+			}
+		}
+	}
+
+	/**
+	 * 変更後のピニオンギア状態から軌跡の数式のパラメータを求める
+	 */
+	public void reCalcPinionGear(){
+
+		PinionGear pinionGear = this.getPinionGear();
+		SpurGear spurGear = this.getSpurGear();
+
+		Double sx = spurGear.getCenter().getX();
+		Double sy = spurGear.getCenter().getY();
+		Double sr = spurGear.getRadius();
+		Double pr = pinionGear.getRadius();
+
+
+		Double px,py;
+		if(pinionGear.getPinionDistance() < spurGear.getRadius()){
+			px = sx + (sr - pr) * Math.cos(this.getPinionGear().getTheta());
+			py = sy + (sr - pr) * Math.sin(this.getPinionGear().getTheta());
+		}
+		else{
+			px = sx + (sr + pr) * Math.cos(this.getPinionGear().getTheta());
+			py = sx + (sr + pr) * Math.sin(this.getPinionGear().getTheta());
+		}
+		this.getPinionGear().setCenter(new Point2D.Double(px, py));
+
+		if(getPinionGear().getPinionDistance() < getSpurGear().getRadius()){
+			pinionDegree = -getPinionGear().getTheta() *(getSpurGear().getRadius() - getPinionGear().getRadius())/getPinionGear().getRadius();
+			getPinionGear().setPinionDegrees(pinionDegree);
+		}
+		else{
+			pinionDegree = getPinionGear().getTheta() *(getSpurGear().getRadius() + getPinionGear().getRadius())/getPinionGear().getRadius();
+			getPinionGear().setPinionDegrees(pinionDegree);
+		}
+
+		//pen
+		Double psi = getPinionGear().getPsi();
+		Double penx,peny;
+		Double d = getPinionGear().getPenDistance();
+		if(d > pr){
+			d = pr;
+		}
+
+		//内接にspur半径がpinion半径より小さくなったとき
+		if(sr < pr){
+			getPinionGear().setRadius(getSpurGear().getRadius()-5);
+		}
+
+
+
+		if(pinionGear.getPinionDistance() < spurGear.getRadius()){
+			penx = px + d*Math.cos( -pinionDegree - psi);
+			peny = py - d*Math.sin( -pinionDegree - psi);
+		}
+		else{
+			penx = px - d*Math.cos(pinionDegree + psi);
+			peny = py - d*Math.sin(pinionDegree + psi);
+		}
+		this.getPinionGear().setPenPosition(new Point2D.Double(penx, peny));
+	}
+}

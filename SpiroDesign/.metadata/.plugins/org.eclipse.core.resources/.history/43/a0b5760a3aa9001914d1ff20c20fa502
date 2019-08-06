@@ -1,0 +1,515 @@
+package spiroDesign;
+
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.io.FileNotFoundException;
+import java.util.ConcurrentModificationException;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.KeyStroke;
+import javax.swing.event.MouseInputAdapter;
+
+
+/**
+ * コントローラ。制御まわりを専門に行う。
+ *
+ */
+public class SpiroController extends MouseInputAdapter implements MouseWheelListener, ActionListener
+{
+	/**
+	 * 依存物:SpiroModelのインスタンスを束縛する
+	 */
+	protected SpiroModel model;
+
+	/**
+	 * SpiroViewのインスタンスを束縛する
+	 */
+	protected SpiroView view;
+
+	/**
+	 * JPopupMenuのインスタンスを束縛する
+	 */
+	protected JPopupMenu popupMenu;
+
+	/**
+	 * 初期化して応答する
+	 */
+	public SpiroController()
+	{
+		super();
+		model = null;
+		view = null;
+		popupMenu = new JPopupMenu();
+		//previous = null;
+		//current = null;
+		this.initPopupMenu();
+		return;
+	}
+
+	/**
+	 * 取得したイベントからクリックされた座標を取得し、クリックしたボタンが右ボタンだった場合、
+	 * ポップアップメニューを表示する
+	 * @param aMouseEvent 処理されるイベント
+	 */
+	public void mouseClicked(MouseEvent aMouseEvent)
+	{
+		int x = aMouseEvent.getX();
+		int y = aMouseEvent.getY();
+		int btn = aMouseEvent.getButton();
+		Point2D.Double aPoint2D = new Point2D.Double( x,y);
+		//aPoint.translate(view.scrollAmount().x, view.scrollAmount().y);
+		System.out.println(aPoint2D);
+
+		if(btn == MouseEvent.BUTTON3) { //右クリックした場合
+			System.out.println("clicked");
+			popupMenu.show(aMouseEvent.getComponent(),aMouseEvent.getX(),aMouseEvent.getY());
+		}
+
+		return;
+	}
+
+	/**
+	 * 取得したイベントからドラッグしている座標を取得し、描画中でない時、どこの場所を編集しようとしてるか
+	 * 取得した座標を用いて判別するメソッドを呼ぶ
+	 * @param aMouseEvent 処理されるイベント
+	 */
+	public void mouseDragged(MouseEvent aMouseEvent)
+	{
+		int x = aMouseEvent.getX();
+		int y = aMouseEvent.getY();
+		Point2D.Double aPoint2D = new Point2D.Double( x,y);
+
+		//描画中は編集できない
+		if(!model.getIsAnimated()){
+			whichPickingArea(aPoint2D,aMouseEvent);
+		}
+
+		return;
+	}
+
+	/**
+	 * 何もしない
+	 * @param aMouseEvent 処理されるイベント
+	 */
+	public void mouseEntered(MouseEvent aMouseEvent)
+	{
+		return;
+	}
+
+	/**
+	 *　何もしない
+	 * @param aMouseEvent 処理されるイベント
+	 */
+	public void mouseExited(MouseEvent aMouseEvent)
+	{
+		return;
+	}
+
+	/**
+	 * 何もしない
+	 * @param aMouseEvent 処理されるイベント
+	 */
+	public void mouseMoved(MouseEvent aMouseEvent)
+	{
+		return;
+	}
+
+	/**
+	 * マウスが押された時、マウスのカーソルを十字にする
+	 * @param aMouseEvent 処理されるイベント
+	 */
+	public void mousePressed(MouseEvent aMouseEvent)
+	{
+		Cursor aCursor = Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR);
+		Component aComponent = (Component)aMouseEvent.getSource();
+		aComponent.setCursor(aCursor);
+		//current = aMouseEvent.getPoint();
+		//previous = current;
+		return;
+	}
+
+	/**
+	 * マウスが離れた時、マウスのカーソルを元に戻す
+	 * @param aMouseEvent 処理されるイベント
+	 */
+	public void mouseReleased(MouseEvent aMouseEvent)
+	{
+		Cursor aCursor = Cursor.getDefaultCursor();
+		Component aComponent = (Component)aMouseEvent.getSource();
+		aComponent.setCursor(aCursor);
+		//current = aMouseEvent.getPoint();
+		//previous = current;
+		model.setIsEdited(false);
+		return;
+	}
+
+	/**
+	 * 何もしない
+	 * @param aMouseEvent 処理されるイベント
+	 */
+	public void mouseWheelMoved(MouseWheelEvent aMouseWheelEvent)
+	{
+		return;
+	}
+
+	/**
+	 * 座標から、編集する場所を決め、場所に応じて座標を引数にSpiroModelのメソッドを呼ぶ
+	 * @param aPoint2D 現在のポインタの座標
+	 * @param aMouseEvent 処理されるイベント
+	 */
+	public void whichPickingArea(Point2D.Double aPoint2D , MouseEvent aMouseEvent) {
+
+		if(extendsRectangle2D( model.getPinionGear().penRectangle2D() ).contains(aPoint2D.getX(),aPoint2D.getY()))
+		{
+			model.setPenParameter(aPoint2D);
+
+		}
+		/*
+		if(model.getPinionGear().penRectangle2D().contains(aPoint2D.getX(),aPoint2D.getY()))
+		{
+			model.setPenParameter(aPoint2D);
+		}
+		 */
+
+		if(extendsRectangle2D(model.getPinionGear().centerRectangle()).contains(aPoint2D.getX(),aPoint2D.getY()))
+		{
+			model.setPinionParameter(aPoint2D);
+		}
+
+		if(extendsRectangle2D(model.getSpurGear().centerRectangle()).contains(aPoint2D.getX(),aPoint2D.getY()))
+		{
+			model.setSpurCenter(aPoint2D);
+		}
+		if(extendsRectangle2D(model.getSpurGear().leftRectangle()).contains(aPoint2D.getX(),aPoint2D.getY()) ||
+			extendsRectangle2D(model.getSpurGear().topRectangle()).contains(aPoint2D.getX(),aPoint2D.getY()) ||
+			extendsRectangle2D(model.getSpurGear().rightRectangle()).contains(aPoint2D.getX(),aPoint2D.getY()) ||
+			extendsRectangle2D(model.getSpurGear().bottomRectangle()).contains(aPoint2D.getX(),aPoint2D.getY()) )
+		{
+			model.setSpurRadius(aPoint2D);
+		}
+		//編集中は計算しない
+		model.setIsEdited(true);
+	}
+
+	/**
+	 *編集する場所を決める時に、四角の判定を拡大する
+	 * @param aMouseEvent 処理されるイベント
+	 */
+	public Rectangle2D extendsRectangle2D(Rectangle2D aRect2D){
+
+		aRect2D.setRect(aRect2D.getX()-8.0,
+						aRect2D.getY()-8.0,
+						aRect2D.getWidth()+16.0,
+						aRect2D.getHeight()+16.0);
+
+		return aRect2D;
+	}
+
+	/**
+	 * SpiroModelのインスタンスを設定する
+	 * @param aModel 設定するSpiroModel
+	 */
+	public void setModel(SpiroModel aModel)
+	{
+		model = aModel;
+		return;
+	}
+
+	/**
+	 * SpiroViewのインスタンスを設定する
+	 * @param aView 設定するSpiroView
+	 */
+	public void setView(SpiroView aView)
+	{
+		view = aView;
+		view.addMouseListener(this);
+		view.addMouseMotionListener(this);
+		view.addMouseWheelListener(this);
+		return;
+	}
+
+	/**
+	 * ポップアップメニューに設定しているアクションイベントに反応して、
+	 * そのアクションイベントの種類ごとにmodelのメソッドを呼ぶ
+	 * @param aActionEvent 処理されるアクションイベント
+	 */
+	public void actionPerformed(ActionEvent anActionEvent) {
+		System.out.println("読み込まれました(actionPerformed");
+			String aName = anActionEvent.getActionCommand();
+//
+			System.out.println(aName);
+			try
+			{
+				if (aName.equals("speedFast"))
+				{
+					model.spiroSetSpeed(10);
+				}
+				if (aName.equals("speedNormal"))
+				{
+					model.spiroSetSpeed(30);
+				}
+				if (aName.equals("speedSlow"))
+				{
+					model.spiroSetSpeed(50);
+				}
+				if (aName.equals("startAndStop"))
+				{
+					model.spiroStartAndStop();
+				}
+				if (aName.equals("dive"))
+				{
+					model.spiroDive();
+				}
+				if (aName.equals("undo"))
+				{
+					model.spiroUndo();
+				}
+				if (aName.equals("clear"))
+				{
+					int ret  = JOptionPane.showConfirmDialog(null, "絵画を全消去しますか？", "絵画の全消去", JOptionPane.YES_NO_OPTION , JOptionPane.PLAIN_MESSAGE);
+					if(ret == JOptionPane.YES_OPTION) { model.spiroClear(); }
+				}
+				if (aName.equals("save"))
+				{
+					model.spiroSaveLoci();
+				}
+				if (aName.equals("load"))
+				{
+					model.spiroLoadLoci();
+				}
+				if (aName.equals("image"))
+				{
+					model.SpiroSaveImage();
+					JOptionPane.showMessageDialog(null, "絵画をJPEG方式で保存しました","JPEG形式で保存",JOptionPane.PLAIN_MESSAGE);
+				}
+
+				if (aName.equals("black"))
+				{
+					model.getPinionGear().setPenColor(new Color(0,0,0));
+				}
+				if (aName.equals("white"))
+				{
+					model.getPinionGear().setPenColor(new Color(255,255,255));
+				}
+				if (aName.equals("red"))
+				{
+					model.getPinionGear().setPenColor(new Color(255,0,0));
+				}
+				if (aName.equals("green"))
+				{
+					model.getPinionGear().setPenColor(new Color(0,255,0));
+				}
+				if (aName.equals("yellow"))
+				{
+					model.getPinionGear().setPenColor(new Color(255,255,0));
+				}
+				if (aName.equals("blue"))
+				{
+					model.getPinionGear().setPenColor(new Color(0,0,255));
+				}
+				if (aName.equals("reinbow"))
+				{
+					model.setIsRainbow();
+				}
+				if (aName.equals("thin"))
+				{
+					model.getPinionGear().setPenNib(2);
+				}
+				if (aName.equals("normal"))
+				{
+					model.getPinionGear().setPenNib(5);
+				}
+				if (aName.equals("thick"))
+				{
+					model.getPinionGear().setPenNib(10);
+				}
+			}
+			catch (ConcurrentModificationException | FileNotFoundException anException) { ; }
+			return;
+	}
+
+	/**
+	 * ポップアップメニューを設定する
+	 */
+	public void initPopupMenu() {
+
+//		System.out.println("読み込まれました(showPopupMenu)");
+
+		ButtonGroup aSpeedGroup = new ButtonGroup();
+
+		JLabel aSpeedTitle = new JLabel("ギアの回転速度"); //タイトル
+		aSpeedTitle.setHorizontalAlignment(JLabel.CENTER);
+
+		JRadioButtonMenuItem menuSpeedSetFast = new JRadioButtonMenuItem("速い");
+		menuSpeedSetFast.setActionCommand("speedFast");
+		menuSpeedSetFast.addActionListener(this);
+		aSpeedGroup.add(menuSpeedSetFast);
+
+		JRadioButtonMenuItem menuSpeedSetNormal = new JRadioButtonMenuItem("普通",true);
+		menuSpeedSetNormal.setActionCommand("speedNormal");
+		menuSpeedSetNormal.addActionListener(this);
+		aSpeedGroup.add(menuSpeedSetNormal);
+
+		JRadioButtonMenuItem menuSpeedSetSlow = new JRadioButtonMenuItem("遅い");
+		menuSpeedSetSlow.setActionCommand("speedSlow");
+		menuSpeedSetSlow.addActionListener(this);
+		aSpeedGroup.add(menuSpeedSetSlow);
+
+
+		JMenuItem menuStartAndStop = new JMenuItem("描画の開始/停止");
+		menuStartAndStop.setMnemonic(KeyEvent.VK_S);
+		menuStartAndStop.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.META_DOWN_MASK));
+		menuStartAndStop.setActionCommand("startAndStop");
+		menuStartAndStop.addActionListener(this);
+
+
+		JMenuItem menuSave = new JMenuItem("絵画を保存");
+		menuSave.setActionCommand("save");
+		menuSave.addActionListener(this);
+
+		JMenuItem menuLoad = new JMenuItem("絵画を読み込む");
+		menuLoad.setActionCommand("load");
+		menuLoad.addActionListener(this);
+
+		JMenuItem menuImage = new JMenuItem("絵画をJPEG形式で保存");
+		menuImage.setActionCommand("image");
+		menuImage.addActionListener(this);
+
+		JMenuItem menuUndo = new JMenuItem("絵画を元に戻す");
+		menuUndo.setActionCommand("undo");
+		menuUndo.addActionListener(this);
+
+		JMenuItem menuDive = new JMenuItem("ギア位置を初期化");
+		menuDive.setActionCommand("dive");
+		menuDive.addActionListener(this);
+
+		JMenuItem menuClear = new JMenuItem("絵画を全消去");
+		menuClear.setActionCommand("clear");
+		menuClear.addActionListener(this);
+
+
+		/* メニューを階層的に設定 "描画色の変更"からラジオボタンで基本色orレインボーを設定する */
+		JMenu aDrawingMenu = new JMenu("描画設定"); //以下2階層目のメニュー
+
+		ButtonGroup aColorGroup = new ButtonGroup();
+		ButtonGroup aDepthGroup = new ButtonGroup();
+
+		JLabel aPenColorTitle = new JLabel("ペン先の色"); //タイトル
+		aPenColorTitle.setHorizontalAlignment(JLabel.CENTER);
+
+		JRadioButtonMenuItem black = new JRadioButtonMenuItem("黒",true);
+		black.setActionCommand("black");
+		black.addActionListener(this);
+		aColorGroup.add(black);
+
+		JRadioButtonMenuItem white = new JRadioButtonMenuItem("白");
+		white.setActionCommand("white");
+		white.addActionListener(this);
+		aColorGroup.add(white);
+
+		JRadioButtonMenuItem red = new JRadioButtonMenuItem("赤");
+		red.setActionCommand("red");
+		red.addActionListener(this);
+		aColorGroup.add(red);
+
+		JRadioButtonMenuItem green = new JRadioButtonMenuItem("緑");
+		green.setActionCommand("green");
+		green.addActionListener(this);
+		aColorGroup.add(green);
+
+		JRadioButtonMenuItem yellow = new JRadioButtonMenuItem("黄");
+		yellow.setActionCommand("yellow");
+		yellow.addActionListener(this);
+		aColorGroup.add(yellow);
+
+		JRadioButtonMenuItem blue = new JRadioButtonMenuItem("青");
+		blue.setActionCommand("blue");
+		blue.addActionListener(this);
+		aColorGroup.add(blue);
+
+		JRadioButtonMenuItem reinbow = new JRadioButtonMenuItem("レインボー");
+		reinbow.setActionCommand("reinbow");
+		reinbow.addActionListener(this);
+		aColorGroup.add(reinbow);
+
+		JLabel penDepthTitle = new JLabel("ペン先の太さ"); //タイトル
+		aPenColorTitle.setHorizontalAlignment(JLabel.CENTER);
+
+		JRadioButtonMenuItem thin = new JRadioButtonMenuItem("細い");
+		thin.setActionCommand("thin");
+		thin.addActionListener(this);
+		aDepthGroup.add(thin);
+
+		JRadioButtonMenuItem normal = new JRadioButtonMenuItem("普通",true);
+		normal.setActionCommand("normal");
+		normal.addActionListener(this);
+		aDepthGroup.add(normal);
+
+		JRadioButtonMenuItem thick = new JRadioButtonMenuItem("太い");
+		thick.setActionCommand("thick");
+		thick.addActionListener(this);
+		aDepthGroup.add(thick);
+
+		aDrawingMenu.add(aPenColorTitle);
+		aDrawingMenu.add(black);
+		aDrawingMenu.add(white);
+		aDrawingMenu.add(red);
+		aDrawingMenu.add(green);
+		aDrawingMenu.add(yellow);
+		aDrawingMenu.add(blue);
+		aDrawingMenu.add(reinbow);
+		aDrawingMenu.addSeparator();
+		aDrawingMenu.add(penDepthTitle);
+		aDrawingMenu.add(thin);
+		aDrawingMenu.add(normal);
+		aDrawingMenu.add(thick);
+
+		//メニューを有効/無効にする(押せるか押せないか)
+//		if(model.whatTickTime() >= 100 || model.isAnimated() == true){ menuSpeedUp.setEnabled(false); }
+//		else { menuSpeedUp.setEnabled(true); }
+//		if(model.whatTickTime() <= 0 || model.isAnimated() == true){ menuSpeedDown.setEnabled(false); }
+//		else { menuSpeedDown.setEnabled(true); }
+//		if(model.isAnimated() == true) {
+//			menuStart.setEnabled(false);
+//			menuStop.setEnabled(true);
+//			drawingMenu.setEnabled(false);
+//		} else {
+//			menuStart.setEnabled(true);
+//			menuStop.setEnabled(false);
+//			drawingMenu.setEnabled(true);
+//		}
+		popupMenu.add(menuStartAndStop);
+		popupMenu.addSeparator();
+		popupMenu.add(aSpeedTitle);
+		popupMenu.add(menuSpeedSetFast);
+		popupMenu.add(menuSpeedSetNormal,true);
+		popupMenu.add(menuSpeedSetSlow);
+		popupMenu.addSeparator();
+		popupMenu.add(aDrawingMenu);
+		popupMenu.addSeparator();
+		popupMenu.add(menuDive);
+		popupMenu.add(menuUndo);
+		popupMenu.add(menuClear);
+		popupMenu.addSeparator();
+		popupMenu.add(menuSave);
+		popupMenu.add(menuLoad);
+		popupMenu.add(menuImage);
+
+	}
+}

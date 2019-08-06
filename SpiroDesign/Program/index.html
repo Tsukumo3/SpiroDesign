@@ -1,0 +1,4235 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<meta name="keywords" content="Tsukumo,Program,Programmer,Object,Oriented,Programming,SpiroDesign">
+<meta name="description" content="プロジェクトのホームページ">
+<meta name="author" content="Tsukumo">
+<link rev="made" href="index.html">
+<link rel="index" href="index.html">
+<link rel="stylesheet" type="text/css" href="../style.css">
+
+<title>プロジェクト「スピロデザイン」プログラム</title>
+</head>
+<body>
+<div id="menu">
+<ul>
+  <li><a href="../index.html">ホーム</a></li>
+  <li><a href="../Requirement/index.html">要求仕様書</a></li>
+  <li><a href="../DevelopmentPlan/index.html">開発計画書</a></li>
+  <li><a href="../BasicDesign/index.html">基本設計書</a></li>
+  <li><a href="../DetailDesign/index.html">詳細設計書</a></li>
+  <li><a href="../TestSpecification/index.html">テスト仕様書</a></li>
+  <li><a href="../TestResult/index.html">テスト結果</a></li>
+  <li><a href="../DevelopmentResult/index.html">開発実績</a></li>
+  <li><a href="../Program/index.html" class="current">プログラム</a></li>
+  <li><a href="../Manual/index.html">マニュアル</a></li>
+</ul>
+</div>
+<hr>
+<h2>プロジェクト「スピロデザイン」プログラム</h2>
+<div class="belt">
+<h3><a name="program">プログラム</a></h3>
+</div>
+<p>プログラムの詳細は次のJavaDocを参照してください</p>
+<li><a href="./SpiroDesign/SpiroDesign/JavaDoc/index.html">JavaDoc</a></li>
+<ul>
+  <li><a href="#SpiroDesign">SpiroDesign</a>（メインクラス）</li>
+  <li><a href="#SpiroModel">SpiroModel</a>（モデル）</li>
+  <li><a href="#SpiroView">SpiroView</a>（ビュー）</li>
+  <li><a href="#SpiroController">SpiroController</a>（コントローラ）</li>
+  <li><a href="#SpiroGear">SpiroGear</a>（スピロギア）</li>
+  <li><a href="#SpurGear">SpurGear</a>（スパーギア）</li>
+  <li><a href="#PinionGear">PinionGear</a>（ピニオンギア）</li>
+  <li><a href="#SpiroIO">SpiroIO</a>（スピロアイオー）</li>
+  <li><a href="#DesignLocus">DesignLocus</a>（デザインローカス）</li>
+</ul>
+<ul>
+  <li><a href="#spiroDesign.mf">spiroDesign.mf</a>（マニフェストファイル）</li>
+  <li><a href="#Makefile">Makefile</a>（メイクファイル）</li>
+  <li><a href="#build.xml">build.xml</a>（ビルドファイル）</li>
+  <li><a href="#main.scpt">main.scpt</a>（アプリケーションにするためのアップルスクリプト）</li>
+</ul>
+<ul>
+  <li><a href="#SpiroDesignTest">SpiroDesignTest</a>（メインクラスのテスト）</li>
+  <li><a href="#SpiroModelTest">SpiroModelTest</a>（モデルのテスト）</li>
+  <li><a href="#SpiroViewTest">SpiroViewTest</a>（ビューのテスト）</li>
+  <li><a href="#SpiroControllerTest">SpiroControllerTest</a>（コントローラのテスト）</li>
+  <li><a href="#SpiroGearTest">SpiroGearTest</a>（スピロギアのテスト）</li>
+  <li><a href="#SpurGearTest">SpurGearTest</a>（スパーギアのテスト）</li>
+  <li><a href="#PinionGearTest">PinionGearTest</a>（ピニオンギアのテスト）</li>
+  <li><a href="#SpiroIOTest">SpiroIOTest</a>（スピロアイオーのテスト）</li>
+  <li><a href="#DesignLocusTest">DesignLocusTest</a>（デザインローカスのテスト）</li>
+</ul>
+
+<div class="belt">
+<h3><a name="SpiroDesign" href="../TestSpecification/index.html#SpiroDesign">SpiroDesign（メインクラス）</a></h3>
+</div>
+<pre>
+    package spiroDesign;
+
+    import java.awt.Dimension;
+    import java.awt.Point;
+
+    import javax.swing.JFrame;
+
+    /**
+     * メイン ウィンドウを開いて、モデルを呼ぶ
+     */
+    public class SpiroDesign {
+
+    	public static void main(String[] arguments) throws InterruptedException
+    	{
+    		// ウィンドウのサイズを決め、モデルを作る。
+    		Dimension aDimension = new Dimension(800, 600);
+    		SpiroModel aModel = new SpiroModel();
+
+    		Integer width = aDimension.width;
+    		Integer height = aDimension.height;
+    		Integer x = (width / 2) - (width / 2);
+    		Integer y = (height / 2) - (height / 2);
+    		Point displayPoint = new Point(x, y);
+
+    		// 上記のモデルのビューとコンピュローラのペアを作り、ウィンドウに乗せる。
+    		SpiroView aView = new SpiroView(aModel);
+    		JFrame aWindow = new JFrame("スピロデザイン");
+    		aWindow.getContentPane().add(aView);
+
+    		// 高さはタイトルバーの高さを考慮してウィンドウの大きさを決定する。
+    		aWindow.addNotify();
+    		Integer titleBarHeight = aWindow.getInsets().top;
+    		width = aDimension.width;
+    		height = aDimension.height + titleBarHeight;
+    		Dimension windowSize = new Dimension(width, height);
+    		aWindow.setSize(windowSize.width, windowSize.height);
+
+    		// ウィンドウに各種の設定を行って出現させる。
+    		aWindow.setMinimumSize(new Dimension(400, 300 + titleBarHeight));
+    		aWindow.setResizable(true);
+    		aWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    		x = displayPoint.x;
+    		y = displayPoint.y;
+    		aWindow.setLocation(x, y);
+    		aWindow.setVisible(true);
+    		aWindow.toFront();
+    		//モデルを動かす
+
+    		Thread aThread = new Thread(aModel);
+
+
+    		aThread.run();
+
+    	}
+    }
+</pre>
+<div class="belt">
+<h3><a name="SpiroModel" href="../TestSpecification/index.html#SpiroModel">SpiroModel（モデル）</a></h3>
+</div>
+<pre>
+    package spiroDesign;
+
+    import java.awt.Color;
+    import java.awt.geom.Point2D;
+    import java.awt.image.BufferedImage;
+    import java.io.FileNotFoundException;
+    import java.util.ArrayList;
+    import java.util.Iterator;
+
+    /**
+     * モデル  計算処理、データの格納を専門に行う
+     *
+     */
+    public class SpiroModel extends Object implements Runnable {
+    	/**
+    	 * 依存物:SpiroViewのインスタンスたちを束縛する
+    	 */
+    	protected ArrayList<SpiroView> dependents;
+
+    	/**
+    	 * 依存物:SpurGearのインスタンスを束縛する
+    	 */
+    	private SpurGear spurGear;
+
+    	/**
+    	 * 依存物:PinionGearのインスタンスを束縛する
+    	 */
+    	private PinionGear pinionGear;
+
+    	/**
+    	 * 回転角を束縛する
+    	 */
+    	private Double theta;
+
+    	/**
+    	 * pinionGearの回転角を束縛する
+    	 */
+    	public Double pinionDegree;
+
+    	/**
+    	 * 軌跡のインスタンスを束縛する
+    	 */
+    	public ArrayList<DesignLocus> designLoci;
+
+    	/**
+    	 * 画像を束縛する
+    	 */
+    	private BufferedImage img;
+
+    	/**
+    	 * 描画中の実行速度を束縛する
+    	 */
+    	private int tickTime;
+
+    	/**
+    	 * 描画中がどうかの状態を束縛する
+    	 */
+    	public boolean isAnimated;
+
+    	/**
+    	 * 操作中かどうかの状態を束縛する
+    	 */
+    	public boolean isEdited;
+
+    	/**
+    	 * PinionPenのColorが虹色かどうかを束縛する
+    	 */
+    	public boolean isRainbow;
+
+    	/**
+    	 * インスタンスを生成して初期化して応答する
+    	 */
+    	public SpiroModel()
+    	{
+    		super();
+    		initialize();
+    		return;
+    	}
+    	/**
+    	 * 初期化して応答する
+    	 */
+    	private void initialize()
+    	{
+    		spurGear = new SpurGear(300.0,300.0,200.0);
+    		pinionGear = new PinionGear(spurGear,50.0);
+    		this.dependents = new ArrayList<SpiroView>();
+    		this.theta = 0.0;
+    		this.pinionDegree = 0.0d;
+    		this.designLoci = new ArrayList<>();
+    		this.tickTime = 30;
+    		this.isAnimated = false;
+    		this.isEdited = false;
+    		this.isRainbow = false;
+    		return;
+    	}
+    	/**
+    	 * 指定されたViewを依存物に設定する。
+    	 * @param aView このモデルの依存物となるビュー
+    	 */
+    	public void addDependent(SpiroView aView)
+    	{
+    		dependents.add(aView);
+    		return;
+    	}
+
+    	/**
+    	 * 全体のループ処理を内容を実行する
+    	 */
+    	public void run() {
+    		while(true){//ru-pu
+
+    			if(getIsAnimated()){
+    				this.perform();
+    			}
+    			//計算処理
+    			if(!getIsEdited()){
+    				this.reCalcPinionGear();
+    			}
+    			if(getIsRainbow()){
+    				this.rainbow();
+    			}
+    				//Viewに渡す
+    			this.changed();
+    			try {
+    				Thread.sleep(this.getTickTime());
+    			} catch (InterruptedException e) {
+    				e.printStackTrace();
+    			}
+    		}
+
+    	}
+    	/**
+    	 * modelの内部状態が変化していたので自分の依存物へupdateを送信する。
+    	 */
+    	public void changed()
+    	{
+    		Iterator<SpiroView> anIterator = dependents.iterator();
+    		while (anIterator.hasNext())
+    		{
+    			SpiroView aView = anIterator.next();
+
+    			aView.repaint();
+    		}
+    		return;
+    	}
+
+    	/*
+    	 * ここから状態を管理する
+    	 */
+
+
+    	/**
+    	 * アニメーション中かどうかをの状態を応答する。
+    	 * @return このモデルのisAnimatedフィールドに格納されている状態
+    	 */
+    	public boolean getIsAnimated(){
+    		return this.isAnimated;
+    	}
+
+
+    	/**
+    	 * アニメーション中かどうかの状態を設定する
+    	 */
+    	public void setIsAnimated(){
+    		if(this.getIsAnimated()){
+    			this.isAnimated = false;
+    			this.addDesignLoci();
+    		}
+    		else{
+    			this.isAnimated = true;
+    		}
+    		return;
+    	}
+
+    	/**
+    	 * スピロギアを編集中かどうかを応答する。
+    	 * @return このモデルのisEditedフィールドに格納されている状態
+    	 */
+    	public boolean getIsEdited(){
+    		return this.isEdited;
+    	}
+
+    	/**
+    	 * スピロギアを編集中かどうかを設定する
+    	 * @param state 編集中かどうか
+    	 */
+    	public void setIsEdited(boolean state){
+    		this.isEdited = state;
+    		return;
+    	}
+
+    	/**
+    	 * アニメーション中の実際の動作を実行する
+    	 */
+    	public void perform(){
+
+    		//回転させる
+    		getPinionGear().setTheta(getPinionGear().getTheta() + 0.01  );
+
+    		//軌跡と色ろペンの太さをリストdesignLociに格納するための値を取得す
+    		Double x = getPinionGear().getPenPosition().getX();
+    		Double y = getPinionGear().getPenPosition().getY();
+
+    		Point2D.Double aPoint2D = new Point2D.Double(x,y);
+
+    		int r = getPinionGear().getPenColor().getRed();
+    		int g = getPinionGear().getPenColor().getGreen();
+    		int b = getPinionGear().getPenColor().getBlue();
+
+    		Color aColor = new Color(r,g,b);
+
+    		int nib = getPinionGear().getPenNib();
+
+    		addDesignLoci(aPoint2D,aColor,nib);
+
+    		//Listがサイズが9999になったときListの中身を前から削除していく
+    		listFlush();
+
+    		//実行速度を遅延させることで描画速度を管理する.
+
+    	}
+
+    	//通常の格納
+    	/**
+    	 * 軌跡と色ろペンの太さをリストdesignLociに格納する
+    	 * @param aPoint2D ペンの座標
+    	 * @param aColor ペンの色
+    	 * @param aNib ペンの太さ
+    	 */
+    	public void addDesignLoci(Point2D.Double aPoint2D, Color aColor,Integer aNib){
+    		getDesignLoci().add(new DesignLocus(aPoint2D,aColor,aNib));
+    	}
+
+    	/**
+    	 * diveしたときにListにNull値を確認する
+    	 */
+    	public void addDesignLoci(){
+    		designLoci.add(null);
+    		return;
+    	}
+
+    	/**
+    	 * 実行速度の遅延時間を設定する
+    	 * @param aInteger 遅延時間
+    	 */
+    	public void setTickTime(int aInteger){
+    		this.tickTime = aInteger;
+    		return;
+    	}
+    	/**
+    	 * 実行速度の遅延時間を応答する
+    	 * @return このモデルのtickTimeフィールドに格納されている整数
+    	 */
+    	public int getTickTime(){
+    		return this.tickTime;
+    	}
+
+    	/**
+    	 * リストに格納されるデータ量を制限する
+    	 */
+
+    	public void listFlush(){
+    		int i = 0;
+    		Iterator<DesignLocus> it = getDesignLoci().iterator();
+    		while (it.hasNext()) {
+    			it.next();
+    //			System.out.println(getDesignLoci().size()-1);
+    			if(getDesignLoci().size() > 9999 && i == 0){
+    				it.remove();
+    			}
+    			break;
+    		}
+    		return;
+    	}
+
+    	/*
+    	 * メニュー関連
+    	 */
+
+    	/**
+    	 * スピロギアを回転させる
+    	 */
+    	public void spiroStartAndStop(){
+    		this.setIsAnimated();
+    		return;
+    	}
+
+    	/**
+    	 * スピロギアの回転速度を設定する
+    	 * @param aSpeed 待機時間
+    	 */
+    	public void spiroSetSpeed(int aSpeed){
+    		this.setTickTime(aSpeed);
+    		return;
+    	}
+
+
+
+    	/*
+    	 * rainbow処理
+    	 */
+
+    	/**
+    	 * ペンの色が虹色かどうか状態を設定する
+    	 * @param b レインボー状態かどうか
+    	 */
+    	public void setIsRainbow(boolean b){
+    			this.isRainbow = b;
+    	}
+    	/**
+    	 * ペンの色が虹色華道家の状態を応答する
+    	 * @return このモデル内のisRainbowフィールドに格納されている状態
+    	 */
+    	public boolean getIsRainbow(){
+    		return this.isRainbow;
+    	}
+
+    	//rainbow処理
+    	/**
+    	 * ペンの色をレインボーにするための処理を実行する。
+    	 */
+    	public void rainbow(){
+
+    		int r = 255;
+    		int g = 0;
+    		int b = 0;//Red Green Blue
+    		//180度ごとに虹色にへんかするようにする
+    		Double parTheta = this.getPinionGear().getTheta();
+    		//初期位置の角度を取得
+    		Double firstPinionTheta = this.getPinionGear().getPhi();
+    		//初期位置からの位相ずれを取得
+    		Double phaseShift = parTheta - firstPinionTheta;
+
+    		phaseShift = phaseShift%Math.PI;
+
+    		if(phaseShift>=0 && phaseShift<Math.PI/6){
+    			r = 255;
+    			g = 0 + (int)(255/(Math.PI/6) * (phaseShift));
+    			b = 0;
+    		}
+    		else if(phaseShift>=Math.PI/6 && phaseShift<Math.PI/3){
+    			r = 255 - (int)(255/(Math.PI/6) * (phaseShift -  Math.PI/6));
+    			g = 255;
+    			b = 0;
+    		}
+    		else if(phaseShift>=Math.PI/3 && phaseShift<Math.PI/2){
+    			r = 0;
+    			g = 255;
+    			b = 0 + (int)(255/(Math.PI/6) * (phaseShift -  Math.PI/3));
+    		}
+    		else if(phaseShift>=Math.PI/2 && phaseShift<Math.PI*2/3){
+    			r = 0;
+    			g = 255 - (int)(255/(Math.PI/6) * (phaseShift -  Math.PI/2));
+    			b = 255;
+    		}
+    		else if(phaseShift>=Math.PI*2/3 && phaseShift<Math.PI*5/6){
+    			r = 0 + (int)(255/(Math.PI/6) * (phaseShift -  Math.PI*2/3));
+    			g = 0;
+    			b = 255;
+    		}
+    		else if(phaseShift>=Math.PI*5/6 && phaseShift<Math.PI){
+    			r = 255;
+    			g = 0;
+    			b = 255 - (int)(255/(Math.PI/6) * (phaseShift -  Math.PI*5/6));
+    		}
+
+    		Color rainbowColor = new Color(r,g,b);
+
+    		this.getPinionGear().setPenColor(rainbowColor);
+    	}
+
+    	/**
+    	 * 絵画の画像データを設定する
+    	 * @param anImage 絵画の画像データ
+    	 */
+    	public void setImage(BufferedImage anImage) {
+    		this.img = anImage;
+    	}
+
+    	/**
+    	 *　絵画の画像データを応答する
+    	 * @return img 絵画の画像データ
+    	 */
+    	public BufferedImage getImage() {
+    		return this.img;
+    	}
+
+    	/**
+    	 *	絵画の画像データをJPEG形式で保存し、画像データを用いて プレビューを実行する
+    	 */
+    	public void SpiroSaveImage() {
+    		SpiroIO.saveImage(img);
+    	}
+
+    	/**
+    	 * 軌跡の絵をセーブファイルとして出力を実行する
+    	 */
+    	void spiroSaveLoci(){
+    		SpiroIO.makeSaveData(designLoci);
+    	}
+
+    	/**
+    	 * 軌跡の絵を保存しているファイルを取得し出力を実行する
+    	 * @throws FileNotFoundException ファイルが見つからなかった場合、例外を投げる
+    	 */
+    	void spiroLoadLoci() throws FileNotFoundException{
+    		designLoci.addAll(SpiroIO.loadSaveData());
+    	}
+
+    	/**
+    	 * スピロギアの状態を初期化する
+    	 */
+    	void spiroDive(){
+    		this.getPinionGear().setTheta(0.0);
+    		this.addDesignLoci();
+    	}
+
+    	/**
+    	 * 一つ前に描かれた絵を削除する
+    	 */
+    	void spiroUndo(){
+    		/*
+    	     * リスト内のnullを検索
+    	     * nullがないとき：->絵は一枚だけ->全削除
+    	     * nullがあるとき：複数枚の絵がある->最後のnullから最後までを削除
+    		 *
+    		 */
+    		if(designLoci.size() != 0 ){
+    			int last = designLoci.size();
+    			int lastNull;
+
+    			if(designLoci.subList(0, last-1).contains(null)){
+    				lastNull = designLoci.subList(0,last-1).lastIndexOf(null);
+    	        }
+    	        else{
+    	        	lastNull = 0;
+    	        }
+    			designLoci.subList(lastNull,last).clear();
+    		}
+    		return;
+    	}
+
+    	/**
+    	 * 軌跡を全て削除する
+    	 */
+    	public void spiroClear(){
+    		this.designLoci.clear();
+    		return;
+    	}
+
+
+    	//designlociゲッター
+    	/**
+    	 * 軌跡のデータを応答する
+    	 * @return このモデルのdesignLociフィールドに格納されている軌跡
+    	 */
+    	public ArrayList<DesignLocus> getDesignLoci(){
+    		return this.designLoci;
+    	}
+
+
+    	/*
+    	 * ここから計算処理
+    	 */
+
+    	/**
+    	 * 回転角の値を設定する
+    	 * @param aRadian モデル内のthetaフィールドに格納されている値
+    	 */
+    	public void setTheta(Double aRadian){
+    		this.theta = aRadian;
+    	}
+
+    	/**
+    	 * 回転角の値を応答する
+    	 * @return 回転角
+    	 */
+    	public Double getTheta(){
+    		return this.theta;
+    	}
+
+    	/**
+    	 * スパーギアを応答する
+    	 * @return モデル内のspurGearフィールドに格納されているスパーギア
+    	 */
+    	public SpurGear getSpurGear() {
+    		return this.spurGear;
+    	}
+
+    	/**
+    	 * スパーギアの中心座標を設定する
+    	 * @param aPoint2D マウスカーソルの座標
+    	 */
+    	public void setSpurCenter(Point2D.Double aPoint2D) { //スパーギアの中心について
+    		this.getSpurGear().setCenter(aPoint2D); //spurGearの中心の座標を更新
+    	}
+
+    	/**
+    	 * スパーギアの半径を設定する。
+    	 * @param aPoint2D マウスカーソルの画像
+    	 */
+    	public void setSpurRadius(Point2D.Double aPoint2D){
+    		Point2D.Double aCenterPoint2D = this.getSpurGear().getCenter();
+    		Double aRadius = Math.sqrt(Math.pow(aCenterPoint2D.getX() - aPoint2D.getX(),2.0d) + Math.pow(aCenterPoint2D.getY() - aPoint2D.getY(),2.0d));
+    		this.getSpurGear().setRadius(aRadius);
+    	}
+
+    	/**
+    	 * ピニオンギアを応答する
+    	 * @return モデル内のpinionGearフィールドに格納されているピニオンギア
+    	 */
+    	public PinionGear getPinionGear() {
+    		return this.pinionGear;
+    	}
+
+    	/**
+    	 * ピニオンギアのパラメータを設定する
+    	 * @param aPoint2D マウスカーソルの座標
+    	 */
+    	public void setPinionParameter(Point2D.Double aPoint2D)
+    	{
+    		//1 dの計算mouseとSpurの距離を計算
+    		//2 rの計算
+    		//3 φの計算piniondegreeのこと
+    		//4 penDegreesも更新
+
+    		getPinionGear().setCenter(aPoint2D);
+    		//1
+    		Double spd = getDistanceBetweenAToB(this.getSpurGear().getCenter(),aPoint2D);
+    		getPinionGear().setPinionDistance(spd);
+
+    		//2
+    		Double pinionRadius;
+    		if(this.isInscribe()){
+    			pinionRadius = this.getSpurGear().getRadius() - spd;
+
+    		}else{
+    			pinionRadius = spd -this.getSpurGear().getRadius();
+    			//pinionの半径がspdより大きくなった時
+    			if(spd > this.getSpurGear().getRadius()*2-1){
+    				pinionRadius  = this.getSpurGear().getRadius();
+    			}
+
+    		}
+    		getPinionGear().setRadius(pinionRadius);
+
+    		//3
+    		getPinionGear().setTheta(this.getPinionDegrees());
+    		pinionGear.setPhi(this.getPinionDegrees());
+
+    	}
+
+    	/**
+    	 * 座標上で二点間の距離を応答する
+    	 * @param aPointA 一つ目の座標
+    	 * @param aPointB 二つ目の座標
+    	 * @return 二点間の距離
+    	 */
+    	public Double getDistanceBetweenAToB(Point2D.Double aPointA,Point2D.Double aPointB){
+    		return Math.sqrt(Math.pow(aPointA.getX() - aPointB.getX(),2.0)
+    						+ Math.pow(aPointA.getY() - aPointB.getY(),2.0));
+    	}
+
+    	/**
+    	 * ピニオンギアの回転角を応答する
+    	 * @return ピニオンギアの回転角
+    	 */
+    	public Double getPinionDegrees() { //pinionGearの初期位相ずれ
+    		Double aPinionDegrees;
+
+    		Point2D.Double aPinionCenter = this.getPinionGear().getCenter();
+    		Point2D.Double aSpurCenter = this.getSpurGear().getCenter();
+
+    		if(aPinionCenter.getX() > aSpurCenter.getX()) {
+    			aPinionDegrees = Math.atan((aSpurCenter.getY() - aPinionCenter.getY()) / (aSpurCenter.getX() - aPinionCenter.getX()));
+    		} else {
+    			aPinionDegrees = Math.PI + Math.atan((aSpurCenter.getY() - aPinionCenter.getY()) / (aSpurCenter.getX() - aPinionCenter.getX()));
+    		}
+    		return aPinionDegrees;
+    	}
+
+    	/**
+    	 * ギアが内接しているかどうかを応答する
+    	 * @return 内接しているかどうかの状態
+    	 */
+    	public boolean isInscribe(){
+
+    		if(this.getSpurGear().getRadius() >  getDistanceBetweenAToB(getSpurGear().getCenter(),getPinionGear().getCenter()) )
+    		{
+    			return true;
+    		}
+    		//外接
+    		else
+    		{
+    			return false;
+    		}
+    	}
+
+    	/**
+    	 * ピニオンペンのパラメータを設定する
+    	 * @param aPoint2D マウスカーソルの座標
+    	 */
+    	public void setPenParameter(Point2D.Double aPoint2D){
+
+    		//1 dの計算mouseとpinionの距離を計算
+    		//3 φの計算piniondegreeのこと
+    		//4 penDegreesも更新
+
+    		getPinionGear().setPenPosition(aPoint2D);
+
+    		Double ppd = getDistanceBetweenAToB(this.getPinionGear().getCenter(),aPoint2D);
+
+    		getPinionGear().setPenDistance(ppd);
+
+    		//psiの角度を求める
+    		getPinionGear().setPsi( calcPenDegrees(aPoint2D) - getPinionGear().getPinionDegrees() );
+    		return;
+    	}
+
+    	/**
+    	 * ピニオンペンの角度を応答する
+    	 * @param aPoint2D マウスカーソルの座標
+    	 * @return ピニオンペンの角度
+    	 */
+    	public Double calcPenDegrees(Point2D.Double aPoint2D){
+    		//外接時の計算
+    		if(!isInscribe()){
+    			if(aPoint2D.getX() > getPinionGear().getCenter().getX()){
+    				return Math.PI + Math.atan( (aPoint2D.getY() -  getPinionGear().getCenter().getY())/(aPoint2D.getX() -  getPinionGear().getCenter().getX() ));
+    			}
+    			else{
+    				return  Math.atan( (aPoint2D.getY() -  getPinionGear().getCenter().getY())/(aPoint2D.getX() -  getPinionGear().getCenter().getX() ));
+    			}
+    		}
+    		//内接時の計算
+    		else{
+    			if(aPoint2D.getX() > getPinionGear().getCenter().getX()){
+    				return Math.atan( (aPoint2D.getY() -  getPinionGear().getCenter().getY())/(aPoint2D.getX() -  getPinionGear().getCenter().getX() ));
+    			}
+    			else{
+    				return Math.PI + Math.atan( (aPoint2D.getY() -  getPinionGear().getCenter().getY())/(aPoint2D.getX() -  getPinionGear().getCenter().getX() ));
+    			}
+    		}
+    	}
+
+    	/**
+    	 * 変更後のピニオンギア状態から軌跡の数式のパラメータを求める
+    	 */
+    	public void reCalcPinionGear(){
+
+    		PinionGear pinionGear = this.getPinionGear();
+    		SpurGear spurGear = this.getSpurGear();
+
+    		Double sx = spurGear.getCenter().getX();
+    		Double sy = spurGear.getCenter().getY();
+    		Double sr = spurGear.getRadius();
+    		Double pr = pinionGear.getRadius();
+
+
+    		Double px,py;
+    		if(pinionGear.getPinionDistance() < spurGear.getRadius()){
+    			px = sx + (sr - pr) * Math.cos(this.getPinionGear().getTheta());
+    			py = sy + (sr - pr) * Math.sin(this.getPinionGear().getTheta());
+    		}
+    		else{
+    			px = sx + (sr + pr) * Math.cos(this.getPinionGear().getTheta());
+    			py = sx + (sr + pr) * Math.sin(this.getPinionGear().getTheta());
+    		}
+    		this.getPinionGear().setCenter(new Point2D.Double(px, py));
+
+    		if(getPinionGear().getPinionDistance() < getSpurGear().getRadius()){
+    			pinionDegree = -getPinionGear().getTheta() *(getSpurGear().getRadius() - getPinionGear().getRadius())/getPinionGear().getRadius();
+    			getPinionGear().setPinionDegrees(pinionDegree);
+    		}
+    		else{
+    			pinionDegree = getPinionGear().getTheta() *(getSpurGear().getRadius() + getPinionGear().getRadius())/getPinionGear().getRadius();
+    			getPinionGear().setPinionDegrees(pinionDegree);
+    		}
+
+    		//pen
+    		Double psi = getPinionGear().getPsi();
+    		Double penx,peny;
+    		Double d = getPinionGear().getPenDistance();
+    		if(d > pr){
+    			d = pr;
+    		}
+
+    		//内接にspur半径がpinion半径より小さくなったとき
+    		if(sr < pr){
+    			getPinionGear().setRadius(getSpurGear().getRadius()-5);
+    		}
+
+
+
+    		if(pinionGear.getPinionDistance() < spurGear.getRadius()){
+    			penx = px + d*Math.cos( -pinionDegree - psi);
+    			peny = py - d*Math.sin( -pinionDegree - psi);
+    		}
+    		else{
+    			penx = px - d*Math.cos(pinionDegree + psi);
+    			peny = py - d*Math.sin(pinionDegree + psi);
+    		}
+    		this.getPinionGear().setPenPosition(new Point2D.Double(penx, peny));
+    	}
+    }
+
+</pre>
+<div class="belt">
+<h3><a name="SpiroView" href="../TestSpecification/index.html#SpiroView">SpiroView（ビュー）</a></h3>
+</div>
+<pre>
+    package spiroDesign;
+
+    import java.awt.Color;
+    import java.awt.Graphics;
+    import java.awt.Graphics2D;
+    import java.awt.geom.Ellipse2D;
+    import java.awt.geom.Point2D;
+    import java.awt.image.BufferedImage;
+    import java.util.ArrayList;
+
+    import javax.swing.JPanel;
+
+    /**
+     * ビュー 描画処理を専門に行う
+     *
+     */
+    @SuppressWarnings("serial")
+    public class SpiroView extends JPanel{
+    	/**
+    	 * 依存物:SpiroModelのインスタンスを束縛する
+    	 */
+    	protected SpiroModel model;
+
+    	/**
+    	 * SpiroControllerのインスタンスを束縛する
+    	 */
+    	protected SpiroController controller;
+
+    	/**
+    	 * 絵画を画像として出力するために
+    	 * BufferedImageのインスタンスを束縛する
+    	 */
+    	private BufferedImage image;
+
+    	/**
+    	 * 設定したBufferedImageのインスタンスに描画するために、
+    	 * コンポーネントを描画して表示するGraphicsとは別のGraphicsのインスタンスを束縛する
+    	 */
+    	private Graphics graphics;
+
+
+    	/**
+    	 * 引数のaModelをインスタンスに設定し、
+    	 * 初期化して応答する
+    	 * @param aModel 設定するSpiroModel
+    	 */
+    	public SpiroView(SpiroModel aModel){
+    		super();
+    		model = aModel;
+    		model.addDependent(this);
+    		controller = new SpiroController();
+    		controller.setModel(model);
+    		controller.setView(this);
+
+    		image = new BufferedImage(800,600,BufferedImage.TYPE_INT_BGR);
+    		graphics =  image.createGraphics();
+    		//offset = new Point(0, 0);
+    		return;
+    	}
+
+    	/**
+    	 * 引数のaModel,aControllerをそれぞれインスタンスに設定し、
+    	 * 初期化して応答する
+    	 * @param aModel 設定するSpiroModel
+    	 * @param aController 設定するSpiroController
+    	 */
+    	public SpiroView(SpiroModel aModel, SpiroController aController)
+    	{
+    		super();
+    		model = aModel;
+    		model.addDependent(this);
+    		controller = aController;
+    		controller.setModel(model);
+    		controller.setView(this);
+
+    		image = new BufferedImage(800,600,BufferedImage.TYPE_INT_BGR);
+    		graphics =  image.createGraphics();
+    		//offset = new Point(0, 0);
+    		return;
+    	}
+
+    	/**
+    	 * repaint()が呼ばれた時にこのメソッドが応答する
+    	 * 描画の処理を行う
+    	 * @param aGraphics コンポーネントを描画するためGraphics
+    	 */
+    	public void paintComponent(Graphics aGraphics)
+    	{
+    		int width = this.getWidth();
+    		int height = this.getHeight();
+
+    		super.paintComponent(aGraphics);
+
+    		graphics.setColor(Color.white);
+    		aGraphics.setColor(Color.white);
+
+    		graphics.fillRect(0, 0, width, height);
+    		aGraphics.fillRect(0, 0, width, height);
+
+    		this.displayDesignLoci(aGraphics);
+    		this.displayDesignLoci(graphics);
+
+    		if (model == null) { return; }
+
+    		aGraphics.setColor(Color.white);
+    		aGraphics.fillRect(0, 0, width, height);
+    		if (model == null) { return; }
+
+    		//SpurGearの描画
+    		this.displaySpurGear(aGraphics);
+
+    		//piniongearの描画
+    		this.displayPinionGear(aGraphics);
+
+    		//過去絵の描画
+    		this.displayDesignLoci(aGraphics);
+
+    		//モデルに画像出力用のBufferedImageを設定する
+    		model.setImage(image);
+    	}
+
+    	/**
+    	 * スパーギアを描画する
+    	 * @param aGraphics コンポーネントを描画するためGraphics
+    	 */
+    	public  void displaySpurGear(Graphics aGraphics){
+
+    		Point2D.Double aPoint2D = model.getSpurGear().getCenter();
+    		double spurRadius = this.model.getSpurGear().getRadius();
+
+    		//spurGearの描画位置
+    		aGraphics.setColor(Color.red);
+    		Ellipse2D aEllipse = new Ellipse2D.Double( aPoint2D.getX()-spurRadius,aPoint2D.getY()-spurRadius, spurRadius*2.0, spurRadius*2.0 );
+    		((Graphics2D) aGraphics).draw(aEllipse);
+
+    		//SpurGearの中心
+    		aGraphics.setColor(Color.ORANGE);
+    		( (Graphics2D) aGraphics ).draw(this.model.getSpurGear().centerRectangle());
+
+    		//SpurGearの上下左右
+    		( (Graphics2D) aGraphics ).draw(this.model.getSpurGear().rightRectangle());
+    		( (Graphics2D) aGraphics ).draw(this.model.getSpurGear().topRectangle());
+    		( (Graphics2D) aGraphics ).draw(this.model.getSpurGear().leftRectangle());
+    		( (Graphics2D) aGraphics ).draw(this.model.getSpurGear().bottomRectangle());
+
+    		return;
+
+    	/**
+    	 * ピニオンギアを描画する
+    	 * @param aGraphics コンポーネントを描画するためGraphics
+    	 */
+    	}
+    	public  void displayPinionGear(Graphics aGraphics){
+
+    		Point2D.Double aPinionGearCenter = model.getPinionGear().getCenter();
+    		double PinionRadius = this.model.getPinionGear().getRadius();
+
+    		//PinionGearの描画位置
+    		aGraphics.setColor(Color.BLUE);
+    		Ellipse2D aEllipse = new Ellipse2D.Double( aPinionGearCenter.getX()-PinionRadius,
+    													aPinionGearCenter.getY()-PinionRadius,
+    													PinionRadius*2.0, PinionRadius*2.0 );
+    		((Graphics2D) aGraphics).draw(aEllipse);
+
+    		//PinionGearの中心
+    		aGraphics.setColor(Color.BLUE);
+    		( (Graphics2D) aGraphics ).draw(this.model.getPinionGear().centerRectangle());
+
+    		//PinionGearの上下左右
+    		aGraphics.setColor(Color.BLUE);
+    		( (Graphics2D) aGraphics ).draw(this.model.getPinionGear().rightRectangle());
+    		( (Graphics2D) aGraphics ).draw(this.model.getPinionGear().topRectangle());
+    		( (Graphics2D) aGraphics ).draw(this.model.getPinionGear().leftRectangle());
+    		( (Graphics2D) aGraphics ).draw(this.model.getPinionGear().bottomRectangle());
+
+    		//PinionGearの十字の線drawLine   draw(new Rectangle(x, y, w, h));
+    		//( (Graphics2D) aGraphics ).draw( new Line );
+    		((Graphics2D) aGraphics).drawLine((int)this.model.getPinionGear().top().getX(),
+    											(int)this.model.getPinionGear().top().getY(),
+    											(int)this.model.getPinionGear().bottom().getX(),
+    											(int)this.model.getPinionGear().bottom().getY());
+    		((Graphics2D) aGraphics).drawLine((int)this.model.getPinionGear().right().getX(),
+    											(int)this.model.getPinionGear().right().getY(),
+    											(int)this.model.getPinionGear().left().getX(),
+    											(int)this.model.getPinionGear().left().getY());
+
+    		//PinionGearとSpurGEarの線
+    		aGraphics.setColor(Color.GREEN);
+    		((Graphics2D) aGraphics).drawLine((int)this.model.getPinionGear().getCenter().getX(),
+    											(int)this.model.getPinionGear().getCenter().getY(),
+    											(int)this.model.getSpurGear().getCenter().getX(),
+    											(int)this.model.getSpurGear().getCenter().getY());
+
+
+    		//Penの中心
+    		Point2D.Double penCenter = model.getPinionGear().getPenPosition();
+    		aGraphics.setColor( model.getPinionGear().getPenColor());
+    		Ellipse2D aEllipsePen = new Ellipse2D.Double( penCenter.getX() - model.getPinionGear().getPenNib(),
+    														penCenter.getY() - model.getPinionGear().getPenNib(),
+    														8+model.getPinionGear().getPenNib(),
+    														8+model.getPinionGear().getPenNib() );
+    		((Graphics2D) aGraphics).fill(aEllipsePen);
+    		aGraphics.setColor(Color.GREEN);
+    		((Graphics2D) aGraphics).draw(aEllipsePen);
+
+
+    	}
+
+    	/**
+    	 * 軌跡を描画する
+    	 * @param aGraphics コンポーネントを描画するためGraphics
+    	 */
+    	public  void displayDesignLoci(Graphics aGraphics){
+
+    		ArrayList<DesignLocus> loci =  this.model.getDesignLoci();
+
+    		for(int index = 0; index < loci.size(); index++) {
+    			DesignLocus locus = loci.get(index);
+    			if(locus != null){
+    				aGraphics.setColor( locus.getPenColor() );
+    				Ellipse2D aEllipse = new Ellipse2D.Double( locus.getPlot().getX() - locus.getPenNib(),
+    															locus.getPlot().getY() - locus.getPenNib(),
+    															locus.getPenNib(),
+    															locus.getPenNib());
+
+    				((Graphics2D) aGraphics).fill(aEllipse);
+    			}
+    		}
+    	}
+
+    	/**
+    	 * repaint()を呼び、描画を依頼する
+    	 */
+    	public void update()
+    	{
+    		this.repaint(0, 0, this.getWidth(), this.getHeight());
+    		return;
+    	}
+
+    }
+
+</pre>
+<div class="belt">
+<h3><a name="SpiroController" href="../TestSpecification/index.html#SpiroController">SpiroController（コントローラー）</a></h3>
+</div>
+<pre>
+    package spiroDesign;
+
+    import java.awt.Color;
+    import java.awt.Component;
+    import java.awt.Cursor;
+    import java.awt.event.ActionEvent;
+    import java.awt.event.ActionListener;
+    import java.awt.event.InputEvent;
+    import java.awt.event.KeyEvent;
+    import java.awt.event.MouseEvent;
+    import java.awt.event.MouseWheelEvent;
+    import java.awt.event.MouseWheelListener;
+    import java.awt.geom.Point2D;
+    import java.awt.geom.Rectangle2D;
+    import java.io.FileNotFoundException;
+    import java.util.ConcurrentModificationException;
+
+    import javax.swing.ButtonGroup;
+    import javax.swing.JLabel;
+    import javax.swing.JMenu;
+    import javax.swing.JMenuItem;
+    import javax.swing.JOptionPane;
+    import javax.swing.JPopupMenu;
+    import javax.swing.JRadioButtonMenuItem;
+    import javax.swing.KeyStroke;
+    import javax.swing.event.MouseInputAdapter;
+
+
+    /**
+     * コントローラ 制御まわりを専門に行う。
+     *
+     */
+    public class SpiroController extends MouseInputAdapter implements MouseWheelListener, ActionListener
+    {
+    	/**
+    	 * 依存物:SpiroModelのインスタンスを束縛する
+    	 */
+    	protected SpiroModel model;
+
+    	/**
+    	 * SpiroViewのインスタンスを束縛する
+    	 */
+    	protected SpiroView view;
+
+    	/**
+    	 * JPopupMenuのインスタンスを束縛する
+    	 */
+    	protected JPopupMenu popupMenu;
+
+    	/**
+    	 * 初期化して応答する
+    	 */
+    	public SpiroController()
+    	{
+    		super();
+    		model = null;
+    		view = null;
+    		popupMenu = new JPopupMenu();
+    		//previous = null;
+    		//current = null;
+    		this.initPopupMenu();
+    		return;
+    	}
+
+    	/**
+    	 * 取得したイベントからクリックされた座標を取得し、クリックしたボタンが右ボタンだった場合、
+    	 * ポップアップメニューを表示する
+    	 * @param aMouseEvent 処理されるイベント
+    	 */
+    	public void mouseClicked(MouseEvent aMouseEvent)
+    	{
+    		int x = aMouseEvent.getX();
+    		int y = aMouseEvent.getY();
+    		int btn = aMouseEvent.getButton();
+    		Point2D.Double aPoint2D = new Point2D.Double( x,y);
+    		//aPoint.translate(view.scrollAmount().x, view.scrollAmount().y);
+    		System.out.println(aPoint2D);
+
+    		if(btn == MouseEvent.BUTTON3) { //右クリックした場合
+    			System.out.println("clicked");
+    			popupMenu.show(aMouseEvent.getComponent(),aMouseEvent.getX(),aMouseEvent.getY());
+    		}
+
+    		return;
+    	}
+
+    	/**
+    	 * 取得したイベントからドラッグしている座標を取得し、描画中でない時、どこの場所を編集しようとしてるか
+    	 * 取得した座標を用いて判別するメソッドを呼ぶ
+    	 * @param aMouseEvent 処理されるイベント
+    	 */
+    	public void mouseDragged(MouseEvent aMouseEvent)
+    	{
+    		int x = aMouseEvent.getX();
+    		int y = aMouseEvent.getY();
+    		Point2D.Double aPoint2D = new Point2D.Double( x,y);
+
+    		//描画中は編集できない
+    		if(!model.getIsAnimated()){
+    			whichPickingArea(aPoint2D,aMouseEvent);
+    		}
+
+    		return;
+    	}
+
+    	/**
+    	 * 何もしない
+    	 * @param aMouseEvent 処理されるイベント
+    	 */
+    	public void mouseEntered(MouseEvent aMouseEvent)
+    	{
+    		return;
+    	}
+
+    	/**
+    	 * 何もしない
+    	 * @param aMouseEvent 処理されるイベント
+    	 */
+    	public void mouseExited(MouseEvent aMouseEvent)
+    	{
+    		return;
+    	}
+
+    	/**
+    	 * 何もしない
+    	 * @param aMouseEvent 処理されるイベント
+    	 */
+    	public void mouseMoved(MouseEvent aMouseEvent)
+    	{
+    		return;
+    	}
+
+    	/**
+    	 * マウスが押された時、マウスのカーソルを十字にする
+    	 * @param aMouseEvent 処理されるイベント
+    	 */
+    	public void mousePressed(MouseEvent aMouseEvent)
+    	{
+    		Cursor aCursor = Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR);
+    		Component aComponent = (Component)aMouseEvent.getSource();
+    		aComponent.setCursor(aCursor);
+    		//current = aMouseEvent.getPoint();
+    		//previous = current;
+    		return;
+    	}
+
+    	/**
+    	 * マウスが離れた時、マウスのカーソルを元に戻す
+    	 * @param aMouseEvent 処理されるイベント
+    	 */
+    	public void mouseReleased(MouseEvent aMouseEvent)
+    	{
+    		Cursor aCursor = Cursor.getDefaultCursor();
+    		Component aComponent = (Component)aMouseEvent.getSource();
+    		aComponent.setCursor(aCursor);
+    		//current = aMouseEvent.getPoint();
+    		//previous = current;
+    		model.setIsEdited(false);
+    		return;
+    	}
+
+    	/**
+    	 * 何もしない
+    	 * @param aMouseWheelEvent 処理されるイベント
+    	 */
+    	public void mouseWheelMoved(MouseWheelEvent aMouseWheelEvent)
+    	{
+    		return;
+    	}
+
+    	/**
+    	 * 座標から、編集する場所を決め、場所に応じて座標を引数にSpiroModelのメソッドを呼ぶ
+    	 * @param aPoint2D 現在のポインタの座標
+    	 * @param aMouseEvent 処理されるイベント
+    	 */
+    	public void whichPickingArea(Point2D.Double aPoint2D , MouseEvent aMouseEvent) {
+
+    		if(model.getPinionGear().penRectangle2D().contains(aPoint2D.getX(),aPoint2D.getY()))
+    		{
+    			model.setPenParameter(aPoint2D);
+
+    		}
+
+    		if(extendsRectangle2D(model.getPinionGear().centerRectangle()).contains(aPoint2D.getX(),aPoint2D.getY()))
+    		{
+    			model.setPinionParameter(aPoint2D);
+    		}
+
+    		if(extendsRectangle2D(model.getSpurGear().centerRectangle()).contains(aPoint2D.getX(),aPoint2D.getY()))
+    		{
+    			model.setSpurCenter(aPoint2D);
+    		}
+    		if(extendsRectangle2D(model.getSpurGear().leftRectangle()).contains(aPoint2D.getX(),aPoint2D.getY()) ||
+    			extendsRectangle2D(model.getSpurGear().topRectangle()).contains(aPoint2D.getX(),aPoint2D.getY()) ||
+    			extendsRectangle2D(model.getSpurGear().rightRectangle()).contains(aPoint2D.getX(),aPoint2D.getY()) ||
+    			extendsRectangle2D(model.getSpurGear().bottomRectangle()).contains(aPoint2D.getX(),aPoint2D.getY()) )
+    		{
+    			model.setSpurRadius(aPoint2D);
+    		}
+    		//編集中は計算しない
+    		model.setIsEdited(true);
+    	}
+
+    	/**
+    	 *編集する場所を決める時に、四角の判定を拡大する
+    	 * @param aRect2D 元の四角
+    	 * @return 拡張された四角
+    	 */
+    	public Rectangle2D extendsRectangle2D(Rectangle2D aRect2D){
+
+    		aRect2D.setRect(aRect2D.getX()-8.0,
+    						aRect2D.getY()-8.0,
+    						aRect2D.getWidth()+16.0,
+    						aRect2D.getHeight()+16.0);
+
+    		return aRect2D;
+    	}
+
+    	/**
+    	 * SpiroModelのインスタンスを設定する
+    	 * @param aModel 設定するSpiroModel
+    	 */
+    	public void setModel(SpiroModel aModel)
+    	{
+    		model = aModel;
+    		return;
+    	}
+
+    	/**
+    	 * SpiroViewのインスタンスを設定する
+    	 * @param aView 設定するSpiroView
+    	 */
+    	public void setView(SpiroView aView)
+    	{
+    		view = aView;
+    		view.addMouseListener(this);
+    		view.addMouseMotionListener(this);
+    		view.addMouseWheelListener(this);
+    		return;
+    	}
+
+    	/**
+    	 * ポップアップメニューに設定しているアクションイベントに反応して、
+    	 * そのアクションイベントの種類ごとにmodelのメソッドを呼ぶ
+    	 * @param anActionEvent 処理されるアクションイベント
+    	 */
+    	public void actionPerformed(ActionEvent anActionEvent) {
+    		System.out.println("読み込まれました(actionPerformed");
+    			String aName = anActionEvent.getActionCommand();
+    //
+    			System.out.println(aName);
+    			try
+    			{
+    				if (aName.equals("speedFast"))
+    				{
+    					model.spiroSetSpeed(10);
+    				}
+    				if (aName.equals("speedNormal"))
+    				{
+    					model.spiroSetSpeed(30);
+    				}
+    				if (aName.equals("speedSlow"))
+    				{
+    					model.spiroSetSpeed(50);
+    				}
+    				if (aName.equals("startAndStop"))
+    				{
+    					model.spiroStartAndStop();
+    				}
+    				if (aName.equals("dive"))
+    				{
+    					model.spiroDive();
+    				}
+    				if (aName.equals("undo"))
+    				{
+    					model.spiroUndo();
+    				}
+    				if (aName.equals("clear"))
+    				{
+    					int ret  = JOptionPane.showConfirmDialog(null, "絵画を全消去しますか？", "絵画の全消去", JOptionPane.YES_NO_OPTION , JOptionPane.PLAIN_MESSAGE);
+    					if(ret == JOptionPane.YES_OPTION) { model.spiroClear(); }
+    				}
+    				if (aName.equals("save"))
+    				{
+    					model.spiroSaveLoci();
+    				}
+    				if (aName.equals("load"))
+    				{
+    					model.spiroLoadLoci();
+    				}
+    				if (aName.equals("image"))
+    				{
+    					model.SpiroSaveImage();
+    					JOptionPane.showMessageDialog(null, "絵画をJPEG方式で保存しました","JPEG形式で保存",JOptionPane.PLAIN_MESSAGE);
+    				}
+
+    				if (aName.equals("black"))
+    				{
+    					model.setIsRainbow(false);
+    					model.getPinionGear().setPenColor(new Color(0,0,0));
+    				}
+    				if (aName.equals("white"))
+    				{
+    					model.setIsRainbow(false);
+    					model.getPinionGear().setPenColor(new Color(255,255,255));
+    				}
+    				if (aName.equals("red"))
+    				{
+    					model.setIsRainbow(false);
+    					model.getPinionGear().setPenColor(new Color(255,0,0));
+    				}
+    				if (aName.equals("green"))
+    				{
+    					model.setIsRainbow(false);
+    					model.getPinionGear().setPenColor(new Color(0,255,0));
+    				}
+    				if (aName.equals("yellow"))
+    				{
+    					model.setIsRainbow(false);
+    					model.getPinionGear().setPenColor(new Color(255,255,0));
+    				}
+    				if (aName.equals("blue"))
+    				{
+    					model.setIsRainbow(false);
+    					model.getPinionGear().setPenColor(new Color(0,0,255));
+    				}
+    				if (aName.equals("reinbow"))
+    				{
+    					model.setIsRainbow(true);
+    				}
+    				if (aName.equals("thin"))
+    				{
+    					model.getPinionGear().setPenNib(2);
+    				}
+    				if (aName.equals("normal"))
+    				{
+    					model.getPinionGear().setPenNib(5);
+    				}
+    				if (aName.equals("thick"))
+    				{
+    					model.getPinionGear().setPenNib(10);
+    				}
+    			}
+    			catch (ConcurrentModificationException | FileNotFoundException anException) { ; }
+    			return;
+    	}
+
+    	/**
+    	 * ポップアップメニューを設定する
+    	 */
+    	public void initPopupMenu() {
+
+    //		System.out.println("読み込まれました(showPopupMenu)");
+
+    		ButtonGroup aSpeedGroup = new ButtonGroup();
+
+    		JLabel aSpeedTitle = new JLabel("ギアの回転速度"); //タイトル
+    		aSpeedTitle.setHorizontalAlignment(JLabel.CENTER);
+
+    		JRadioButtonMenuItem menuSpeedSetFast = new JRadioButtonMenuItem("速い");
+    		menuSpeedSetFast.setActionCommand("speedFast");
+    		menuSpeedSetFast.addActionListener(this);
+    		aSpeedGroup.add(menuSpeedSetFast);
+
+    		JRadioButtonMenuItem menuSpeedSetNormal = new JRadioButtonMenuItem("普通",true);
+    		menuSpeedSetNormal.setActionCommand("speedNormal");
+    		menuSpeedSetNormal.addActionListener(this);
+    		aSpeedGroup.add(menuSpeedSetNormal);
+
+    		JRadioButtonMenuItem menuSpeedSetSlow = new JRadioButtonMenuItem("遅い");
+    		menuSpeedSetSlow.setActionCommand("speedSlow");
+    		menuSpeedSetSlow.addActionListener(this);
+    		aSpeedGroup.add(menuSpeedSetSlow);
+
+
+    		JMenuItem menuStartAndStop = new JMenuItem("描画の開始/停止");
+    		menuStartAndStop.setMnemonic(KeyEvent.VK_S);
+    		menuStartAndStop.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.META_DOWN_MASK));
+    		menuStartAndStop.setActionCommand("startAndStop");
+    		menuStartAndStop.addActionListener(this);
+
+
+    		JMenuItem menuSave = new JMenuItem("絵画を保存");
+    		menuSave.setActionCommand("save");
+    		menuSave.addActionListener(this);
+
+    		JMenuItem menuLoad = new JMenuItem("絵画を読み込む");
+    		menuLoad.setActionCommand("load");
+    		menuLoad.addActionListener(this);
+
+    		JMenuItem menuImage = new JMenuItem("絵画をJPEG形式で保存");
+    		menuImage.setActionCommand("image");
+    		menuImage.addActionListener(this);
+
+    		JMenuItem menuUndo = new JMenuItem("絵画を元に戻す");
+    		menuUndo.setActionCommand("undo");
+    		menuUndo.addActionListener(this);
+
+    		JMenuItem menuDive = new JMenuItem("ギア位置を初期化");
+    		menuDive.setActionCommand("dive");
+    		menuDive.addActionListener(this);
+
+    		JMenuItem menuClear = new JMenuItem("絵画を全消去");
+    		menuClear.setActionCommand("clear");
+    		menuClear.addActionListener(this);
+
+
+    		/* メニューを階層的に設定 "描画色の変更"からラジオボタンで基本色orレインボーを設定する */
+    		JMenu aDrawingMenu = new JMenu("描画設定"); //以下2階層目のメニュー
+
+    		ButtonGroup aColorGroup = new ButtonGroup();
+    		ButtonGroup aDepthGroup = new ButtonGroup();
+
+    		JLabel aPenColorTitle = new JLabel("ペン先の色"); //タイトル
+    		aPenColorTitle.setHorizontalAlignment(JLabel.CENTER);
+
+    		JRadioButtonMenuItem black = new JRadioButtonMenuItem("黒",true);
+    		black.setActionCommand("black");
+    		black.addActionListener(this);
+    		aColorGroup.add(black);
+
+    		JRadioButtonMenuItem white = new JRadioButtonMenuItem("白");
+    		white.setActionCommand("white");
+    		white.addActionListener(this);
+    		aColorGroup.add(white);
+
+    		JRadioButtonMenuItem red = new JRadioButtonMenuItem("赤");
+    		red.setActionCommand("red");
+    		red.addActionListener(this);
+    		aColorGroup.add(red);
+
+    		JRadioButtonMenuItem green = new JRadioButtonMenuItem("緑");
+    		green.setActionCommand("green");
+    		green.addActionListener(this);
+    		aColorGroup.add(green);
+
+    		JRadioButtonMenuItem yellow = new JRadioButtonMenuItem("黄");
+    		yellow.setActionCommand("yellow");
+    		yellow.addActionListener(this);
+    		aColorGroup.add(yellow);
+
+    		JRadioButtonMenuItem blue = new JRadioButtonMenuItem("青");
+    		blue.setActionCommand("blue");
+    		blue.addActionListener(this);
+    		aColorGroup.add(blue);
+
+    		JRadioButtonMenuItem reinbow = new JRadioButtonMenuItem("レインボー");
+    		reinbow.setActionCommand("reinbow");
+    		reinbow.addActionListener(this);
+    		aColorGroup.add(reinbow);
+
+    		JLabel penDepthTitle = new JLabel("ペン先の太さ"); //タイトル
+    		aPenColorTitle.setHorizontalAlignment(JLabel.CENTER);
+
+    		JRadioButtonMenuItem thin = new JRadioButtonMenuItem("細い");
+    		thin.setActionCommand("thin");
+    		thin.addActionListener(this);
+    		aDepthGroup.add(thin);
+
+    		JRadioButtonMenuItem normal = new JRadioButtonMenuItem("普通",true);
+    		normal.setActionCommand("normal");
+    		normal.addActionListener(this);
+    		aDepthGroup.add(normal);
+
+    		JRadioButtonMenuItem thick = new JRadioButtonMenuItem("太い");
+    		thick.setActionCommand("thick");
+    		thick.addActionListener(this);
+    		aDepthGroup.add(thick);
+
+    		aDrawingMenu.add(aPenColorTitle);
+    		aDrawingMenu.add(black);
+    		aDrawingMenu.add(white);
+    		aDrawingMenu.add(red);
+    		aDrawingMenu.add(green);
+    		aDrawingMenu.add(yellow);
+    		aDrawingMenu.add(blue);
+    		aDrawingMenu.add(reinbow);
+    		aDrawingMenu.addSeparator();
+    		aDrawingMenu.add(penDepthTitle);
+    		aDrawingMenu.add(thin);
+    		aDrawingMenu.add(normal);
+    		aDrawingMenu.add(thick);
+
+
+    		popupMenu.add(menuStartAndStop);
+    		popupMenu.addSeparator();
+    		popupMenu.add(aSpeedTitle);
+    		popupMenu.add(menuSpeedSetFast);
+    		popupMenu.add(menuSpeedSetNormal,true);
+    		popupMenu.add(menuSpeedSetSlow);
+    		popupMenu.addSeparator();
+    		popupMenu.add(aDrawingMenu);
+    		popupMenu.addSeparator();
+    		popupMenu.add(menuDive);
+    		popupMenu.add(menuUndo);
+    		popupMenu.add(menuClear);
+    		popupMenu.addSeparator();
+    		popupMenu.add(menuSave);
+    		popupMenu.add(menuLoad);
+    		popupMenu.add(menuImage);
+
+    	}
+    }
+
+</pre>
+<div class="belt">
+<h3><a name="SpiroGear" href="../TestSpecification/index.html#SpiroGear">SpiroGear（スピロギア）</a></h3>
+</div>
+<pre>
+    package spiroDesign;
+
+    import java.awt.geom.Point2D;
+    import java.awt.geom.Rectangle2D;
+
+    /**
+     * スパーギア、ピニオンギアの親として、中心座標、半径などについて処理する
+     *
+     */
+    public class SpiroGear{
+
+    	/**
+    	 * 	中心座標を束縛する
+    	 */
+    	Point2D.Double center;
+
+    	/**
+    	 * 半径を束縛する
+    	 */
+    	private Double radius;
+
+    	/**
+    	 * インスタンスを初期化する
+    	 */
+    	public SpiroGear() {
+    		this.center = new Point2D.Double(300,300);
+    		this.radius = 200.0;
+    	}
+    	/**
+    	 * 引数から中心座標をPoint2D型にした後インスタンスを設定し、半径のインスタンスを初期化する
+    	 * @param x 中心のx座標
+    	 * @param y	中心のy座標
+    	 */
+    	public SpiroGear(Double x, Double y) {
+    		this.center = new Point2D.Double(x,y);
+    		this.radius = 200.0;
+    	}
+
+    	/**
+    	 * 引数から中心座標をPoint2D型にし、中心座標、半径のインスタンスを設定する
+    	 * @param x 中心のx座標
+    	 * @param y	中心のy座標
+    	 * @param r 半径
+    	 */
+    	public SpiroGear(Double x, Double y, Double r) {
+    		this.center = new Point2D.Double(x,y);
+    		this.radius = r;
+    	}
+
+    	/**
+    	 * 引数から中心座標、半径のインスタンスを設定する
+    	 * @param p 中心座標
+    	 * @param r 半径
+    	 */
+    	public SpiroGear(Point2D.Double p, Double r) {
+    		this.center = p;
+    		this.radius = r;
+    	}
+
+    	/**
+    	 * 引数から半径をインスタンスに設定し、中心座標を初期化する
+    	 * @param r　半径
+    	 */
+    	public SpiroGear(Double r) {
+    		this.center = new Point2D.Double(0d,0d);
+    		this.radius = r;
+    	}
+
+    	/**
+    	 * 中心座標をインスタンスに設定する
+    	 * @param aPoint2D 中心座標
+    	 */
+    	public void setCenter(Point2D.Double aPoint2D) {
+    		this.center = aPoint2D;
+    		return;
+    	}
+
+    	/**
+    	 * インスタンスから中心座標を応答する
+    	 * @return 中心座標
+    	 */
+    	public Point2D.Double getCenter() { //以下、計算で四方の座標を求める
+    		return this.center;
+    	}
+
+    	/**
+    	 * 中心座標と半径から、円の左側に描画する四角の座標を求めて応答する
+    	 * @return 左側四角の中心座標
+    	 */
+    	public Point2D.Double left() {
+    		double aX = this.getCenter().getX() - this.getRadius();
+    		double aY = this.getCenter().getY();
+    		return new Point2D.Double(aX,aY);
+    	}
+
+    	/**
+    	 * 中心座標と半径から、円の右側に描画する四角の座標を求めて応答する
+    	 * @return 右側四角の中心座標
+    	 */
+    	public Point2D.Double right() {
+    		double aX = this.getCenter().getX() + this.getRadius();
+    		double aY = this.getCenter().getY();
+    		return new Point2D.Double(aX,aY);
+    	}
+
+    	/**
+    	 * 中心座標と半径から、円の上側に描画する四角の座標を求めて応答する
+    	 * @return 上側四角の中心座標
+    	 */
+    	public Point2D.Double top() {//
+    		double aX = this.getCenter().getX();
+    		double aY = this.getCenter().getY() + this.getRadius();
+    		return new Point2D.Double(aX,aY);
+    	}
+
+    	/**
+    	 * 中心座標と半径から、円の下側に描画する四角の座標を求めて応答する
+    	 * @return 下側四角の中心座標
+    	 */
+    	public Point2D.Double bottom() {//おそらく円の下部分の座標の応答するためのメソッド
+    		double aX = this.getCenter().getX();
+    		double aY = this.getCenter().getY() - this.getRadius();
+    		return new Point2D.Double(aX,aY);
+    	}
+
+    	/**
+    	 * 真ん中四角の中心座標と拡張する長さから、中心の四角を応答する
+    	 * @return 中心の四角
+    	 */
+    	public Rectangle2D.Double centerRectangle() {//Gearの中心部の四角の描画 これは操作するためのPoint2D.Doubleerになる
+    		return this.toRectangle2D(this.getCenter(),10.0);
+    	}
+
+    	/**
+    	 * 左四角の中心座標と拡張する長さから、左の四角を応答する
+    	 * @return 左の四角
+    	 */
+    	public Rectangle2D.Double leftRectangle(){//以下略
+    		return this.toRectangle2D(this.left(),10.0);
+    	}
+
+    	/**
+    	 * 右四角の中心座標と拡張する長さから、中心の四角を応答する
+    	 * @return 右の四角
+    	 */
+    	public Rectangle2D.Double rightRectangle() { //
+    		return this.toRectangle2D(this.right(),10.0);
+    	}
+
+    	/**
+    	 * 上四角の中心座標と拡張する長さから、中心の四角を応答する
+    	 * @return 上の四角
+    	 */
+    	public Rectangle2D.Double topRectangle() {//
+    		return this.toRectangle2D(this.top(),10.0);
+    	}
+
+    	/**
+    	 * 下四角の中心座標と拡張する長さから、下四角を応答する
+    	 * @return 下の四角
+    	 */
+    	public Rectangle2D.Double bottomRectangle() {//Gearの下部の四角の描画 これは操作するためのPoint2D.Doubleerになる
+    		return this.toRectangle2D(this.bottom(),10.0);
+    	}
+
+    	/**
+    	 * インスタンスの半径を応答する
+    	 * @return 半径
+    	 */
+    	public Double getRadius() {
+    		return this.radius;
+    	}
+
+    	/**
+    	 * インスタンスの半径を設定する
+    	 * @param r 半径
+    	 */
+    	public void setRadius(Double r) {//getRadius
+    		this.radius = r;
+    	}
+
+    	/**
+    	 * 中心座標と拡張する長さを受け取り、これらからRectangleを応答する
+    	 * @param aPoint2D 中心座標
+    	 * @param expandedAmount 拡張する長さ
+    	 * @return 四角
+    	 */
+    	public Rectangle2D.Double toRectangle2D(Point2D.Double aPoint2D, Double expandedAmount) {
+    		Rectangle2D.Double aRectangle2D = new Rectangle2D.Double(aPoint2D.getX()-expandedAmount/2,
+    																  aPoint2D.getY()-expandedAmount/2,
+    																   expandedAmount,
+    																	expandedAmount);
+
+    	return aRectangle2D;
+    	}
+
+
+
+    }
+</pre>
+<div class="belt">
+<h3><a name="SpurGear" href="../TestSpecification/index.html#SpurGear">SpurGear（スパーギア）</a></h3>
+</div>
+<pre>
+    package spiroDesign;
+
+    /**
+     * スパーギア スパーギアの処理を専門に行う
+     */
+    public class SpurGear extends SpiroGear{
+
+    	/**
+    	 *	中心座標、半径を親に伝える
+    	 */
+    	SpurGear(){
+
+    		super(300.0,300.0,200.0);
+
+
+    	}
+    	/**
+    	 * 引数の中心座標、半径を親に伝える
+    	 * @param x 中心x座標
+    	 * @param y 中心y座標
+    	 * @param r 半径
+    	 */
+    	SpurGear(Double x,Double y,Double r){
+
+    		super(x,y,r);
+    	}
+    }
+</pre>
+<div class="belt">
+<h3><a name="PinionGear" href="../TestSpecification/index.html#PinionGear">PinionGear（ピニオンギア）</a></h3>
+</div>
+<pre>
+    package spiroDesign;
+
+    import java.awt.Color;
+    import java.awt.geom.Point2D;
+    import java.awt.geom.Rectangle2D;
+
+    /**
+     * ピニオンギアの処理を専門に行う
+     */
+    public class PinionGear extends SpiroGear{
+    	/**
+    	 * ペンの座標を束縛する
+    	 */
+    	private Point2D.Double penPosition;
+
+    	/**
+    	 * ペンの色を束縛する
+    	 */
+    	private Color penColor;
+
+    	/**
+    	 * ペンの太さを束縛する
+    	 */
+    	private int penNib;
+
+    	/**
+    	 * ピニオンギアの角度を束縛する
+    	 */
+    	private Double pinionDegrees;
+
+    	/**
+    	 * ピニオンギアとスパーギアとの距離を束縛する
+    	 */
+    	private Double pinionDistance;
+
+    	/**
+    	 * ピニオンギアとスパーギアの間の角度について束縛する
+    	 */
+    	private Double phi;
+
+    	/**
+    	 * ピニオンギアとペンの間の角度について束縛する
+    	 */
+    	private Double psi;
+
+    	/**
+    	 * ピニオンギアとペンの間の距離を束縛する
+    	 */
+    	private Double penDistance;
+
+    	/**
+    	 * 回転角を束縛する
+    	 */
+    	private Double theta;
+
+    	/**
+    	 * 引数のスパーギアから座標を受け取り、初期位置を親に伝える
+    	 * また、その他のインスタンスを初期化する
+    	 * @param aSpurGear スパーギア
+    	 */
+    	public PinionGear(SpurGear aSpurGear) {
+
+    		super( aSpurGear.getCenter().getX() + (aSpurGear.getRadius() - 50)*Math.cos(0),
+    				aSpurGear.getCenter().getY() + (aSpurGear.getRadius() - 50)*Math.sin(0),
+    		 		 50.0);
+
+    		Point2D.Double aPen = new Point2D.Double(500.0,300.0);
+
+    		this.setPenPosition(aPen);
+    		this.setPenColor(new Color(0,0,0));
+    		this.setPenNib(5);
+
+    		this.setPinionDegrees(0.0);
+    		this.setPsi(0.0);
+    		this.setPhi(0.0);
+
+    		this.pinionDistance = 50.0;
+    		this.penDistance = 50.0;
+
+    		this.theta = 0.0;
+    	}
+
+    	/**
+    	 * 引数のスパーギアから座標と半径を受け取り、初期位置を親に伝える
+    	 * また、その他のインスタンスを初期化する
+    	 * @param aSpurGear スパーギア
+    	 * @param r 半径
+    	 */
+    	public PinionGear(SpurGear aSpurGear,Double r) {
+    		super( aSpurGear.getCenter().getX() + (aSpurGear.getRadius() - r)*Math.cos(0),
+    				aSpurGear.getCenter().getY() + (aSpurGear.getRadius() - r)*Math.sin(0),
+    		 		 r);
+
+    		Point2D.Double aPen = new Point2D.Double(500.0,300.0);
+
+    		this.setPenPosition(aPen);
+    		this.setPenColor(new Color(0,0,0));
+    		this.setPenNib(5);
+
+    		this.setPinionDegrees(0.0);
+    		this.setPsi(0.0);
+    		this.setPhi(0.0);
+
+    		this.pinionDistance = r;
+    		this.penDistance = r;
+
+    		this.theta = 0.0;
+    	}
+
+    	/**
+    	 * 引数のスパーギアから座標と半径受け取り、初期位置を親に伝える
+    	 * また、ペン座標を設定し、その他のインスタンスを初期化する
+    	 * @param p 中心座標
+    	 * @param r 半径
+    	 * @param uv ペン座標
+    	 */
+    	public PinionGear(Point2D.Double p, Double r, Point2D.Double uv) {
+    		super(p,r);
+    		this.setPenPosition(uv);
+    		this.setPenColor(Color.black);
+    		this.setPenNib(5);
+    		this.setPinionDegrees(0.0);
+    		this.setPsi(0.0);
+    		this.setPhi(0.0);
+    		this.theta = 0.0;
+    	}
+
+    	/**
+    	 * 引数のスパーギアから座標と半径受け取り、初期位置を親に伝える
+    	 * また、ペン座標、ペンの色、ペンの太さを設定し、その他のインスタンスを初期化する
+    	 * @param p 中心座標
+    	 * @param r 半径
+    	 * @param uv ペン座標
+    	 * @param c ペンの色
+    	 * @param n ペンの太さ
+    	 */
+    	public PinionGear(Point2D.Double p, Double r, Point2D.Double uv, Color c, int n) {
+
+    		super(p,r);
+    		this.setPenPosition(uv);
+    		this.setPenColor(c);
+    		this.setPenNib(n);
+    		this.setPinionDegrees(0.0);
+    		this.setPsi(0.0);
+    		this.setPhi(0.0);
+    		this.theta = 0.0;
+    	}
+
+    	/**
+    	 * 引数のスパーギアから座標と半径受け取り、初期位置を親に伝える
+    	 * また、ペン座標、ペンの色、ペンの太さ、角度を設定し、その他のインスタンスを初期化する
+    	 * @param p 中心座標
+    	 * @param r 半径
+    	 * @param uv ペン座標
+    	 * @param c ペンの色
+    	 * @param n ペンの太さ
+    	 * @param d 角度
+    	 */
+    	public PinionGear(Point2D.Double p, Double r, Point2D.Double uv, Color c, int n, Double d) {
+    		super(p,r);
+    		this.setPenPosition(uv);
+    		this.setPenColor(c);
+    		this.setPenNib(n);
+    		this.setPinionDegrees(d);
+    		this.setPsi(0.0);
+    		this.setPhi(0.0);
+    		this.theta = 0.0;
+    	}
+
+    	/**
+    	 * ペンの色を応答する
+    	 * @return ペンの色
+    	 */
+    	public Color getPenColor() {//getPenColor
+    		return this.penColor;
+    	}
+
+    	/**
+    	 * ペンの色を設定する
+    	 * @param aColor ペンの色
+    	 */
+    	public void setPenColor(Color aColor) {//setPenColor
+    		this.penColor = aColor;
+    	}
+
+    	/**
+    	 * ペンの太さを応答する
+    	 * @return ペンの太さ
+    	 */
+    	public int getPenNib() {//getPenNib
+    		return this.penNib;
+    	}
+
+    	/**
+    	 * ペンの太さを設定する
+    	 * @param anInteger ペンの太さ
+    	 */
+    	public void setPenNib(int anInteger) {//setPenNib
+    		this.penNib = anInteger;
+    	}
+
+    	/**
+    	 * ペンの座標を応答する
+    	 * @return ペンの座標
+    	 */
+    	public Point2D.Double getPenPosition() {//getPenPosotion Double →　Point2D.Double
+    		return this.penPosition;
+    	}
+
+    	/**
+    	 * ペンの座標を設定する
+    	 * @param aPoint2D ペンの座標
+    	 */
+    	public void setPenPosition(Point2D.Double aPoint2D) {//setPenPosition
+    		Point2D.Double penPoint2D = aPoint2D;
+    		this.penPosition = penPoint2D;
+    	}
+
+    	/**
+    	 * ピニオンギアとスパーギアとの角度を応答する
+    	 * @return 角度
+    	 */
+    	public Double getPinionDegrees(){
+    		return this.pinionDegrees;
+    	}
+
+    	/**
+    	 * ピニオンギアとスパーギアとの角度を設定する
+    	 * @param aDegrees 角度
+    	 */
+    	public void setPinionDegrees(Double aDegrees){
+    		this.pinionDegrees = aDegrees;
+    	}
+
+    	/**
+    	 * 角度を応答する
+    	 * @return 角度
+    	 */
+    	public Double getPsi(){
+    		return this.psi;
+    	}
+
+    	/**
+    	 * 角度を設定する
+    	 * @param aDegrees 角度
+    	 */
+    	public void setPsi(Double aDegrees){
+    		this.psi = aDegrees;
+    	}
+
+    	/**
+    	 * 角度を応答する
+    	 * @return 角度
+    	 */
+    	public Double getPhi(){
+    		return this.phi;
+    	}
+
+    	/**
+    	 * 角度を設定する
+    	 * @param aDegrees 角度
+    	 */
+    	public void setPhi(Double aDegrees){
+    		this.phi = aDegrees;
+    	}
+
+    	/**
+    	 * 回転角を応答する
+    	 * @return 回転角
+    	 */
+    	public Double getTheta(){
+    		return this.theta;
+    	}
+
+    	/**
+    	 * 回転角を設定する
+    	 * @param aDegrees 回転角
+    	 */
+    	public void setTheta(Double aDegrees){
+    		this.theta = aDegrees;
+    	}
+
+    	/**
+    	 * ピニオンギアとペンとの距離を応答する
+    	 * @return 距離
+    	 */
+    	public Double getPinionDistance(){
+    		return this.pinionDistance;
+    	}
+
+    	/**
+    	 * ピニオンギアとスパーギアとの距離を設定する
+    	 * @param aDistance 距離
+    	 */
+    	public void setPinionDistance(Double aDistance){
+    		this.pinionDistance = aDistance;
+    	}
+
+    	/**
+    	 *ピニオンギアとペンとの距離を応答する
+    	 * @return 距離
+    	 */
+    	public Double getPenDistance(){
+    		return this.penDistance;
+    	}
+
+    	/**
+    	 * ピニオンギアとペンとの距離を設定する
+    	 * @param aDistance 距離
+    	 */
+    	public void setPenDistance(Double aDistance){
+    		this.penDistance = aDistance;
+    	}
+
+    	/**
+    	 * ピニオンギアの右四角の中心座標を応答する
+    	 * @return 中心座標
+    	 */
+    	public Point2D.Double right() {
+    		Double aX = getCenter().getX() + getRadius() * Math.cos(this.getPinionDegrees());
+    		Double aY = getCenter().getY() + getRadius() * Math.sin(this.getPinionDegrees());
+    		Point2D.Double aPoint2D = new Point2D.Double(aX,aY);
+    		return aPoint2D;
+    	}
+
+    	/**
+    	 * ピニオンギアの上四角の中心座標を応答する
+    	 * @return 中心座標
+    	 */
+    	public Point2D.Double top() { //以下、計算で四方の座標を求める
+    		Double aX = getCenter().getX() + getRadius() * Math.cos(this.getPinionDegrees() + (0.5*Math.PI));
+    		Double aY = getCenter().getY() + getRadius() * Math.sin(this.getPinionDegrees() + (0.5*Math.PI));
+    		Point2D.Double aPoint2D = new Point2D.Double(aX,aY);
+    		return aPoint2D;
+    	}
+
+    	/**
+    	 * ピニオンギアの左四角の中心座標を応答する
+    	 * @return 中心座標
+    	 */
+    	public Point2D.Double left() {
+    		Double aX = getCenter().getX() + getRadius() * Math.cos(this.getPinionDegrees() + Math.PI);
+    		Double aY = getCenter().getY() + getRadius() * Math.sin(this.getPinionDegrees() + Math.PI);
+    		Point2D.Double aPoint2D = new Point2D.Double(aX,aY);
+    		return aPoint2D;
+    	}
+
+    	/**
+    	 * ピニオンギアの下四角の中心座標を応答する
+    	 * @return 中心座標
+    	 */
+    	public Point2D.Double bottom() { //以下、計算で四方の座標を求める
+    		Double aX = getCenter().getX() + getRadius() * Math.cos(this.getPinionDegrees() + (1.5*Math.PI));
+    		Double aY = getCenter().getY() + getRadius() * Math.sin(this.getPinionDegrees() + (1.5*Math.PI));
+    		Point2D.Double aPoint2D = new Point2D.Double(aX,aY);
+    		return aPoint2D;
+    	}
+
+    	/**
+    	 * ピニオンギアの下四角を応答する
+    	 * @return 下四角
+    	 */
+    	public Rectangle2D bottomRectangle2D(){
+    		return super.toRectangle2D(this.bottom(),10.0);
+    	}
+
+    	/**
+    	 * ピニオンギアの左四角を応答する
+    	 * @return 左四角
+    	 */
+    	public Rectangle2D leftRectangle2D(){
+    		return super.toRectangle2D(this.left(),10.0);
+    	}
+
+    	/**
+    	 * ピニオンギアの右四角を応答する
+    	 * @return 右四角
+    	 */
+    	public Rectangle2D rightRectangle2D(){
+    		return super.toRectangle2D(this.right(),10.0);
+    	}
+
+    	/**
+    	 * ピニオンギアの上四角を応答する
+    	 * @return 上四角
+    	 */
+    	public Rectangle2D topRectangle2D(){
+    		return super.toRectangle2D(this.top(),10.0);
+    	}
+
+    	/**
+    	 * ピニオンギアの真ん中四角を応答する
+    	 * @return 真ん中四角
+    	 */
+    	public Rectangle2D centerRectangle2D(){
+    		return super.toRectangle2D(super.getCenter(),10.0);
+    	}
+
+    	/**
+    	 * ペンの四角を応答する
+    	 * @return ペン四角
+    	 */
+    	public Rectangle2D penRectangle2D() {//PenのPoint2D.Doubleをつくる penPositionとか
+    		return super.toRectangle2D(this.getPenPosition(),20.0);
+    	}
+    }
+
+</pre>
+<div class="belt">
+<h3><a name="SpiroIO" href="../TestSpecification/index.html#SpiroIO">SpiroIO（スピロアイオー）</a></h3>
+</div>
+<pre>
+    package spiroDesign;
+
+    import java.awt.Color;
+    import java.awt.geom.Point2D;
+    import java.awt.image.BufferedImage;
+    import java.io.BufferedReader;
+    import java.io.BufferedWriter;
+    import java.io.File;
+    import java.io.FileInputStream;
+    import java.io.FileNotFoundException;
+    import java.io.FileWriter;
+    import java.io.IOException;
+    import java.io.InputStreamReader;
+    import java.io.PrintWriter;
+    import java.text.SimpleDateFormat;
+    import java.util.ArrayList;
+    import java.util.Collections;
+    import java.util.Date;
+
+    import javax.imageio.ImageIO;
+    import javax.swing.JFileChooser;
+    import javax.swing.JOptionPane;
+    import javax.swing.filechooser.FileFilter;
+    import javax.swing.filechooser.FileNameExtensionFilter;
+
+    /**
+     * ファイルの入出力関連の処理を専門に行う
+     */
+    public class SpiroIO {
+
+    	/**
+    	 * セーブデータディレクトリがなければ生成する
+    	 * その後、designLociのデータを拡張子.datのファイルに保存し、datファイルを出力する
+    	 * @param designLoci ペンの軌跡
+    	 */
+
+    	public static void makeSaveData(ArrayList<DesignLocus> designLoci){
+    		try {
+    			String currentDirectory = System.getProperty("user.dir");
+    			String saveDirectory = currentDirectory + File.separator + "SaveOfSpiroDesign";
+    			File aDirectory = new File(saveDirectory);
+    			if (!aDirectory.exists()) { aDirectory.mkdir(); }
+    			String fileString = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) + ".dat";
+
+    			fileString = saveDirectory + File.separator + fileString;
+    			System.out.printf("セーブデータファイル「%s」に保存しました。%n", fileString);
+    			JOptionPane.showMessageDialog(null, "データファイル「"+ fileString +"」に保存しました","絵画を保存",JOptionPane.PLAIN_MESSAGE);
+    			File file = new File(fileString);
+
+
+
+    			//Fileクラスに書き込むファイルを指定する
+    			FileWriter fileWriter = new FileWriter(file);
+
+    			PrintWriter pw = new PrintWriter(new BufferedWriter(fileWriter));
+    			//List中のnull値をなくす
+    			designLoci.removeAll(Collections.singleton(null));
+
+    			for(int i = 0; i < designLoci.size();i++){
+    				pw.print(designLoci.get(i).getPlot().getX());
+    				pw.print(",");
+    				pw.print(designLoci.get(i).getPlot().getY());
+    				pw.print(",");
+    				pw.print(designLoci.get(i).getPenColor().getRed());
+    				pw.print(",");
+    				pw.print(designLoci.get(i).getPenColor().getGreen());
+    				pw.print(",");
+    				pw.print(designLoci.get(i).getPenColor().getBlue());
+    				pw.print(",");
+    				pw.println(designLoci.get(i).getPenNib());
+    			}
+    			pw.flush();
+    			pw.close();
+    		}  catch (IOException e) {
+    			e.printStackTrace();
+    		}
+    	}
+
+    	/**
+    	 * ファイル選択画面から、datファイルを指定すると、そのdatファイルから軌跡を取得し、
+    	 * その軌跡のデータをDesignLociに送る
+    	 * @return　loci ペンの軌跡
+    	 * @throws FileNotFoundException ファイルが見つからない時に例外を投げる
+    	 */
+    	public static ArrayList<DesignLocus> loadSaveData() throws FileNotFoundException{
+
+
+    		ArrayList<DesignLocus> loci = new ArrayList<>(); //出力ファイル
+
+    		JFileChooser chooser = new JFileChooser();
+    		//saveDataCurrentDirectryを保取得
+    		String currentDirectory = System.getProperty("user.dir");
+    		String saveDirectory = currentDirectory + File.separator + "SaveOfSpiroDesign";
+
+    		//デフォルトの選択ファイルを指定
+            chooser.setSelectedFile(new File(saveDirectory));
+
+
+            FileFilter filter = new FileNameExtensionFilter("dataファイル", "dat");
+            chooser.addChoosableFileFilter(filter);
+            chooser.setAcceptAllFileFilterUsed(false);
+
+            chooser.setDialogTitle("ファイルを読み込む");
+
+          //ダイアログを表示
+            int selected = chooser.showOpenDialog(null);
+
+            if(selected == JFileChooser.APPROVE_OPTION){
+            	File file = chooser.getSelectedFile();
+
+            	//読み込みファイルのインスタンス生成
+            	//ファイル名を指定する
+            	FileInputStream fi = new FileInputStream(file);
+            	InputStreamReader is = new InputStreamReader(fi);
+            	BufferedReader br = new BufferedReader(is);
+
+            	try{
+
+
+            		//読み込み行
+            		String line;
+
+
+            		//1行ずつ読み込みを行う
+            		while ((line = br.readLine()) != null) {
+
+            			//カンマで分割した内容を配列に格納する
+            			String[] data = line.split(",");
+
+            			//配列の中身を順位表示する。列数(=列名を格納した配列の要素数)分繰り返す
+            			Point2D.Double aPoint = new Point2D.Double( Double.parseDouble(data[0]),Double.parseDouble(data[1]));
+
+            			int cr = Integer.parseInt(data[2]);
+            			int cg = Integer.parseInt(data[3]);
+            			int cb = Integer.parseInt(data[4]);
+
+            			Color aColor = new Color(cr,cg,cb);
+
+            			int aPenNib = Integer.parseInt(data[5]);
+
+            			loci.add(new DesignLocus(aPoint, aColor,aPenNib));
+
+            		}
+
+            	}
+            	catch (Exception e) {
+            		e.printStackTrace();
+            	}
+            	finally {
+            		try {
+            			br.close();
+            		} catch (Exception e) {
+            			e.printStackTrace();
+            		}
+            	}
+            }
+    		return loci;
+    	}
+
+    	/**
+    	 * ファイル名から拡張子を返す。
+    	 * @param fileName ファイル名
+    	 * @return ファイルの拡張子
+    	 */
+    	public static String getSuffix(String fileName) {
+    	    if (fileName == null)
+    	        return null;
+    	    int point = fileName.lastIndexOf(".");
+    	    if (point != -1) {
+    	        return fileName.substring(point + 1);
+    	    }
+    	    return fileName;
+    	}
+
+    	/**
+    	 * 画像保存フォルダがなければ生成する。その後、引数の画像データをjpg形式の画像として出力する
+    	 * そしてその画像をプレビューで開く
+    	 * @param img 絵画の画像データ
+    	 */
+    	public static void saveImage(BufferedImage img) {
+    		BufferedImage anImage = img;
+
+    		// メモリ内に読み込んだ画像を保存するローカルなファイル名（fileString）を求める。
+    		String currentDirectory = System.getProperty("user.dir");
+    		String imageDirectory = currentDirectory + File.separator + ".." + File.separator + ".." + File.separator + ".."
+    														+ File.separator + ".." + File.separator + "ImagesOfSpiroDesign";
+    		File aDirectory = new File(imageDirectory);
+    		if (!aDirectory.exists()) { aDirectory.mkdir(); }
+    		String fileString = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) + ".jpg";
+    		fileString = imageDirectory + File.separator + fileString;
+    		System.out.printf("画像ファイル「%s」に保存しました。%n", fileString);
+
+    		// メモリ内に読み込んだ画像をローカルディスクのファイルに書き込む。
+    		File aFile = new File(fileString);
+    		String kindString = fileString.substring(fileString.lastIndexOf(".") + 1); // 画像ファイルの拡張子を求めます。
+    		try { ImageIO.write(anImage, kindString, aFile); }
+    		catch (IOException anException) { anException.printStackTrace(); }
+    		finally {
+    			try {
+    				Thread.sleep(100);
+    			} catch (InterruptedException e) {
+    				e.printStackTrace();
+    			}
+    		}
+    		try
+    		{
+    			ProcessBuilder aProcessBuilder = new ProcessBuilder("open", "-a", "PreView", fileString);
+    			aProcessBuilder.start();
+    		}
+    		catch (Exception anException) { anException.printStackTrace(); }
+    	}
+    }
+
+</pre>
+<div class="belt">
+<h3><a name="DesignLocus" href="../TestSpecification/index.html#DesignLocus">DesignLocus（デザインローカス）</a></h3>
+</div>
+<pre>
+    package spiroDesign;
+
+    import java.awt.Color;
+    import java.awt.geom.Point2D;
+
+    /**
+    軌跡 座標,色,ペンの大きさを格納する
+
+    */
+    public class DesignLocus {
+
+    	/**
+    	 * ペンの座標を束縛する
+    	 */
+    	private Point2D.Double plot;//座標
+
+    	/**
+    	 * ペンの色を束縛する
+    	 */
+    	private Color penColor;//色
+
+    	/**
+    	 * ペン先の太さを束縛する
+    	 */
+    	private Integer penNib;//ペン先の太さ
+
+    	/**
+    	 * 引数を受け取り、それらをインスタンスに設定する
+    	 *
+    	 * @param aPoint2D　ペンの座標
+    	 * @param aColor ペンの色
+    	 * @param aNib ペンの太さ
+    	 */
+    	public DesignLocus(Point2D.Double aPoint2D, Color aColor, Integer aNib){
+    		this.plot = aPoint2D;
+    		this.penColor = aColor;
+    		this.penNib = aNib;
+    	}
+
+    	/**
+    	 * ペンの座標を設定する
+    	 * @param aPoint2D ペンの座標
+    	 */
+    	public void setPlot(Point2D.Double aPoint2D){
+    		this.plot = aPoint2D;
+    	}
+
+    	/**
+    	 * ペンの座標を取得する
+    	 * @return ペンの座標
+    	 */
+    	public Point2D.Double getPlot(){
+    		return this.plot;
+    	}
+
+    	/**
+    	 * ペンの色を設定する
+    	 * @param aColor ペンの色
+    	 */
+    	public void setPenColor(Color aColor){
+    		this.penColor = aColor;
+    	}
+
+    	/**
+    	 * ペンの色を取得する
+    	 * @return ペンの色
+    	 */
+    	public Color getPenColor(){
+    		return this.penColor;
+    	}
+
+    	/**
+    	 * ペンの太さを設定する
+    	 * @param aNib ペンの太さ
+    	 */
+    	public void setPenNib(Integer aNib){
+    		this.penNib = aNib;
+    	}
+
+    	/**
+    	 * ペンの太さを応答する
+    	 * @return ペンの太さ
+    	 */
+    	public Integer getPenNib(){
+    		return this.penNib;
+    	}
+    }
+
+</pre>
+<div class="belt">
+<h3><a name="spiroDesign.mf" href="../TestSpecification/index.html#spiroDesign.mf">spiroDesign.mf（マニュフェストファイル）</a></h3>
+</div>
+<pre>
+    Manifest-Version: 1.0
+    Main-Class: spiroDesign.SpiroDesign
+</pre>
+<div class="belt">
+<h3><a name="Makefile" href="../TestSpecification/index.html#Makefile">Makefile（メイクファイル）</a></h3>
+</div>
+<pre>
+    ANT	= env LC_ALL=ja_JP.UTF-8 ant
+    ARCHIVE	= $(shell basename `pwd`)
+    SOURCES	= $(shell find . -name "*.java")
+    STYLE_YAML	= clang-format-for-java.yaml
+    STYLE_CONF	= _clang-format
+
+    all:
+    	$(ANT) all
+
+    clean:
+    	$(ANT) clean
+
+    test:
+    	$(ANT) test
+
+    install:
+    	$(ANT) install
+
+    doc:
+    	$(ANT) doc
+
+    wipe:
+    	(cd ../ ; rm -f ./$(ARCHIVE).zip)
+
+    #zip:
+    #	$(ANT) zip
+    zip: clean
+    	(cd ../ ; zip -r ./$(ARCHIVE).zip ./$(ARCHIVE)/)
+
+    format:
+    	@rm -f $(STYLE_CONF) ; ln -s $(STYLE_YAML) $(STYLE_CONF)
+    	for each in $(SOURCES) ; do echo ---[$${each}]--- ; clang-format -style=file $${each} ; echo ; done
+    	@rm -f $(STYLE_CONF)
+</pre>
+<div class="belt">
+<h3><a name="build.xml" href="../TestSpecification/index.html#build.xml">build.xml（ビルドファイル）</a></h3>
+</div>
+<pre>
+    &lt;?xml version="1.0" encoding="UTF-8"?&quot;
+
+    &lt;project name="SpiroDesign" default="all" basedir="."&quot;
+
+    	&lt;property name="package" value="spiroDesign" /&quot;
+    	&lt;property name="packagenames" value="${package}" /&quot;
+    	&lt;property name="destdir" value="./Classes" /&quot;
+    	&lt;property name="docdir" value="./JavaDoc" /&quot;
+    	&lt;property name="instdir" value="./${ant.project.name}.app/Contents/Resources/Java" /&quot;
+    	&lt;property name="copyright" value="Copyright 2019 project ごんごん. All Rights Reserved." /&quot;
+    	&lt;property name="zipname" value="${ant.project.name}" /&quot;
+
+    	&lt;target name="all" depends="jar" description="build all"&quot;
+    		&lt;exec executable="date" spawn="false" /&quot;
+    	&lt;/target&quot;
+
+    	&lt;target name="prepare" depends="" description="prepare to compile"&quot;
+    		&lt;mkdir dir="${destdir}" /&quot;
+    		&lt;exec executable="date" spawn="false" /&quot;
+    	&lt;/target&quot;
+
+    	&lt;target name="compile" depends="prepare" description="compile all sources"&quot;
+    		&lt;javac
+    			fork="true"
+    			srcdir="${basedir}"
+    			destdir="${destdir}"
+    			includeAntRuntime="true"
+    			encoding="UTF-8"
+    			deprecation="on"
+    			verbose="false"&quot;
+    			&lt;compilerarg value="-J-Dfile.encoding=UTF8" /&quot;
+    			&lt;compilerarg value="-Xlint:all" /&quot;
+    			&lt;classpath&quot;
+    				&lt;pathelement location="." /&quot;
+    			&lt;/classpath&quot;
+    		&lt;/javac&quot;
+    		&lt;exec executable="date" spawn="false" /&quot;
+    	&lt;/target&quot;
+
+    	&lt;target name="jar" depends="compile" description="make jar file"&quot;
+    		&lt;jar
+    			jarfile="${package}.jar"
+    			basedir="${destdir}"
+    			manifest="${package}.mf"&quot;
+    		&lt;/jar&quot;
+    		&lt;exec executable="date" spawn="false" /&quot;
+    	&lt;/target&quot;
+
+    	&lt;target name="clean" description="cleaning"&quot;
+    		&lt;delete dir="${destdir}" /&quot;
+    		&lt;delete file="${package}.jar" /&quot;
+    		&lt;delete dir="${docdir}" /&quot;
+    		&lt;delete dir="${instdir}" /&quot;
+    		&lt;delete file="../${zipname}.zip" /&quot;
+    		&lt;delete&quot;
+    			&lt;fileset dir="${package}" includes="*.class" /&quot;
+    		&lt;/delete&quot;
+    		&lt;exec executable="date" spawn="false" /&quot;
+    	&lt;/target&quot;
+
+    	&lt;target name="test" depends="all" description="test"&quot;
+    		&lt;exec executable="java" spawn="false"&quot;
+    			&lt;arg line="-Dfile.encoding=UTF-8 -Xmx512m -Xss1024k -jar ${package}.jar" /&quot;
+    		&lt;/exec&quot;
+    		&lt;exec executable="date" spawn="false" /&quot;
+    	&lt;/target&quot;
+
+    	&lt;target name="install" depends="all" description="install into application"&quot;
+    		&lt;copy file="${package}.jar" todir="${instdir}"/&quot;
+    		&lt;exec executable="chmod"&quot;
+    			&lt;arg line="755 ${instdir}/../../MacOS/applet" /&quot;
+    		&lt;/exec&quot;
+    		&lt;exec executable="date" spawn="false" /&quot;
+    	&lt;/target&quot;
+
+    	&lt;target name="doc" depends="all" description="make document (javadoc)"&quot;
+    		&lt;mkdir dir="${docdir}" /&quot;
+    		&lt;javadoc
+    			locale="ja_JP"
+    			sourcepath="${basedir}"
+    			destdir="${docdir}"
+    			packagenames="${packagenames}"
+    			author="true"
+    			version="true"
+    			charset="UTF-8"
+    			encoding="UTF-8"
+    			docencoding="UTF-8"
+    			linksource="yes"
+    			additionalparam="-J-Dfile.encoding=UTF-8"
+    			access="private"&quot;
+    			&lt;doctitle&quot;${doc-title}&lt;/doctitle&quot;
+    			&lt;bottom&quot;${copyright}&lt;/bottom&quot;
+    			&lt;classpath&quot;
+    				&lt;pathelement location="." /&quot;
+    			&lt;/classpath&quot;
+    		&lt;/javadoc&quot;
+    		&lt;exec executable="open"&quot;
+    			&lt;arg line="${docdir}/index.html" /&quot;
+    		&lt;/exec&quot;
+    		&lt;exec executable="date" spawn="false" /&quot;
+    	&lt;/target&quot;
+
+    	&lt;target name="zip" depends="clean" description="make zip file"&quot;
+    		&lt;delete file="../${zipname}.zip" /&quot;
+    		&lt;zip destfile="../${zipname}.zip"&quot;
+    			&lt;zipfileset dir="." prefix="${zipname}" /&quot;
+    		&lt;/zip&quot;
+    		&lt;exec executable="date" spawn="false" /&quot;
+    	&lt;/target&quot;
+
+    &lt;/project&quot;
+
+</pre>
+<div class="belt">
+<h3><a name="main.scpt" href="../TestSpecification/index.html#main.scpt">main.scpt（アプリケーションにするためのアップルスクリプト）</a></h3>
+</div>
+<pre>
+set aJar to get "spiroDesign.jar"
+tell application "Finder"
+	set aPath to get (path to me as Unicode text)
+	set aPath to get (aPath & "Contents:Resources:Java:")
+	set aFile to get (aPath & "spiroDesign.jar")
+	set aBoolean to get exists aFile
+	if aBoolean then
+		set aDirectory to get POSIX path of aPath
+	else
+		set aFile to get POSIX path of aFile
+		display alert "The java archive (" & aFile & ") does not exist."
+		return
+	end if
+end tell
+set aShellScript to "(cd " & aDirectory & "; java -Dfile.encoding=UTF-8 -Xmx512m -Xss1024k -jar " & aJar & ")"
+do shell script aShellScript
+</pre>
+
+<div class="belt">
+<h3><a name="SpiroDesignTest" href="../TestSpecification/index.html#SpiroDesignTest">SpiroDesignTest（メインクラスのテスト）</a></h3>
+</div>
+<pre>
+    package spiroTest;
+
+    import org.junit.Test;
+
+    public class SpiroDesignTest {
+
+    	@Test
+    	public void testMain() {
+    		//動作テストで確認
+    	}
+
+    }
+</pre>
+<div class="belt">
+<h3><a name="SpiroModelTest" href="../TestSpecification/index.html#SpiroModelTest">SpiroModelTest（モデルのテスト）</a></h3>
+</div>
+<pre>
+    package spiroTest;
+
+    import static org.hamcrest.CoreMatchers.*;
+    import static org.hamcrest.MatcherAssert.*;
+
+    import java.awt.Color;
+    import java.awt.geom.Point2D;
+    import java.awt.image.BufferedImage;
+    import java.util.ArrayList;
+
+    import org.junit.Test;
+
+    import spiroDesign.DesignLocus;
+    import spiroDesign.PinionGear;
+    import spiroDesign.SpiroModel;
+    import spiroDesign.SpiroView;
+    import spiroDesign.SpurGear;
+
+    public class SpiroModelTest {
+
+    	@Test
+    	public void testSpiroModel() {
+    		SpiroModel testModel1 = new SpiroModel();
+    		SpiroModel testModel2 = testModel1;
+    		assertThat(testModel1, is(sameInstance(testModel2)));
+    		assertThat(testModel1, is(instanceOf(SpiroModel.class)));
+    	}
+
+    	@Test
+    	public void testAddDependent() {
+
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		SpiroView aSpiroView = new SpiroView(aSpiroModel);
+    		aSpiroModel.addDependent(aSpiroView);
+    	}
+
+    	@Test
+    	public void testRun() {
+    		//動作テストにより動作を確認する
+    	}
+
+    	@Test
+    	public void testChanged() {
+    		//動作テストにより動作を確認する
+    	}
+
+    	@Test
+    	public void testGetIsAnimated() {
+    		//インスタンスを生成しisAnimatedをfalseにする
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//falseからtureになる
+    		aSpiroModel.setIsAnimated();
+    		assertThat(aSpiroModel.getIsAnimated(),is(true));
+
+    		//trueからfakseになる
+    		aSpiroModel.setIsAnimated();
+    		assertThat(aSpiroModel.getIsAnimated(),is(false));
+
+    	}
+
+    	@Test
+    	public void testSetIsAnimated() {
+    		//インスタンスを生成しisAnimatedをfalseにする
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//falseからtureになる
+    		aSpiroModel.getIsAnimated();
+    		assertThat(aSpiroModel.getIsAnimated(),is(false));
+    	}
+
+    	@Test
+    	public void testGetIsEdited() {
+    		//インスタンスを生成しfalseにする
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//初期状態はfalse
+    		assertThat(aSpiroModel.getIsEdited(),is(false));
+    		//treuをセット
+    		aSpiroModel.setIsEdited(true);
+    		assertThat(aSpiroModel.getIsEdited(),is(true));
+    	}
+
+    	@Test
+    	public void testSetIsEdited() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//trueをセットしたらtrueになる
+    		aSpiroModel.setIsEdited(true);
+    		assertThat(aSpiroModel.getIsEdited(),is(true));
+    		//trueをセットしたらtrueになる
+    		aSpiroModel.setIsEdited(false);
+    		assertThat(aSpiroModel.getIsEdited(),is(false));
+    	}
+
+    	@Test
+    	public void testPerform() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//実行
+    		aSpiroModel.perform();
+    		System.out.println();
+    		//検証
+    		assertThat(aSpiroModel.getPinionGear().getTheta() ,is(0.01d));
+    	}
+
+    	@Test
+    	public void testAddDesignLociDoubleColorInteger() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//引数を用意
+    		Point2D.Double aPoint2D = new Point2D.Double(0.0d, 0.0d);
+    		Color aColor = new Color(0,0,0);
+    		Integer aInteger = new Integer(0);
+    		//値をList格納
+    		aSpiroModel.addDesignLoci(aPoint2D,aColor,aInteger);
+    		//値を確認
+    		//assertThat(,is());.0
+    		//x座標
+    		assertThat(aSpiroModel.getDesignLoci().get(0).getPlot().getX(),is(0.0d));
+    		//y座標
+    		assertThat(aSpiroModel.getDesignLoci().get(0).getPlot().getY(),is(0.0d));
+    		//color Red
+    		assertThat(aSpiroModel.getDesignLoci().get(0).getPenColor().getRed(),is(0));
+    		//color Green
+    		assertThat(aSpiroModel.getDesignLoci().get(0).getPenColor().getGreen(),is(0));
+    		//color Blue
+    		assertThat(aSpiroModel.getDesignLoci().get(0).getPenColor().getBlue(),is(0));
+    		//penNib
+    		assertThat(aSpiroModel.getDesignLoci().get(0).getPenNib(),is(0));
+    	}
+
+    	@Test
+    	public void testAddDesignLoci() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//nullを格納
+    		aSpiroModel.addDesignLoci();
+    		assertThat(aSpiroModel.getDesignLoci().get(0), is(nullValue()));
+    	}
+
+    	@Test
+    	public void testSetTickTime() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		aSpiroModel.setTickTime(0);
+    		assertThat(aSpiroModel.getTickTime(),is(0));
+    		aSpiroModel.setTickTime(100);
+    		assertThat(aSpiroModel.getTickTime(),is(100));
+    	}
+
+    	@Test
+    	public void testGetTickTime() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//初期値は50
+    		assertThat(aSpiroModel.getTickTime(),is(50));
+    	}
+
+    	@Test
+    	public void testListFlush() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//designLociに値を50000個入れる
+    		for(int index = 0; index < 50000; index++){
+    			aSpiroModel.addDesignLoci();
+    		}
+    		//50000個めが削除されれば成功
+    		aSpiroModel.listFlush();
+    		assertThat(aSpiroModel.getDesignLoci().size()-1 ,is(49999));
+    	}
+
+    	@Test
+    	public void testSpiroStartAndStop() {
+    		//インスタンスを生成し
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//falseからtureになる
+    		aSpiroModel.spiroStartAndStop();
+    		assertThat(aSpiroModel.getIsAnimated(),is(true));
+    	}
+
+    	@Test
+    	public void testSetSpiroSpeed() {
+    		//インスタンスを生成し
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		aSpiroModel.spiroSetSpeed(10);
+    		assertThat(aSpiroModel.getTickTime(),is(10));
+    	}
+
+
+    	@Test
+    	public void testSetIsRainbow() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//初期値falseからtrue
+    		assertThat(aSpiroModel.getIsRainbow(),is(false));
+    	}
+
+    	@Test
+    	public void testGetIsRainbow() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//初期値false
+    		assertThat(aSpiroModel.getIsRainbow(),is(false));
+    	}
+
+    	@Test
+    	public void testRainbow() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+
+    		//赤
+    		//pinionThetaを設定
+    		aSpiroModel.getPinionGear().setTheta(0.0d);
+    		//初期位相を設定
+    		aSpiroModel.getPinionGear().setPhi(0.0d);
+    		//実行
+    		aSpiroModel.rainbow();
+    		//測定
+    		Color penColor = aSpiroModel.getPinionGear().getPenColor();
+    		Color red = new Color(255,0,0);
+    		assertThat(penColor,is(red));
+
+    	}
+
+    	@Test
+    	public void testSetImage() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//値を用意
+    		BufferedImage img = aSpiroModel.getImage();
+    		//実行
+    		aSpiroModel.setImage(img);
+    		//検証
+    		assertThat(aSpiroModel.getImage(),is(img));
+    	}
+
+    	@Test
+    	public void testGetImage() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//値を用意//実行
+    		BufferedImage img = aSpiroModel.getImage();
+    		//検証
+    		assertThat(aSpiroModel.getImage(),is(img));
+    	}
+
+    	@Test
+    	public void testSpiroOpenImage() {
+    		//SpiroIOで動作を確認
+    	}
+
+    	@Test
+    	public void testSpiroSaveLoci() {
+    		//SpiroIOで動作を確認
+    	}
+
+    	@Test
+    	public void testSpiroLoadLoci() {
+    		//SpiroIOで動作を確認
+    	}
+
+
+    	@Test
+    	public void testSpiroDive() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//実行
+    		aSpiroModel.spiroDive();
+    		//検証
+    		Double aTheta = aSpiroModel.getPinionGear().getTheta();
+    		assertThat(aTheta,is(0.0d));
+
+    	}
+
+    	@Test
+    	public void testSpiroUndo() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//size = 0のとき
+    		//実行
+    		aSpiroModel.spiroUndo();
+    		//検証
+    		assertThat(aSpiroModel.getDesignLoci().size(),is(0));
+
+    		//size = 1 nullのみのとき
+    		aSpiroModel.addDesignLoci();
+    		//実行
+    		aSpiroModel.spiroUndo();
+    		//検証
+    		assertThat(aSpiroModel.getDesignLoci().size(),is(0));
+
+    		//size = 1 [data]のとき
+    		Point2D.Double aPoint2D = new Point2D.Double(0.0d, 0.0d);
+    		Color aColor = new Color(0,0,0);
+    		Integer aInteger = new Integer(0);
+    		//値をList格納
+    		aSpiroModel.addDesignLoci(aPoint2D,aColor,aInteger);
+    		//実行
+    		aSpiroModel.spiroUndo();
+    		//検証
+    		assertThat(aSpiroModel.getDesignLoci().size(),is(0));
+
+    		//size = 4 [data],[null] ,[data],[null]のとき
+    		//値をList格納
+    		aSpiroModel.addDesignLoci(aPoint2D,aColor,aInteger);
+    		aSpiroModel.addDesignLoci();
+    		aSpiroModel.addDesignLoci(aPoint2D,aColor,aInteger);
+    		aSpiroModel.addDesignLoci();
+    		//実行
+    		aSpiroModel.spiroUndo();
+    		//検証
+    		assertThat(aSpiroModel.getDesignLoci().size(),is(1));
+
+
+    	}
+
+    	@Test
+    	public void testSpiroClear() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//実行
+    		aSpiroModel.spiroClear();
+    		//検証
+    		assertThat( aSpiroModel.getDesignLoci().size(),is(0));
+    	}
+
+    	@Test
+    	public void testGetDesignLoci() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//実行
+    		ArrayList<DesignLocus> aLoci = aSpiroModel.getDesignLoci();
+    		//検証
+    		assertThat( aLoci.size(),is(0));
+    	}
+
+    	@Test
+    	public void testSetTheta() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//実行
+    		aSpiroModel.setTheta(100.0d);
+    		//検証
+    		assertThat(aSpiroModel.getTheta(),is(100.0d));
+    	}
+
+    	@Test
+    	public void testGetTheta() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//実行//検証
+    		assertThat(aSpiroModel.getTheta(),is(0.0d));
+    	}
+
+    	@Test
+    	public void testGetSpurGear() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//値を設定
+    		aSpiroModel.setSpurCenter(new Point2D.Double(300.0d,300.0d));
+    		//実行
+    		SpurGear aSpurGear = aSpiroModel.getSpurGear();
+    		//検証
+    		//center
+    		assertThat(aSpurGear.getCenter(),is(new Point2D.Double(300.0d,300.0d)));
+    		//
+    	}
+
+    	@Test
+    	public void testSetSpurCenter() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//実行
+    		aSpiroModel.setSpurCenter(new Point2D.Double(300.0d,300.0d));
+    		//検証
+    		SpurGear aSpurGear = aSpiroModel.getSpurGear();
+    		//center
+    		assertThat(aSpurGear.getCenter(),is(new Point2D.Double(300.0d,300.0d)));
+    	}
+
+    	@Test
+    	public void testSetSpurRadius() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//実行
+    		aSpiroModel.setSpurRadius(new Point2D.Double(200.0d,300.0d));
+    		//検証
+    		SpurGear aSpurGear = aSpiroModel.getSpurGear();
+    		//center
+    		assertThat(aSpurGear.getRadius(),is(100.0d));
+    	}
+
+    	@Test
+    	public void testGetPinionGear() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//値を設定
+    		aSpiroModel.setPinionParameter(new Point2D.Double(400.0d,300.0d));
+    		//実行
+    		PinionGear aPinionGear = aSpiroModel.getPinionGear();
+    		//検証
+    		//center
+    		assertThat(aPinionGear.getCenter(),is(new Point2D.Double(400.0d,300.0d)));
+    		//radius
+    		assertThat(aPinionGear.getRadius(),is(100.0d));
+    	}
+
+    	@Test
+    	public void testSetPinionParameter() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//実行//値を設定
+    		aSpiroModel.setPinionParameter(new Point2D.Double(400.0d,300.0d));
+
+    		PinionGear aPinionGear = aSpiroModel.getPinionGear();
+    		//検証
+    		//center
+    		assertThat(aPinionGear.getCenter(),is(new Point2D.Double(400.0d,300.0d)));
+    		//radius
+    		assertThat(aPinionGear.getRadius(),is(100.0d));
+    	}
+
+    	@Test
+    	public void testGetDistanceBetweenAToB() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		Point2D.Double aPointA = new Point2D.Double(0.0d,0.0d);
+    		Point2D.Double aPointB = new Point2D.Double(1.0d,1.0d);
+    		//実行
+    		Double aDistance = aSpiroModel.getDistanceBetweenAToB(aPointA,aPointB);
+    		//検証
+    		assertThat(aDistance,is(Math.pow(2,0.5)));
+    	}
+
+    	@Test
+    	public void testGetPinionDegrees() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//実行
+    		Double aDegrees = aSpiroModel.getPinionDegrees();
+    		//検証
+    		assertThat(aDegrees,is(-0.0d));
+    	}
+
+    	@Test
+    	public void testIsInscribe() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//実行
+    		assertThat(aSpiroModel.isInscribe(), is(true));
+    	}
+
+    	@Test
+    	public void testSetPenParameter() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//値を設定
+    		Point2D.Double aPoint2D = new Point2D.Double(500.0d,300.0d);
+    		//実行
+    		aSpiroModel.setPenParameter(aPoint2D);
+    		//検証
+    		//座標
+    		assertThat(aSpiroModel.getPinionGear().getPenPosition(),is(new Point2D.Double(500.0d,300.0d)));
+    	}
+
+    	@Test
+    	public void testCalcPenDegrees() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//値を設定
+    		Point2D.Double aPoint2D = new Point2D.Double(500.0d,300.0d);
+    		//実行
+    		Double penDegrees = aSpiroModel.calcPenDegrees(aPoint2D);
+    		//検証
+    		assertThat(penDegrees,is(0.0d));
+    	}
+
+    	@Test
+    	public void testReCalcPinionGear() {
+    		//インスタンスを生成
+    		SpiroModel aSpiroModel = new SpiroModel();
+    		//値を設定
+    		Point2D.Double aPoint2D = new Point2D.Double(500.0d,300.0d);
+    		//実行
+    		Double penDegrees = aSpiroModel.calcPenDegrees(aPoint2D);
+    		//検証
+    		assertThat(penDegrees,is(0.0d));
+    	}
+
+    }
+
+</pre>
+<div class="belt">
+<h3><a name="SpiroViewTest" href="../TestSpecification/index.html#SpiroViewTest">SpiroViewTest（ビューのテスト）</a></h3>
+</div>
+<pre>
+    package spiroTest;
+
+    import static org.hamcrest.CoreMatchers.*;
+    import static org.junit.Assert.*;
+
+    import org.junit.Test;
+
+    import spiroDesign.SpiroController;
+    import spiroDesign.SpiroModel;
+    import spiroDesign.SpiroView;
+
+    public class SpiroViewTest {
+
+    	@Test
+    	public void testSpiroViewSpiroModel() {
+    		SpiroModel testModel = new SpiroModel();
+    		SpiroView testView1 = new SpiroView(testModel);
+    		SpiroView testView2 = testView1;
+    		assertThat(testView1,is(sameInstance(testView2)));
+    		assertThat(testView1,is(instanceOf(SpiroView.class)));
+    	}
+
+    	@Test
+    	public void testSpiroViewSpiroModelSpiroController() {
+    		SpiroModel testModel = new SpiroModel();
+    		SpiroController testCont = new SpiroController();
+    		SpiroView testView1 = new SpiroView(testModel,testCont);
+    		SpiroView testView2 = testView1;
+    		assertThat(testView1,is(sameInstance(testView2)));
+    		assertThat(testView1,is(instanceOf(SpiroView.class)));
+    	}
+
+    	@Test
+    	public void testPaintComponentGraphics() {
+    		//動作テストで確認
+    	}
+
+    	@Test
+    	public void testDisplaySpurGear() {
+    		//動作テストで確認
+    	}
+
+    	@Test
+    	public void testDisplayPinionGear() {
+    		//動作テストで確認
+    	}
+
+    	@Test
+    	public void testDisplayDesignLoci() {
+    		//動作テストで確認
+    	}
+
+    	@Test
+    	public void testUpdate() {
+    		//動作テストで確認
+    	}
+
+    }
+
+</pre>
+<div class="belt">
+<h3><a name="SpiroController" href="../TestSpecification/index.html#SpiroControllerTest">SpiroControllerTest（コントローラのテスト）</a></h3>
+</div>
+<pre>
+    package spiroTest;
+
+    import static org.hamcrest.CoreMatchers.*;
+    import static org.junit.Assert.*;
+
+    import org.junit.Test;
+
+    import spiroDesign.SpiroController;
+
+    public class SpiroControllerTest {
+
+    	@Test
+    	public void testSpiroController() {
+    		SpiroController testCont1 = new SpiroController();
+    		SpiroController testCont2 = testCont1;
+    		assertThat(testCont1,is(sameInstance(testCont2)));
+    		assertThat(testCont1,is(instanceOf(SpiroController.class)));
+    		}
+
+    	@Test
+    	public void testMouseClickedMouseEvent() {
+    		//動作テストにより確認
+    	}
+
+    	@Test
+    	public void testMouseDraggedMouseEvent() {
+    		//動作テストにより確認
+    	}
+
+    	@Test
+    	public void testMouseEnteredMouseEvent() {
+    		//動作テストにより確認
+    	}
+
+    	@Test
+    	public void testMouseExitedMouseEvent() {
+    		//動作テストにより確認
+    	}
+
+    	@Test
+    	public void testMouseMovedMouseEvent() {
+    		//動作テストにより確認
+    	}
+
+    	@Test
+    	public void testMousePressedMouseEvent() {
+    		//動作テストにより確認
+    	}
+
+    	@Test
+    	public void testMouseReleasedMouseEvent() {
+    		//動作テストにより確認
+    	}
+
+    	@Test
+    	public void testMouseWheelMovedMouseWheelEvent() {
+    		//動作テストにより確認
+    	}
+
+    	@Test
+    	public void testWhichPickingArea() {
+    		//動作テストにより確認
+    	}
+
+    	@Test
+    	public void testExtendsRectangle2D() {
+    		//動作テストにより確認
+    	}
+
+    	@Test
+    	public void testSetModel() {
+    		//動作テストにより確認
+    	}
+
+    	@Test
+    	public void testSetView() {
+    		//動作テストにより確認
+    	}
+
+    	@Test
+    	public void testActionPerformed() {
+    		//動作テストにより確認
+    	}
+
+    	@Test
+    	public void testInitPopupMenu() {
+    		//動作テストにより確認
+    	}
+
+    }
+
+</pre>
+<div class="belt">
+<h3><a name="SpiroGearTest" href="../TestSpecification/index.html#SpiroGearTest">SpiroGearTest（スピロギアのテスト）</a></h3>
+</div>
+<pre>
+    package spiroTest;
+
+    import static org.hamcrest.CoreMatchers.*;
+    import static org.hamcrest.MatcherAssert.*;
+
+    import java.awt.geom.Point2D;
+    import java.awt.geom.Rectangle2D;
+
+    import org.junit.Test;
+
+    import spiroDesign.SpiroGear;
+
+
+
+    public class SpiroGearTest {
+
+    	@Test
+    	public void testSpiroGear() {
+    		SpiroGear testGear1 = new SpiroGear();
+    		SpiroGear testGear2 = testGear1;
+    		assertThat(testGear1, is(sameInstance(testGear2)));
+    		assertThat(testGear1, is(instanceOf(SpiroGear.class)));
+    	}
+
+    	@Test
+    	public void testSpiroGearDoubleDouble() {
+    		//値を用意
+    		Double x = 300.0d;
+    		Double y = 300.0d;
+
+    		SpiroGear testGear1 = new SpiroGear(x,y);
+    		SpiroGear testGear2 = testGear1;
+    		assertThat(testGear1, is(sameInstance(testGear2)));
+    		assertThat(testGear1, is(instanceOf(SpiroGear.class)));
+    	}
+
+    	@Test
+    	public void testSpiroGearDoubleDoubleDouble() {
+    		//値を用意
+    		Double x = 300.0d;
+    		Double y = 300.0d;
+    		Double r = 200.0d;
+    		SpiroGear testGear1 = new SpiroGear(x,y,r);
+    		SpiroGear testGear2 = testGear1;
+    		assertThat(testGear1, is(sameInstance(testGear2)));
+    		assertThat(testGear1, is(instanceOf(SpiroGear.class)));
+    	}
+
+    	@Test
+    	public void testSpiroGearPoint2DDoubleDouble() {
+    		//値を用意
+    		Double x = 300.0d;
+    		Double y = 300.0d;
+    		Point2D.Double aPoint2D = new Point2D.Double(x,y);
+    		Double r = 200.0d;
+    		SpiroGear testGear1 = new SpiroGear(aPoint2D,r);
+    		SpiroGear testGear2 = testGear1;
+    		assertThat(testGear1, is(sameInstance(testGear2)));
+    		assertThat(testGear1, is(instanceOf(SpiroGear.class)));
+    	}
+
+    	@Test
+    	public void testSpiroGearDouble() {
+    		Double r = 200.0d;
+    		SpiroGear testGear1 = new SpiroGear(r);
+    		SpiroGear testGear2 = testGear1;
+    		assertThat(testGear1, is(sameInstance(testGear2)));
+    		assertThat(testGear1, is(instanceOf(SpiroGear.class)));
+    	}
+
+    	@Test
+    	public void testSetCenter() {
+    		//インスタンスを生成
+    		SpiroGear testGear = new SpiroGear();
+    		//値を用意
+    		Point2D.Double aPoint2D = new Point2D.Double(200.0d,200.0d);
+    		//実行
+    		testGear.setCenter(aPoint2D);
+    		//検証
+    		assertThat(testGear.getCenter(),is(aPoint2D));
+    	}
+
+    	@Test
+    	public void testGetCenter() {
+    		//インスタンスを生成
+    		SpiroGear testGear = new SpiroGear();
+    		//実行//検証　
+    		assertThat(testGear.getCenter(),is(new Point2D.Double(300.0d,300.0d)));
+    	}
+
+    	@Test
+    	public void testLeft() {
+    		//インスタンスを生成
+    		SpiroGear testGear = new SpiroGear();
+    		//実行//検証
+    		//300,300 r=200  -> left(100,300)
+    		assertThat(testGear.left(),is(new Point2D.Double(100.0d,300.0d)));
+    	}
+
+    	@Test
+    	public void testRight() {
+    		//インスタンスを生成
+    		SpiroGear testGear = new SpiroGear();
+    		//実行//検証
+    		//300,300 r=200  -> rigt(500,300)
+    		assertThat(testGear.right(),is(new Point2D.Double(500.0d,300.0d)));
+    	}
+
+    	@Test
+    	public void testTop() {
+    		//インスタンスを生成
+    		SpiroGear testGear = new SpiroGear();
+    		//実行//検証
+    		//300,300 r=200  -> top(300,500)
+    		assertThat(testGear.top(),is(new Point2D.Double(300.0d,500.0d)));
+    	}
+
+    	@Test
+    	public void testBottom() {
+    		//インスタンスを生成
+    		SpiroGear testGear = new SpiroGear();
+    		//実行//検証
+    		//300,300 r=200  -> bottom(500,100)
+    		assertThat(testGear.bottom(),is(new Point2D.Double(300.0d,100.0d)));
+    	}
+
+    	@Test
+    	public void testCenterRectangle() {
+    		//インスタンスを生成
+    		SpiroGear testGear = new SpiroGear();
+    		//値を用意
+    		Rectangle2D.Double aRect = testGear.toRectangle2D( testGear.getCenter(), 10.0d);
+    		//実行//検証
+    		//300,300 r=200  -> left(100,300)
+    		assertThat(testGear.centerRectangle(),is(aRect));
+    	}
+
+    	@Test
+    	public void testLeftRectangle() {
+    		//インスタンスを生成
+    		SpiroGear testGear = new SpiroGear();
+    		//値を用意
+    		Rectangle2D.Double aRect = testGear.toRectangle2D( testGear.left(), 10.0d);
+    		//実行//検証
+    		assertThat(testGear.leftRectangle(),is(aRect));
+    	}
+
+    	@Test
+    	public void testRightRectangle() {
+    		//インスタンスを生成
+    		SpiroGear testGear = new SpiroGear();
+    		//値を用意
+    		Rectangle2D.Double aRect = testGear.toRectangle2D( testGear.right(), 10.0d);
+    		//実行//検証
+    		assertThat(testGear.rightRectangle(),is(aRect));
+    	}
+
+    	@Test
+    	public void testTopRectangle() {
+    		//インスタンスを生成
+    		SpiroGear testGear = new SpiroGear();
+    		//値を用意
+    		Rectangle2D.Double aRect = testGear.toRectangle2D( testGear.top(), 10.0d);
+    		//実行//検証
+    		assertThat(testGear.topRectangle(),is(aRect));
+    	}
+
+    	@Test
+    	public void testBottomRectangle() {
+    		//インスタンスを生成
+    		SpiroGear testGear = new SpiroGear();
+    		//値を用意
+    		Rectangle2D.Double aRect = testGear.toRectangle2D( testGear.bottom(), 10.0d);
+    		//実行//検証
+    		assertThat(testGear.bottomRectangle(),is(aRect));
+    	}
+
+    	@Test
+    	public void testGetRadius() {
+    		//インスタンスを生成
+    		SpiroGear testGear = new SpiroGear();
+    		//実行 検証
+    		assertThat(testGear.getRadius(),is(200.0d));
+    	}
+
+    	@Test
+    	public void testSetRadius() {
+    		//インスタンスを生成
+    		SpiroGear testGear = new SpiroGear();
+    		//実行
+    		testGear.setRadius(200.0d);
+    		//検証
+    		assertThat(testGear.getRadius(),is(200.0d));
+    	}
+
+    	@Test
+    	public void testRotate() {
+    		//なにもしていない
+    	}
+
+    	@Test
+    	public void testToRectangle2D() {
+    		//インスタンスを生成
+    		SpiroGear testGear = new SpiroGear();
+    		//座標とサイズから四角を生成する
+    		//実行
+    		Rectangle2D.Double testRect = testGear.toRectangle2D( testGear.getCenter(), 10.0d);
+    		Rectangle2D.Double aRect = new Rectangle2D.Double(testGear.getCenter().getX()-5.0d,
+    														  testGear.getCenter().getY()-5.0d,
+    														  10,10);
+    		//検証
+    		assertThat(testRect,is(aRect));
+    	}
+
+    	@Test
+    	public void testToString() {
+    		//何もしていない
+    	}
+
+    }
+
+</pre>
+<div class="belt">
+<h3><a name="SpurGearTest" href="../TestSpecification/index.html#SpurGearTest">SpurGearTest（スパーギアのテスト）</a></h3>
+</div>
+<pre>
+    package spiroTest;
+
+    import static org.hamcrest.CoreMatchers.*;
+    import static org.hamcrest.MatcherAssert.*;
+
+    import org.junit.Test;
+
+    import spiroDesign.SpurGear;
+
+    public class SpurGearTest {
+
+    	@Test
+    	public void testSpurGear() {
+    		SpurGear testSpurGear1 = new SpurGear();
+    		SpurGear testSpurGear2 = testSpurGear1;
+    		assertThat(testSpurGear1, is(sameInstance(testSpurGear2)));
+    		assertThat(testSpurGear1, is(instanceOf(SpurGear.class)));
+    	}
+
+    	@Test
+    	public void testSpurGearDoubleDoubleDouble() {
+    		SpurGear testSpurGear1 = new SpurGear(0.0d,0.0d,0.0d);
+    		SpurGear testSpurGear2 = testSpurGear1;
+    		assertThat(testSpurGear1, is(sameInstance(testSpurGear2)));
+    		assertThat(testSpurGear1, is(instanceOf(SpurGear.class)));
+    	}
+
+    }
+
+</pre>
+<div class="belt">
+<h3><a name="PinionGearTest" href="../TestSpecification/index.html#PinionGearTest">PinionGearTest（ピニオンギアのテスト）</a></h3>
+</div>
+<pre>
+    package spiroTest;
+
+    import static org.hamcrest.CoreMatchers.*;
+    import static org.hamcrest.MatcherAssert.*;
+
+    import java.awt.Color;
+    import java.awt.geom.Point2D;
+    import java.awt.geom.Rectangle2D;
+
+    import org.junit.Test;
+
+    import spiroDesign.PinionGear;
+    import spiroDesign.SpurGear;
+
+    public class PinionGearTest {
+
+    	@Test
+    	public void testRight() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//実行
+    		Point2D.Double aPoint2D = testPinionGear.right();
+    		//予測値 300,300,200 -> 450,300,50
+    		Double x = 450.0d + 50*Math.cos(0);
+    		Double y = 300.0d + 50*Math.sin(0);
+    		Point2D.Double expectPoint2D = new Point2D.Double(x, y);
+    		//検証
+    		assertThat(aPoint2D,is(expectPoint2D));
+    	}
+
+    	@Test
+    	public void testTop() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//実行
+    		Point2D.Double aPoint2D = testPinionGear.top();
+    		//予測値 300,300,200 -> 450,300,50
+    		Double x = 450.0d + 50*Math.cos(0.5d*Math.PI);
+    		Double y = 300.0d + 50*Math.sin(0.5d*Math.PI);
+    		Point2D.Double expectPoint2D = new Point2D.Double(x, y);
+    		//検証
+    		assertThat(aPoint2D,is(expectPoint2D));
+    	}
+
+    	@Test
+    	public void testLeft() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//実行
+    		Point2D.Double aPoint2D = testPinionGear.left();
+    		//予測値 300,300,200 -> 450,300,50
+    		Double x = 450.0d + 50*Math.cos(Math.PI);
+    		Double y = 300.0d + 50*Math.sin(Math.PI);
+    		Point2D.Double expectPoint2D = new Point2D.Double(x, y);
+    		//検証
+    		assertThat(aPoint2D,is(expectPoint2D));
+    	}
+
+    	@Test
+    	public void testBottom() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//実行
+    		Point2D.Double aPoint2D = testPinionGear.bottom();
+    		//予測値 300,300,200 -> 450,300,50
+    		Double x = 450.0d + 50*Math.cos(1.5d*Math.PI);
+    		Double y = 300.0d + 50*Math.sin(1.5d*Math.PI);
+    		Point2D.Double expectPoint2D = new Point2D.Double(x, y);
+    		//検証
+    		assertThat(aPoint2D,is(expectPoint2D));
+    	}
+
+    	@Test
+    	public void testPinionGearSpurGear() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear1 = new PinionGear(testSpurGear);
+    		PinionGear testPinionGear2 = testPinionGear1;
+    		assertThat(testPinionGear1, is(sameInstance(testPinionGear2)));
+    		assertThat(testPinionGear1, is(instanceOf(PinionGear.class)));
+    	}
+
+    	@Test
+    	public void testPinionGearSpurGearDouble() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		Double aRadius = new Double(50.0d);
+
+    		PinionGear testPinionGear1 = new PinionGear(testSpurGear,aRadius);
+    		PinionGear testPinionGear2 = testPinionGear1;
+    		//検証
+    		assertThat(testPinionGear1, is(sameInstance(testPinionGear2)));
+    		assertThat(testPinionGear1, is(instanceOf(PinionGear.class)));
+    	}
+
+    	@Test
+    	public void testPinionGearDoubleDoubleDouble() {
+    		//インスタンスを生成
+    		Point2D.Double pinionCenter = new Point2D.Double(500.0d,500.0d);
+    		Double aRadius = new Double(50.0d);
+    		Point2D.Double penPosition = new Point2D.Double(500.0d,500.0d);
+
+    		PinionGear testPinionGear1 = new PinionGear(pinionCenter,aRadius,penPosition);
+    		PinionGear testPinionGear2 = testPinionGear1;
+    		//検証
+    		assertThat(testPinionGear1, is(sameInstance(testPinionGear2)));
+    		assertThat(testPinionGear1, is(instanceOf(PinionGear.class)));
+    	}
+
+    	@Test
+    	public void testPinionGearDoubleDoubleDoubleColorInt() {
+    		//インスタンスを生成
+    		Point2D.Double pinionCenter = new Point2D.Double(500.0d,500.0d);
+    		Double aRadius = new Double(50.0d);
+    		Point2D.Double penPosition = new Point2D.Double(500.0d,500.0d);
+    		Integer penNib = new Integer(5);
+    		Color penColor = new Color(0,0,0);
+
+    		PinionGear testPinionGear1 = new PinionGear(pinionCenter,aRadius,penPosition,penColor,penNib);
+    		PinionGear testPinionGear2 = testPinionGear1;
+    		//検証
+    		assertThat(testPinionGear1, is(sameInstance(testPinionGear2)));
+    		assertThat(testPinionGear1, is(instanceOf(PinionGear.class)));
+    	}
+
+    	@Test
+    	public void testPinionGearDoubleDoubleDoubleColorIntDouble() {
+    		//インスタンスを生成
+    		Point2D.Double pinionCenter = new Point2D.Double(500.0d,500.0d);
+    		Double aRadius = new Double(50.0d);
+    		Point2D.Double penPosition = new Point2D.Double(500.0d,500.0d);
+    		Integer penNib = new Integer(5);
+    		Color penColor = new Color(0,0,0);
+    		Double distance = new Double(100.0d);
+
+    		PinionGear testPinionGear1 = new PinionGear(pinionCenter,aRadius,penPosition,penColor,penNib,distance);
+    		PinionGear testPinionGear2 = testPinionGear1;
+    		//検証
+    		assertThat(testPinionGear1, is(sameInstance(testPinionGear2)));
+    		assertThat(testPinionGear1, is(instanceOf(PinionGear.class)));
+    	}
+
+    	@Test
+    	public void testGetPenColor() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//実行 検証
+    		assertThat(testPinionGear.getPenColor(),is( new Color(0,0,0)));
+    	}
+
+    	@Test
+    	public void testSetPenColor() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//値を用意
+    		Color aColor = new Color(255,0,0);
+    		//実行
+    		testPinionGear.setPenColor(aColor);
+    		//検証
+    		assertThat(testPinionGear.getPenColor(),is( new Color(255,0,0)));
+    	}
+
+    	@Test
+    	public void testGetPenNib() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//実行 検証
+    		assertThat(testPinionGear.getPenNib(),is(5));
+    	}
+
+    	@Test
+    	public void testSetPenNib() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//値を用意
+    		Integer aInteger = new Integer(10);
+    		//実行
+    		testPinionGear.setPenNib(aInteger);
+    		//検証
+    		assertThat(testPinionGear.getPenNib(),is(aInteger));
+    	}
+
+    	@Test
+    	public void testGetPenPosition() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//実行//検証
+    		assertThat(testPinionGear.getPenNib(),is(5));
+    	}
+
+    	@Test
+    	public void testSetPenPosition() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//値を用意
+    		Point2D.Double aPoint2D = new Point2D.Double(500.0d,500.0d);
+    		//実行
+    		testPinionGear.setPenPosition(aPoint2D);
+    		//検証
+    		assertThat(testPinionGear.getPenPosition(),is(aPoint2D));
+    	}
+
+    	@Test
+    	public void testGetPinionDegrees() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//実行//検証
+    		assertThat(testPinionGear.getPinionDegrees(),is(0.0d));
+    	}
+
+    	@Test
+    	public void testSetPinionDegrees() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//値を用意
+    		Double aDegrees = new Double(0.0d);
+    		//実行
+    		testPinionGear.setPinionDegrees(aDegrees);
+    		//検証
+    		assertThat(testPinionGear.getPinionDegrees(),is(aDegrees));
+    	}
+
+    	@Test
+    	public void testGetPsi() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//実行 検証
+    		assertThat(testPinionGear.getPsi(),is(0.0d));
+    	}
+
+    	@Test
+    	public void testSetPsi() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//値を用意
+    		Double aPsi = new Double(0.0d);
+    		//実行
+    		testPinionGear.setPsi(aPsi);
+    		//検証
+    		assertThat(testPinionGear.getPsi(),is(aPsi));
+    	}
+
+    	@Test
+    	public void testGetPhi() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//実行 検証
+    		assertThat(testPinionGear.getPhi(),is(0.0d));
+    	}
+
+    	@Test
+    	public void testSetPhi() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//値を用意
+    		Double aPhi = new Double(0.0d);
+    		//実行
+    		testPinionGear.setPhi(aPhi);
+    		//検証
+    		assertThat(testPinionGear.getPhi(),is(aPhi));
+    	}
+
+    	@Test
+    	public void testGetTheta() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//実行検証
+    		assertThat(testPinionGear.getTheta(),is(0.0d));
+    	}
+
+    	@Test
+    	public void testSetTheta() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//値を用意
+    		Double aTheta = new Double(0.0d);
+    		//実行
+    		testPinionGear.setTheta(aTheta);
+    		//検証
+    		assertThat(testPinionGear.getPhi(),is(aTheta));
+    	}
+
+    	@Test
+    	public void testGetPinionDistance() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//実行//検証
+    		assertThat(testPinionGear.getPinionDistance(),is(50.0d));
+    	}
+
+    	@Test
+    	public void testSetPinionDistance() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//値を用意
+    		Double aTheta = new Double(0.0d);
+    		//実行
+    		testPinionGear.setTheta(aTheta);
+    		//検証
+    		assertThat(testPinionGear.getTheta(),is(aTheta));
+    	}
+
+    	@Test
+    	public void testGetPenDistance() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//実行//検証
+    		assertThat(testPinionGear.getPinionDistance(),is(50.0d));
+    	}
+
+    	@Test
+    	public void testSetPenDistance() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//値を用意
+    		Double aDistance = new Double(50.0d);
+    		//実行
+    		testPinionGear.setPenDistance(aDistance);
+    		//検証
+    		assertThat(testPinionGear.getPinionDistance(),is(aDistance));
+    	}
+
+    	@Test
+    	public void testBottomRectangle2D() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//値を用意
+    		Rectangle2D.Double aRect = testPinionGear.toRectangle2D( testPinionGear.bottom(), 10.0d);
+    		//実行//検証
+    		//300,300 r=200  -> left(100,300)
+    		assertThat(testPinionGear.bottomRectangle2D(),is(aRect));
+    	}
+
+    	@Test
+    	public void testLeftRectangle2D() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//値を用意
+    		Rectangle2D.Double aRect = testPinionGear.toRectangle2D( testPinionGear.left(), 10.0d);
+    		//実行//検証
+    		//300,300 r=200  -> left(100,300)
+    		assertThat(testPinionGear.leftRectangle2D(),is(aRect));
+    	}
+
+    	@Test
+    	public void testRightRectangle2D() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//値を用意
+    		Rectangle2D.Double aRect = testPinionGear.toRectangle2D( testPinionGear.right(), 10.0d);
+    		//実行//検証
+    		//300,300 r=200  -> left(100,300)
+    		assertThat(testPinionGear.rightRectangle2D(),is(aRect));
+    	}
+
+    	@Test
+    	public void testTopRectangle2D() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//値を用意
+    		Rectangle2D.Double aRect = testPinionGear.toRectangle2D( testPinionGear.top(), 10.0d);
+    		//実行//検証
+    		//300,300 r=200  -> left(100,300)
+    		assertThat(testPinionGear.topRectangle2D(),is(aRect));
+    	}
+
+    	@Test
+    	public void testCenterRectangle2D() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//値を用意
+    		Rectangle2D.Double aRect = testPinionGear.toRectangle2D( testPinionGear.getCenter(), 10.0d);
+    		//実行//検証
+    		//300,300 r=200  -> left(100,300)
+    		assertThat(testPinionGear.centerRectangle2D(),is(aRect));
+    	}
+
+    	@Test
+    	public void testPenRectangle2D() {
+    		//インスタンスを生成
+    		SpurGear testSpurGear = new SpurGear();
+    		PinionGear testPinionGear = new PinionGear(testSpurGear);
+    		//値を用意
+    		Rectangle2D.Double aRect = testPinionGear.toRectangle2D( testPinionGear.getPenPosition(), 20.0d);
+    		//実行//検証
+    		//300,300 r=200  -> left(100,300)
+    		assertThat(testPinionGear.penRectangle2D(),is(aRect));
+    	}
+    }
+
+</pre>
+<div class="belt">
+<h3><a name="SpiroDesignTest" href="../TestSpecification/index.html#SpiroIOTest">SpiroIOTest（スピロアイオーのテスト）</a></h3>
+</div>
+<pre>
+    package spiroTest;
+
+    import static org.hamcrest.CoreMatchers.*;
+    import static org.junit.Assert.*;
+
+    import org.junit.Test;
+
+    import spiroDesign.SpiroIO;
+
+    public class SpiroIOTest {
+
+    	@Test
+    	public void testSpiroIO() {
+    		SpiroIO testIO1 = new SpiroIO();
+    		SpiroIO testIO2 = testIO1;
+    		assertThat(testIO1,is(sameInstance(testIO2)));
+    		assertThat(testIO1,is(instanceOf(SpiroIO.class)));
+    	}
+
+    	@Test
+    	public void testMakeSaveData() {
+    		//動作テストで確認
+    	}
+
+    	@Test
+    	public void testLoadSaveData() {
+    		//動作テストで確認
+    	}
+
+    	@Test
+    	public void testGetSuffix() {
+    		String str = new String("test.txt");
+    		assertThat(SpiroIO.getSuffix(str),is("txt"));
+
+    	}
+
+    	@Test
+    	public void testOpenImage() {
+    		//動作テストで確認
+    	}
+
+    }
+
+</pre>
+<div class="belt">
+<h3><a name="DesignLocusTest" href="../TestSpecification/index.html#DesignLocusTest">DesignLocusTest（デザインローカスのテスト）</a></h3>
+</div>
+<pre>
+    package spiroTest;
+
+    import static org.hamcrest.CoreMatchers.*;
+    import static org.hamcrest.MatcherAssert.*;
+
+    import java.awt.Color;
+    import java.awt.geom.Point2D;
+
+    import org.junit.Test;
+
+    import spiroDesign.DesignLocus;
+
+    public class DesignLocusTest {
+
+    	//引数を用意
+    	Point2D.Double testPoint2D = new Point2D.Double(0.0d, 0.0d);
+    	Color testColor = new Color(0,0,0);
+    	Integer testInteger = new Integer(0);
+
+    	@Test
+    	public void testDesignLocus() {
+    		//インスタンスを生成
+    		DesignLocus testDesignLocus1 = new DesignLocus(testPoint2D,testColor,testInteger);
+    		DesignLocus testDesignLocus2 = testDesignLocus1;
+    		assertThat(testDesignLocus1, is(sameInstance(testDesignLocus2)));
+    		assertThat(testDesignLocus1, is(instanceOf(DesignLocus.class)));
+    	}
+
+    	@Test
+    	public void testSetPlot() {
+    		//インスタンスを生成
+    		DesignLocus testDesignLocus = new DesignLocus(testPoint2D,testColor,testInteger);
+    		//値を用意
+    		Point2D.Double aPoint2D = new Point2D.Double(1.0d, 1.0d);
+    		//実行
+    		testDesignLocus.setPlot(aPoint2D);
+    		//検証
+    		assertThat(testDesignLocus.getPlot(),is(aPoint2D));
+    	}
+
+    	@Test
+    	public void testGetPlot() {
+    		//インスタンスを生成
+    		DesignLocus testDesignLocus = new DesignLocus(testPoint2D,testColor,testInteger);
+    		//実行//検証
+    		assertThat(testDesignLocus.getPlot(),is(testPoint2D));
+    	}
+
+    	@Test
+    	public void testSetPenColor() {
+    		//インスタンスを生成
+    		DesignLocus testDesignLocus = new DesignLocus(testPoint2D,testColor,testInteger);
+    		//値を用意
+    		Color aColor = new Color(255,0,0);
+    		//実行
+    		testDesignLocus.setPenColor(aColor);
+    		//検証
+    		assertThat(testDesignLocus.getPenColor(),is(aColor));
+    	}
+
+    	@Test
+    	public void testGetPenColor() {
+    		//インスタンスを生成
+    		DesignLocus testDesignLocus = new DesignLocus(testPoint2D,testColor,testInteger);
+    		//実行//検証
+    		assertThat(testDesignLocus.getPenColor(),is(testColor));
+    	}
+
+    	@Test
+    	public void testSetPenNib() {
+    		//インスタンスを生成
+    		DesignLocus testDesignLocus = new DesignLocus(testPoint2D,testColor,testInteger);
+    		//値を用意
+    		Integer aInteger = new Integer(1);
+    		//実行
+    		testDesignLocus.setPenNib(aInteger);
+    		//検証
+    		assertThat(testDesignLocus.getPenNib(),is(aInteger));
+    	}
+
+    	@Test
+    	public void testGetPenNib() {
+    		//インスタンスを生成
+    		DesignLocus testDesignLocus = new DesignLocus(testPoint2D,testColor,testInteger);
+    		//実行//検証
+    		assertThat(testDesignLocus.getPenNib(),is(testInteger));
+    	}
+    }
+
+</pre>
+
+<hr>
+<div class="right-small">Copyright 2019 Project gongon, Updated: 2019/08/06 (Created: 2019/06/14)</div>
+</body>
+</html>

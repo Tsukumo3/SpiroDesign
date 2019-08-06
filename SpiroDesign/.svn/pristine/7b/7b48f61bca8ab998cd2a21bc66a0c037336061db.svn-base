@@ -1,0 +1,1587 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ja">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <meta http-equiv="Content-Script-Type" content="text/javascript">
+  <meta name="keywords" content="Aoki,Atsushi,Smalltalk,Smalltalker,Program,Programmer,Object,Oriented,Programming">
+  <meta name="description" content="プロジェクト演習のホームページ">
+  <meta name="author" content="AOKI Atsushi">
+  <link rev="made" href="index.html">
+  <link rel="index" href="index.html">
+  <link rel="stylesheet" type="text/css" href="../style.css">
+
+  <title>プロジェクト演習「スピロデザイン」テスト仕様書</title>
+</head>
+<body>
+  <div id="menu">
+    <ul>
+      <li><a href="../index.html">ホーム</a></li>
+      <li><a href="../Requirement/index.html">要求仕様書</a></li>
+      <li><a href="../DevelopmentPlan/index.html">開発計画書</a></li>
+      <li><a href="../BasicDesign/index.html">基本設計書</a></li>
+      <li><a href="../DetailDesign/index.html">詳細設計書</a></li>
+      <li><a href="../TestSpecification/index.html" class="current">テスト仕様書</a></li>
+      <li><a href="../TestResult/index.html">テスト結果</a></li>
+      <li><a href="../DevelopmentResult/index.html">開発実績</a></li>
+      <li><a href="../Program/index.html">プログラム</a></li>
+      <li><a href="../Manual/index.html">マニュアル</a></li>
+    </ul>
+  </div>
+  <hr>
+  <h2>プロジェクト演習「スピロデザイン」テスト仕様書</h2>
+  <!-- メニューを表示 -->
+  <div>
+    <ul>
+      <li><a href="#SpiroDesign">SpiroDesign</a></li>
+      <li><a href="#SpiroModel">SpiroModel</a></li>
+      <li><a href="#SpiroView">SpiroView</a></li>
+      <li><a href="#SpiroController">SpiroController</a></li>
+
+      <li><a href="#SpiroGear">SpiroGear</a></li>
+      <li><a href="#PinionGear">PinionGear</a></li>
+      <li><a href="#SpurGear">SpurGear</a></li>
+
+      <li><a href="#DesignLocus">DesignLocus</a></li>
+      <li><a href="#SpiroIO">SpiroIO</a></li>
+    </ul>
+  </div>
+  <!-- SpiroDesign -->
+  <div class="belt">
+    <h3><a name="SpiroDesign" href="../Program/index.html#SpiroDesign">SpiroDesign（メインクラス）</a></h3>
+  </div>
+  <table summary="table">
+    <tbody>
+      <tr>
+        <td>
+          <table border="1" summary="table">
+            <tbody>
+              <tr>
+                <th class="left-padding" abbr="1">属性（インスタンス変数）</th>
+                <th class="left-padding" abbr="2">束縛</th>
+                <th class="left-padding" abbr="3">分類</th>
+                <th class="left-padding" abbr="4">説明</th>
+                <th class="left-padding" abbr="5">テスト結果</th>
+              </tr>
+              <tr>
+                <td>なし</td>
+                <td>なし</td>
+                <td>なし</td>
+                <td>なし</td>
+                <td>なし</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table summary="table">
+    <tbody>
+      <tr>
+        <td>
+          <table border="1" summary="table">
+            <tbody>
+              <tr>
+                <th class="left-padding" abbr="1">メソッド（操作）</th>
+                <th class="left-padding" abbr="2">応答</th>
+                <th class="left-padding" abbr="3">分類</th>
+                <th class="left-padding" abbr="4">説明</th>
+                <th class="left-padding" abbr="5">テスト結果</th>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#main">main(String[] arguments)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public static</code></td>
+                <td class="left-padding"></td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- SpiroModel -->
+  <div class="belt">
+    <h3><a name="SpiroModel" href="../Program/index.html#SpiroModel">SpiroModel(モデル)</a></h3>
+  </div>
+  <table summary="table">
+    <tbody>
+      <tr>
+        <td>
+          <table border="1" summary="table">
+            <tbody>
+              <tr>
+                <th class="left-padding" abbr="1">属性（インスタンス変数）</th>
+                <th class="left-padding" abbr="2">束縛</th>
+                <th class="left-padding" abbr="3">分類</th>
+                <th class="left-padding" abbr="4">説明</th>
+                <th class="left-padding" abbr="5">テスト結果</th>
+              </tr>
+              <tr>
+                <td>dependents</td>
+                <td>ArrayList&lt;SpiroView&gt</td>
+                <td>protected</td>
+                <td>依存物:SpiroViewのインスタンスたちを束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td>SpurGear</td>
+                <td>SpurGear</td>
+                <td>private</td>
+                <td>依存物:SpurGearのインスタンスを束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td>PinionGear</td>
+                <td>PinionGear</td>
+                <td>private</td>
+                <td>依存物:PinionGearのインスタンスを束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td>theta</td>
+                <td>Double</td>
+                <td>private</td>
+                <td>回転角を束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td>pinionDegree</td>
+                <td>Double</td>
+                <td>private</td>
+                <td>pinionGearの回転角を束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td>designLoci</td>
+                <td>ArrayList&lt;DesignLocus&gt;</td>
+                <td>private</td>
+                <td>軌跡のインスタンスを束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td>img</td>
+                <td>BufferedImage</td>
+                <td>private</td>
+                <td>画像を束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td>tickTime</td>
+                <td>int</td>
+                <td>private</td>
+                <td>描画中の実行速度を束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td>isAnimated</td>
+                <td>boolean</td>
+                <td>private</td>
+                <td>描画中がどうかの状態を束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td>isEdited</td>
+                <td>boolean</td>
+                <td>private</td>
+                <td>操作中かどうかの状態を束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td>isRainbow</td>
+                <td>boolean</td>
+                <td>private</td>
+                <td>PinionPenのColorが虹色かどうかを束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table summary="table">
+    <tbody>
+      <tr>
+        <td>
+          <table border="1" summary="table">
+            <tbody>
+              <tr>
+                <th class="left-padding" abbr="1">メソッド（操作）</th>
+                <th class="left-padding" abbr="2">応答</th>
+                <th class="left-padding" abbr="3">分類</th>
+                <th class="left-padding" abbr="4">説明</th>
+                <th class="left-padding" abbr="5">テスト結果</th>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#SpiroModel">SpiroModel()</a></code></td>
+                <td class="left-padding"><code></code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">インスタンスを生成して初期化して応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#initialize">initialize()</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">初期化して応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#addDependent">addDependent(SpiroView aView)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">指定されたViewを依存物に設定する。</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#run">run()</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">全体のループ処理を内容を実行する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#changed">changed()</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">modelの内部状態が変化していたので自分の依存物へupdateを送信する。</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#getIsAnimated">getIsAnimated()</a></code></td>
+                <td class="left-padding"><code>boolean</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">アニメーション中かどうかをの状態を応答する。</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#setIsAnimated">setIsAnimated()</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">アニメーション中かどうかの状態を設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#getIsEdited">getIsEdited()</a></code></td>
+                <td class="left-padding"><code>boolean</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">スピロギアを編集中かどうかを応答する。</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#setIsEdited">setIsEdited(boolean state)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">スピロギアを編集中かどうかを設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#perform">perform()</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">アニメーション中の実際の動作を実行する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#addDesignLoci">addDesignLoci(Point2D.Double aPoint2D, Color aColor,Integer aNib)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">軌跡と色ペンの太さをリストdesignLociに格納する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#addDesignLoci">addDesignLoci()</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">diveしたときにListにNull値を確認する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#setTickTime">setTickTime(int aInteger)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">実行速度の遅延時間を設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#getTickTime">getTickTime()</a></code></td>
+                <td class="left-padding"><code>int</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">実行速度の遅延時間を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#listFlush">listFlush()</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">リストに格納されるデータ量を制限する</td>
+                <td class="left-padding">修正（2019年7月16日）</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#spiroStartAndStop">spiroStartAndStop()</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">スピロギアを回転させる</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#spiroSetSpeed">spiroSetSpeed(int aSpeed)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">スピロギアの回転速度を設定する</td>
+                <td class="left-padding">修正（2019年7月17日）</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#setIsRainbow">setIsRainbow()</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ペンの色が虹色かどうか状態を設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#getIsRainbow">getIsRainbow()</a></code></td>
+                <td class="left-padding"><code>boolean</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ペンの色が虹色どうかの状態を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#rainbow">rainbow()</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ペンの色をレインボーにするための処理を実行する。</td>
+                <td class="left-padding">修正（2019年7月17日）</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#setImage">setImage(BufferedImage anImage)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">絵画の画像データを設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#getImage">getImage()</a></code></td>
+                <td class="left-padding"><code>BufferedImage</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">絵画の画像データを応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#SpiroSaveImage">SpiroSaveImage()</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">絵画の画像データをJPEG形式で保存し、画像データを用いて プレビューを実行する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#spiroSaveLoci">spiroSaveLoci()</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">軌跡の絵をセーブファイルとして出力を実行する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#spiroLoadLoci">spiroLoadLoci()</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">軌跡の絵を保存しているファイルを取得し出力を実行する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#spiroDive">spiroDive()</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">スピロギアの状態を初期化する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#spiroUndo">spiroUndo()</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">一つ前に描かれた絵を削除する</td>
+                <td class="left-padding">バグ（2019年7月16日）</td>
+                <td class="left-padding">修正（2019年7月17日）</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#spiroClear">spiroClear()</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">軌跡を全て削除する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#getDesignLoci">getDesignLoci()</a></code></td>
+                <td class="left-padding"><code>ArrayList&lt;DesignLocus&gt;</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">軌跡のデータを応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#setTheta">setTheta(Double aRadian)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">回転角の値を設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#getTheta">getTheta()</a></code></td>
+                <td class="left-padding"><code>Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">回転角の値を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#getSpurGear">getSpurGear()</a></code></td>
+                <td class="left-padding"><code>SpurGear</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">スパーギアを応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#setSpurCenter">setSpurCenter(Point2D.Double aPoint2D)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">スパーギアの中心座標を設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#setSpurRadius">setSpurRadius(Point2D.Double aPoint2D)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">スパーギアの半径を設定する。</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#getPinionGear">getPinionGear()</a></code></td>
+                <td class="left-padding"><code>PinionGear</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ピニオンギアを応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#setPinionParameter">setPinionParameter(Point2D.Double aPoint2D)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ピニオンギアのパラメータを設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#getDistanceBetweenAToB">getDistanceBetweenAToB(Point2D.Double aPointA,Point2D.Double aPointB)</a></code></td>
+                <td class="left-padding"><code>Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">座標上で二点間の距離を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#getPinionDegrees">getPinionDegrees()</a></code></td>
+                <td class="left-padding"><code>Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ピニオンギアの回転角を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#isInscribe">isInscribe()</a></code></td>
+                <td class="left-padding"><code>boolean</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ギアが内接しているかどうかを応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#setPenParameter">setPenParameter(Point2D.Double aPoint2D)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ピニオンペンのパラメータを設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#calcPenDegrees">calcPenDegrees(Point2D.Double aPoint2D)</a></code></td>
+                <td class="left-padding"><code>Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ピニオンペンの角度を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#sreCalcPinionGear">sreCalcPinionGear()</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">変更後のピニオンギア状態から軌跡の数式のパラメータを求める</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- SpiroController -->
+  <div class="belt">
+    <h3><a name="SpiroController" href="../Program/index.html#SpiroController">SpiroController(コントローラ)</a></h3>
+  </div>
+  <table summary="table">
+    <tbody>
+      <tr>
+        <td>
+          <table border="1" summary="table">
+            <tbody>
+              <tr>
+                <th class="left-padding" abbr="1">属性（インスタンス変数）</th>
+                <th class="left-padding" abbr="2">束縛</th>
+                <th class="left-padding" abbr="3">分類</th>
+                <th class="left-padding" abbr="4">説明</th>
+                <th class="left-padding" abbr="5">テスト結果</th>
+              </tr>
+              <tr>
+                <td>model</td>
+                <td>SpiroModel</td>
+                <td>protected</td>
+                <td>依存物:SpiroModelのインスタンスを束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td>view</td>
+                <td>SpiroView</td>
+                <td>protected</td>
+                <td>SpiroViewのインスタンスを束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td>popupMenu</td>
+                <td>JPopupMenu</td>
+                <td>protected</td>
+                <td>JPopupMenuのインスタンスを束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table summary="table">
+    <tbody>
+      <tr>
+        <td>
+          <table border="1" summary="table">
+            <tbody>
+              <tr>
+                <th class="left-padding" abbr="1">メソッド（操作）</th>
+                <th class="left-padding" abbr="2">応答</th>
+                <th class="left-padding" abbr="3">分類</th>
+                <th class="left-padding" abbr="4">説明</th>
+                <th class="left-padding" abbr="5">テスト結果</th>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#SpiroController">SpiroController()</a></code></td>
+                <td class="left-padding"><code></code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">初期化して応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#mouseClicked">mouseClicked(MouseEvent aMouseEvent)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">取得したイベントからクリックされた座標を取得し、クリックしたボタンが右ボタンだった場合、ポップアップメニューを表示する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#mouseEntered">mouseEntered(MouseEvent aMouseEvent)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">何もしない</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#mouseExited">mouseExited(MouseEvent aMouseEvent)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">何もしない</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#mouseMoved">mouseMoved(MouseEvent aMouseEvent)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">何もしない</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#mousePressed">mousePressed(MouseEvent aMouseEvent)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">マウスが押された時、マウスのカーソルを十字にする</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#mouseReleased">mouseReleased(MouseEvent aMouseEvent)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">マウスが離れた時、マウスのカーソルを元に戻す</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#mouseWheelMoved">mouseWheelMoved(MouseWheelEvent aMouseWheelEvent)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">何もしない</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#whichPickingArea">whichPickingArea(Point2D.Double aPoint2D , MouseEvent aMouseEvent)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">座標から、編集する場所を決め、場所に応じて座標を引数にSpiroModelのメソッドを呼ぶ</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#extendsRectangle2D">extendsRectangle2D(Rectangle2D aRect2D)</a></code></td>
+                <td class="left-padding"><code>Rectangle2D</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">編集する場所を決める時に、四角の判定を拡大する</td>
+                <td class="left-padding">修正（2010年7月17日）</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#setModel">setModel(SpiroModel aModel)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">SpiroModelのインスタンスを設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#setView">setView(SpiroView aView)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">SpiroViewのインスタンスを設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#actionPerformed">actionPerformed(ActionEvent anActionEvent)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ポップアップメニューに設定しているアクションイベントに反応して、そのアクションイベントの種類ごとにmodelのメソッドを呼ぶ</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#initPopupMenu">initPopupMenu()</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ポップアップメニューを設定する</td>
+                <td class="left-padding">バグ（2019年7月16日）</td>
+                <td class="left-padding">修正（2019年7月16日）</td>
+                <td class="left-padding">修正（2019年7月17日）</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- SpiroView -->
+  <div class="belt">
+    <h3><a name="SpiroView" href="../Program/index.html#SpiroView">SpiroView(ビュー)</a></h3>
+  </div>
+  <table summary="table">
+    <tbody>
+      <tr>
+        <td>
+          <table border="1" summary="table">
+            <tbody>
+              <tr>
+                <th class="left-padding" abbr="1">属性（インスタンス変数）</th>
+                <th class="left-padding" abbr="2">束縛</th>
+                <th class="left-padding" abbr="3">分類</th>
+                <th class="left-padding" abbr="4">説明</th>
+                <th class="left-padding" abbr="5">テスト結果</th>
+              </tr>
+              <tr>
+                <td>model</td>
+                <td>SpiroModel</td>
+                <td>protected</td>
+                <td>依存物:SpiroModelのインスタンスを束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td>controller</td>
+                <td>SpiroController</td>
+                <td>protected</td>
+                <td>SpiroControllerのインスタンスを束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td>image</td>
+                <td>BufferedImage</td>
+                <td>private</td>
+                <td>絵画を画像として出力するためにBufferedImageのインスタンスを束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td>graphics</td>
+                <td>Graphics</td>
+                <td>private</td>
+                <td>設定したBufferedImageのインスタンスに描画するために、コンポーネントを描画して表示するGraphicsとは別のGraphicsのインスタンスを束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table summary="table">
+    <tbody>
+      <tr>
+        <td>
+          <table border="1" summary="table">
+            <tbody>
+              <tr>
+                <th class="left-padding" abbr="1">メソッド（操作）</th>
+                <th class="left-padding" abbr="2">応答</th>
+                <th class="left-padding" abbr="3">分類</th>
+                <th class="left-padding" abbr="4">説明</th>
+                <th class="left-padding" abbr="5">テスト結果</th>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#SpiroView">SpiroView(SpiroModel aModel)</a></code></td>
+                <td class="left-padding"><code></code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">引数のaModelをインスタンスに設定し、初期化して応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#SpiroView">SpiroView(SpiroModel aModel, SpiroController aController)</a></code></td>
+                <td class="left-padding"><code></code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">引数のaModel,aControllerをそれぞれインスタンスに設定し、初期化して応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#paintComponent">paintComponent(Graphics aGraphics)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">repaint()が呼ばれた時にこのメソッドが応答する.描画の処理を行う</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#displaySpurGear">displaySpurGear(Graphics aGraphics)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">スパーギアを描画する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#displayPinionGear">displayPinionGear(Graphics aGraphics)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ピニオンギアを描画する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#displayDesignLoci">displayDesignLoci(Graphics aGraphics)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">軌跡を描画する</td>
+                <td class="left-padding">バグ（2019年7月15日）</td>
+                <td class="left-padding">修正（2019年7月17日）</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#update">update()</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">repaint()を呼び、描画を依頼する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- SpiroGear -->
+  <div class="belt">
+    <h3><a name="SpiroGear" href="../Program/index.html#SpiroGear">SpiroGear</a></h3>
+  </div>
+  <table summary="table">
+    <tbody>
+      <tr>
+        <td>
+          <table border="1" summary="table">
+            <tbody>
+              <tr>
+                <th class="left-padding" abbr="1">属性（インスタンス変数）</th>
+                <th class="left-padding" abbr="2">束縛</th>
+                <th class="left-padding" abbr="3">分類</th>
+                <th class="left-padding" abbr="4">説明</th>
+                <th class="left-padding" abbr="5">テスト結果</th>
+              </tr>
+              <tr>
+                <td>center</td>
+                <td>Point2D.Double</td>
+                <td></td>
+                <td>中心座標を束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td>radius</td>
+                <td>Double</td>
+                <td>private</td>
+                <td>半径を束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table summary="table">
+    <tbody>
+      <tr>
+        <td>
+          <table border="1" summary="table">
+            <tbody>
+              <tr>
+                <th class="left-padding" abbr="1">メソッド（操作）</th>
+                <th class="left-padding" abbr="2">応答</th>
+                <th class="left-padding" abbr="3">分類</th>
+                <th class="left-padding" abbr="4">説明</th>
+                <th class="left-padding" abbr="5">テスト結果</th>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#SpiroGear">SpiroGear()</a></code></td>
+                <td class="left-padding"><code></code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">インスタンスを初期化する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#SpiroGear">SpiroGear(Double x, Double y)</a></code></td>
+                <td class="left-padding"><code></code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">引数から中心座標をPoint2D型にした後インスタンスを設定し、半径のインスタンスを初期化する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#SpiroGear">SpiroGear(Double x, Double y, Double r)</a></code></td>
+                <td class="left-padding"><code></code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">引数から中心座標をPoint2D型にし、中心座標、半径のインスタンスを設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#SpiroGear">SpiroGear(Point2D.Double p, Double r)</a></code></td>
+                <td class="left-padding"><code></code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">引数から中心座標、半径のインスタンスを設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#SpiroGear">SpiroGear(Double r)</a></code></td>
+                <td class="left-padding"><code></code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">引数から半径をインスタンスに設定し、中心座標を初期化する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#setCenter">setCenter(Point2D.Double aPoint2D)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">中心座標をインスタンスに設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#getCenter">getCenter()</a></code></td>
+                <td class="left-padding"><code>Point2D.Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">インスタンスから中心座標を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#left">left()</a></code></td>
+                <td class="left-padding"><code>Point2D.Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">中心座標と半径から、円の左側に描画する四角の座標を求めて応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#right">right()</a></code></td>
+                <td class="left-padding"><code>Point2D.Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">中心座標と半径から、円の右側に描画する四角の座標を求めて応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#top">top()</a></code></td>
+                <td class="left-padding"><code>Point2D.Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">中心座標と半径から、円の上側に描画する四角の座標を求めて応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#bottom">bottom()</a></code></td>
+                <td class="left-padding"><code>Point2D.Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">中心座標と半径から、円の下側に描画する四角の座標を求めて応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#centerRectangle">centerRectangle()</a></code></td>
+                <td class="left-padding"><code>Rectangle2D.Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">真ん中四角の中心座標と拡張する長さから、中心の四角を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#leftRectangle">leftRectangle()</a></code></td>
+                <td class="left-padding"><code>Rectangle2D.Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">左四角の中心座標と拡張する長さから、左の四角を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#rightRectangle">rightRectangle()</a></code></td>
+                <td class="left-padding"><code>Rectangle2D.Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">右四角の中心座標と拡張する長さから、中心の四角を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#topRectangle">topRectangle()</a></code></td>
+                <td class="left-padding"><code>Rectangle2D.Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">上四角の中心座標と拡張する長さから、中心の四角を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#getRadius">getRadius()</a></code></td>
+                <td class="left-padding"><code>Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">インスタンスの半径を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#setRadius">setRadius(Double r)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">インスタンスの半径を設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#toRectangle2D">toRectangle2D(Point2D.Double aPoint2D, Double expandedAmount)</a></code></td>
+                <td class="left-padding"><code>Rectangle2D.Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">中心座標と拡張する長さを受け取り、これらからRectangleを応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- PinionGear -->
+  <div class="belt">
+    <h3><a name="PinionGear" href="../Program/index.html#PinionGear">PinionGear</a></h3>
+  </div>
+  <table summary="table">
+    <tbody>
+      <tr>
+        <td>
+          <table border="1" summary="table">
+            <tbody>
+              <tr>
+                <th class="left-padding" abbr="1">属性（インスタンス変数）</th>
+                <th class="left-padding" abbr="2">束縛</th>
+                <th class="left-padding" abbr="3">分類</th>
+                <th class="left-padding" abbr="4">説明</th>
+                <th class="left-padding" abbr="5">テスト結果</th>
+              </tr>
+              <tr>
+                <td>penPosition</td>
+                <td>Point2D.Double</td>
+                <td>private</td>
+                <td>ペンの座標を束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td>penColor</td>
+                <td>Color</td>
+                <td>private</td>
+                <td>ペンの色を束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td>penNib</td>
+                <td>int</td>
+                <td>private</td>
+                <td>ペンの太さを束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td>PinionDegrees</td>
+                <td>Double</td>
+                <td>private</td>
+                <td>ピニオンギアの角度を束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td>pinionDistance</td>
+                <td>Double</td>
+                <td>private</td>
+                <td>ピニオンギアとスパーギアとの距離を束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td>phi</td>
+                <td>Double</td>
+                <td>private</td>
+                <td>ピニオンギアとスパーギアの間の角度について束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td>psi</td>
+                <td>Double</td>
+                <td>private</td>
+                <td>ピニオンギアとペンの間の角度について束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td>penDistance</td>
+                <td>Double</td>
+                <td>private</td>
+                <td>ピニオンギアとペンの間の距離を束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td>theta</td>
+                <td>Double</td>
+                <td>private</td>
+                <td>回転角を束縛する</td>
+                <td>良好（2019年7月18日）</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table summary="table">
+    <tbody>
+      <tr>
+        <td>
+          <table border="1" summary="table">
+            <tbody>
+              <tr>
+                <th class="left-padding" abbr="1">メソッド（操作）</th>
+                <th class="left-padding" abbr="2">応答</th>
+                <th class="left-padding" abbr="3">分類</th>
+                <th class="left-padding" abbr="4">説明</th>
+                <th class="left-padding" abbr="5">テスト結果</th>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#PinionGear">PinionGear(SpurGear aSpurGear)</a></code></td>
+                <td class="left-padding"><code></code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">引数のスパーギアから座標を受け取り、初期位置を親に伝える.また、その他のインスタンスを初期化する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#PinionGear">PinionGear(SpurGear aSpurGear,Double r)</a></code></td>
+                <td class="left-padding"><code></code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">引数のスパーギアから座標と半径を受け取り、初期位置を親に伝える.また、その他のインスタンスを初期化する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#PinionGear">PinionGear(Point2D.Double p, Double r, Point2D.Double uv)</a></code></td>
+                <td class="left-padding"><code></code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">引数のスパーギアから座標と半径受け取り、初期位置を親に伝える.また、ペン座標を設定し、その他のインスタンスを初期化する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#PinionGear">PinionGear(Point2D.Double p, Double r, Point2D.Double uv, Color c, int n)</a></code></td>
+                <td class="left-padding"><code></code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">引数のスパーギアから座標と半径受け取り、初期位置を親に伝える.また、ペン座標、ペンの色、ペンの太さを設定し、その他のインスタンスを初期化する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#PinionGear">PinionGear(Point2D.Double p, Double r, Point2D.Double uv, Color c, int n, Double d)</a></code></td>
+                <td class="left-padding"><code></code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">引数のスパーギアから座標と半径受け取り、初期位置を親に伝える.また、ペン座標、ペンの色、ペンの太さ、角度を設定し、その他のインスタンスを初期化する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#getPenColor">getPenColor()</a></code></td>
+                <td class="left-padding"><code>Color</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ペンの色を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#setPenColor">setPenColor(Color aColor)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ペンの色を設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#getPenNib">getPenNib()</a></code></td>
+                <td class="left-padding"><code>int</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ペンの太さを応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#setPenNib">setPenNib(int anInteger)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ペンの太さを設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#getPenPosition">getPenPosition()</a></code></td>
+                <td class="left-padding"><code>Point2D.Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ペンの座標を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#setPenPosition">setPenPosition(Point2D.Double aPoint2D)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ペンの座標を設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#getPinionDegrees">getPinionDegrees()</a></code></td>
+                <td class="left-padding"><code>Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ピニオンギアとスパーギアとの角度を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#setPinionDegrees">setPinionDegrees(Double aDegrees)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ピニオンギアとスパーギアとの角度を設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#getPsi">getPsi()</a></code></td>
+                <td class="left-padding"><code>Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">角度を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#setPsi">setPsi(Double aDegrees)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">角度を設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#getPhi">getPhi()</a></code></td>
+                <td class="left-padding"><code>Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">角度を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#setPhi">setPhi(Double aDegrees)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">角度を設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#getTheta">getTheta()</a></code></td>
+                <td class="left-padding"><code>Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">回転角を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#setTheta">setTheta(Double aDegrees)</a></code></td>
+                <td class="left-padding"><code>Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">回転角を設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#getPinionDistance">getPinionDistance()</a></code></td>
+                <td class="left-padding"><code>Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ピニオンギアとペンとの距離を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#setPinionDistance">setPinionDistance(Double aDistance)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ピニオンギアとスパーギアとの距離を設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#getPenDistance">getPenDistance()</a></code></td>
+                <td class="left-padding"><code>Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ピニオンギアとペンとの距離を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#setPenDistance">setPenDistance(Double aDistance)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ピニオンギアとペンとの距離を設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#right">right()</a></code></td>
+                <td class="left-padding"><code>Point2D.Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ピニオンギアの右四角の中心座標を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#top">top()</a></code></td>
+                <td class="left-padding"><code>Point2D.Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ピニオンギアの上四角の中心座標を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#left">left()</a></code></td>
+                <td class="left-padding"><code>Point2D.Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ピニオンギアの左四角の中心座標を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#bottom">bottom()</a></code></td>
+                <td class="left-padding"><code>Point2D.Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ピニオンギアの下四角の中心座標を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#bottomRectangle2D">bottomRectangle2D()</a></code></td>
+                <td class="left-padding"><code>Rectangle2D</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ピニオンギアの下四角を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#leftRectangle2D">leftRectangle2D()</a></code></td>
+                <td class="left-padding"><code>Rectangle2D</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ピニオンギアの左四角を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#rightRectangle2D">rightRectangle2D()</a></code></td>
+                <td class="left-padding"><code>Rectangle2D</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ピニオンギアの右四角を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#topRectangle2D">topRectangle2D()</a></code></td>
+                <td class="left-padding"><code>Rectangle2D</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ピニオンギアの上四角を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#centerRectangle2D">centerRectangle2D()</a></code></td>
+                <td class="left-padding"><code>Rectangle2D</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ピニオンギアの真ん中四角を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#penRectangle2D">penRectangle2D()</a></code></td>
+                <td class="left-padding"><code>Rectangle2D</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ペンの四角を応答する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- SpurGear -->
+  <div class="belt">
+    <h3><a name="SpurGear" href="../Program/index.html#SpurGear">SpurGear</a></h3>
+  </div>
+  <table summary="table">
+    <tbody>
+      <tr>
+        <td>
+          <table border="1" summary="table">
+            <tbody>
+              <tr>
+                <th class="left-padding" abbr="1">属性（インスタンス変数）</th>
+                <th class="left-padding" abbr="2">束縛</th>
+                <th class="left-padding" abbr="3">分類</th>
+                <th class="left-padding" abbr="4">説明</th>
+                <th class="left-padding" abbr="5">テスト結果</th>
+              </tr>
+              <tr>
+                <td>なし</td>
+                <td>なし</td>
+                <td>なし</td>
+                <td>なし</td>
+                <td>なし</td>
+              </tr>
+
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table summary="table">
+    <tbody>
+      <tr>
+        <td>
+          <table border="1" summary="table">
+            <tbody>
+              <tr>
+                <th class="left-padding" abbr="1">メソッド（操作）</th>
+                <th class="left-padding" abbr="2">応答</th>
+                <th class="left-padding" abbr="3">分類</th>
+                <th class="left-padding" abbr="4">説明</th>
+                <th class="left-padding" abbr="5">テスト結果</th>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#SpurGear">SpurGear()</a></code></td>
+                <td class="left-padding"><code></code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">中心座標、半径を親に伝える</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#SpurGear">SpurGear(double x, double y, double r)</a></code></td>
+                <td class="left-padding"><code></code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">引数の中心座標、半径を親に伝える</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- DesignLocus -->
+  <div class="belt">
+    <h3><a name="DesignLocus" href="../Program/index.html#DesignLocus">DesignLocus</a></h3>
+  </div>
+  <table summary="table">
+    <tbody>
+      <tr>
+        <td>
+          <table border="1" summary="table">
+            <tbody>
+              <tr>
+                <th class="left-padding" abbr="1">属性（インスタンス変数）</th>
+                <th class="left-padding" abbr="2">束縛</th>
+                <th class="left-padding" abbr="3">分類</th>
+                <th class="left-padding" abbr="4">説明</th>
+                <th class="left-padding" abbr="5">テスト結果</th>
+              </tr>
+              <tr>
+                <td class="left-padding"><code>plot</code></td>
+                <td class="left-padding"><code>Point2D.Double</code></td>
+                <td class="left-padding"><code>private</code></td>
+                <td class="left-padding">ペンの座標を束縛する</td>
+                <td class="left-padding">良好（2010年7月25日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code>penColor</code></td>
+                <td class="left-padding"><code>Color</code></td>
+                <td class="left-padding"><code>private</code></td>
+                <td class="left-padding">ペンの色を束縛する</td>
+                <td class="left-padding">良好（2010年7月25日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code>penNib</code></td>
+                <td class="left-padding"><code>Integer</code></td>
+                <td class="left-padding"><code>private</code></td>
+                <td class="left-padding">ペン先の太さを束縛する</td>
+                <td class="left-padding">良好（2010年7月25日）</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table summary="table">
+    <tbody>
+      <tr>
+        <td>
+          <table border="1" summary="table">
+            <tbody>
+              <tr>
+                <th class="left-padding" abbr="1">メソッド（操作）</th>
+                <th class="left-padding" abbr="2">応答</th>
+                <th class="left-padding" abbr="3">分類</th>
+                <th class="left-padding" abbr="4">説明</th>
+                <th class="left-padding" abbr="5">テスト結果</th>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#DesignLocus">DesignLocus(Point2D.Double aPoint2D, Color aColor, Intger aInteger)</a></code></td>
+                <td class="left-padding"><code></code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">引数を受け取り、それらをインスタンスに設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#setPlot">setPlot(Point2D.Double aPoint2D)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ペンの座標を設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#getPlot">getPlot()</a></code></td>
+                <td class="left-padding"><code>Point2D.Double</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ペンの座標を取得する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#setPenColor">setPenColor(Color aColor)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ペンの色を設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#getPenColor">getPenColor()</a></code></td>
+                <td class="left-padding"><code>Color</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ペンの色を取得する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#setPenNib">setPenNib(Integer aNib)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ペンの太さを設定する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#getPenNib">getPenNib()</a></code></td>
+                <td class="left-padding"><code>Integer</code></td>
+                <td class="left-padding"><code>public</code></td>
+                <td class="left-padding">ペンの太さを取得する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- SpiroIO -->
+  <div class="belt">
+    <h3><a name="SpiroIO" href="../Program/index.html#SpiroIO">SpiroIO</a></h3>
+  </div>
+  <table summary="table">
+    <tbody>
+      <tr>
+        <td>
+          <table border="1" summary="table">
+            <tbody>
+              <tr>
+                <th class="left-padding" abbr="1">属性（インスタンス変数）</th>
+                <th class="left-padding" abbr="2">束縛</th>
+                <th class="left-padding" abbr="3">分類</th>
+                <th class="left-padding" abbr="4">説明</th>
+                <th class="left-padding" abbr="5">テスト結果</th>
+              </tr>
+              <tr>
+                <td>なし</td>
+                <td>なし</td>
+                <td>なし</td>
+                <td>なし</td>
+                <td>なし</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table summary="table">
+    <tbody>
+      <tr>
+        <td>
+          <table border="1" summary="table">
+            <tbody>
+              <tr>
+                <th class="left-padding" abbr="1">メソッド（操作）</th>
+                <th class="left-padding" abbr="2">応答</th>
+                <th class="left-padding" abbr="3">分類</th>
+                <th class="left-padding" abbr="4">説明</th>
+                <th class="left-padding" abbr="5">テスト結果</th>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#makeSaveData">makeSaveData(ArrayList&lt;DesignLocus&gt designLoci)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public static</code></td>
+                <td class="left-padding">セーブデータディレクトリがなければ生成する.その後、designLociのデータを拡張子.datのファイルに保存し、datファイルを出力する</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#loadSaveData">loadSaveData()</a></code></td>
+                <td class="left-padding"><code>ArrayList&lt;DesignLocus&gt</code></td>
+                <td class="left-padding"><code>public static</code></td>
+                <td class="left-padding">ファイル選択画面から、datファイルを指定すると、そのdatファイルから軌跡を取得し、その軌跡のデータをDesignLociに送る</td>
+                <td class="left-padding">バグ（2019年7月17日）</td>
+                <td class="left-padding">修正（2019年7月17日）</td>
+                <td class="left-padding">修正（2019年7月18日）</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#getSuffix">getSuffix(String fileName)</a></code></td>
+                <td class="left-padding"><code>String</code></td>
+                <td class="left-padding"><code>public static</code></td>
+                <td class="left-padding">ファイル名から拡張子を返す。</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+              <tr>
+                <td class="left-padding"><code><a href="../Program/index.html#saveImage">saveImage(BufferedImage img)</a></code></td>
+                <td class="left-padding"><code>void</code></td>
+                <td class="left-padding"><code>public static</code></td>
+                <td class="left-padding">画像保存フォルダがなければ生成する。その後、引数の画像データをjpg形式の画像として出力する.そしてその画像をプレビューで開く</td>
+                <td class="left-padding">良好（2019年7月18日）</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- 白線を引く -->
+  <hr>
+  <div class="right-small">Copyright 2019 Project gongon, Updated: 2019/7/19 (Created: 2019/06/14)</div>
+</body>
+</html>

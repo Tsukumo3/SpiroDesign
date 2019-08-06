@@ -1,0 +1,19 @@
+package spiroDesign;
+
+public class SpurGear extends SpiroGear{
+
+
+	SpurGear(){
+
+		super(300.0,300.0,200.0);
+
+
+	}
+	SpurGear(Double x,Double y,Double r){
+
+		super(x,y,r);
+
+
+	}
+
+}

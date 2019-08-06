@@ -1,0 +1,233 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<meta name="keywords" content="Aoki,Atsushi,Smalltalk,Smalltalker,Program,Programmer,Object,Oriented,Programming">
+<meta name="description" content="プロジェクト演習のホームページ">
+<meta name="author" content="AOKI Atsushi">
+<link rev="made" href="index.html">
+<link rel="index" href="index.html">
+<link rel="stylesheet" type="text/css" href="../style.css">
+
+<title>プロジェクト演習「スピロデザイン」マニュアル</title>
+</head>
+<body>
+<div id="menu">
+<ul>
+  <li><a href="../index.html">ホーム</a></li>
+  <li><a href="../Requirement/index.html">要求仕様書</a></li>
+  <li><a href="../DevelopmentPlan/index.html">開発計画書</a></li>
+  <li><a href="../BasicDesign/index.html">基本設計書</a></li>
+  <li><a href="../DetailDesign/index.html">詳細設計書</a></li>
+  <li><a href="../TestSpecification/index.html">テスト仕様書</a></li>
+  <li><a href="../TestResult/index.html">テスト結果</a></li>
+  <li><a href="../DevelopmentResult/index.html">開発実績</a></li>
+  <li><a href="../Program/index.html">プログラム</a></li>
+  <li><a href="../Manual/index.html" class="current">マニュアル</a></li>
+</ul>
+</div>
+<hr>
+<h2>プロジェクト演習「スピロデザイン」マニュアル</h2>
+<div>
+  <ul>
+    <li><a href="#Introduction_method">導入方法</a></li>
+    <li><a href="#Execution_method">実行方法</a></li>
+  </ul>
+</div>
+<div class="belt">
+  <h3><a name="Introduction_method">導入方法</a></h3>
+</div>
+<ol>
+  <li><a href="../Program/SpiroDesign.zip">SpiroDesign.zip</a>のアーカイブファイルを適当な場所に置き、展開する。
+    <pre class="belt">$ unzip SpiroDesign
+   Keishi-Macbook:file mikitoshishi$ unzip SpiroDesign.zip
+   Archive:  SpiroDesign.zip
+      creating: SpiroDesign/
+     inflating: SpiroDesign/.DS_Store
+     inflating: SpiroDesign/build.xml
+     inflating: SpiroDesign/Makefile
+     inflating: SpiroDesign/.classpath
+      creating: SpiroDesign/spiroDesign/
+     inflating: SpiroDesign/spiroDesign/SpiroGear.java
+     inflating: SpiroDesign/spiroDesign/.DS_Store
+     inflating: SpiroDesign/spiroDesign/DesignLocus.java
+     inflating: SpiroDesign/spiroDesign/SpiroDesign.java
+     inflating: SpiroDesign/spiroDesign/SpiroView.java
+     inflating: SpiroDesign/spiroDesign/SpiroIO.java
+     inflating: SpiroDesign/spiroDesign/SpiroModel.java
+     inflating: SpiroDesign/spiroDesign/SpurGear.java
+     inflating: SpiroDesign/spiroDesign/SpiroController.java
+     inflating: SpiroDesign/spiroDesign/PinionGear.java
+      creating: SpiroDesign/.settings/
+     inflating: SpiroDesign/.settings/org.eclipse.jdt.core.prefs
+     inflating: SpiroDesign/clang-format-for-java.yaml
+     inflating: SpiroDesign/.project
+     inflating: SpiroDesign/spiroDesign.mf
+      creating: SpiroDesign/SpiroDesign.app/
+      creating: SpiroDesign/SpiroDesign.app/Contents/
+     inflating: SpiroDesign/SpiroDesign.app/Contents/spiroDesign.icns
+      creating: SpiroDesign/SpiroDesign.app/Contents/MacOS/
+     inflating: SpiroDesign/SpiroDesign.app/Contents/MacOS/applet
+      creating: SpiroDesign/SpiroDesign.app/Contents/Resources/
+     inflating: SpiroDesign/SpiroDesign.app/Contents/Resources/spiroDesign.icns
+     inflating: SpiroDesign/SpiroDesign.app/Contents/Resources/applet.rsrc
+      creating: SpiroDesign/SpiroDesign.app/Contents/Resources/description.rtfd/
+      creating: SpiroDesign/SpiroDesign.app/Contents/Resources/description.rtfd/.svn/
+     inflating: SpiroDesign/SpiroDesign.app/Contents/Resources/description.rtfd/.svn/entries
+      creating: SpiroDesign/SpiroDesign.app/Contents/Resources/description.rtfd/.svn/props/
+      creating: SpiroDesign/SpiroDesign.app/Contents/Resources/description.rtfd/.svn/text-base/
+     inflating: SpiroDesign/SpiroDesign.app/Contents/Resources/description.rtfd/.svn/text-base/TXT.rtf.svn-base
+      creating: SpiroDesign/SpiroDesign.app/Contents/Resources/description.rtfd/.svn/prop-base/
+     inflating: SpiroDesign/SpiroDesign.app/Contents/Resources/description.rtfd/.svn/all-wcprops
+      creating: SpiroDesign/SpiroDesign.app/Contents/Resources/description.rtfd/.svn/tmp/
+      creating: SpiroDesign/SpiroDesign.app/Contents/Resources/description.rtfd/.svn/tmp/props/
+      creating: SpiroDesign/SpiroDesign.app/Contents/Resources/description.rtfd/.svn/tmp/text-base/
+      creating: SpiroDesign/SpiroDesign.app/Contents/Resources/description.rtfd/.svn/tmp/prop-base/
+     inflating: SpiroDesign/SpiroDesign.app/Contents/Resources/description.rtfd/TXT.rtf
+      creating: SpiroDesign/SpiroDesign.app/Contents/Resources/Scripts/
+      creating: SpiroDesign/SpiroDesign.app/Contents/Resources/Scripts/.svn/
+     inflating: SpiroDesign/SpiroDesign.app/Contents/Resources/Scripts/.svn/entries
+      creating: SpiroDesign/SpiroDesign.app/Contents/Resources/Scripts/.svn/props/
+      creating: SpiroDesign/SpiroDesign.app/Contents/Resources/Scripts/.svn/text-base/
+     inflating: SpiroDesign/SpiroDesign.app/Contents/Resources/Scripts/.svn/text-base/main.scpt.svn-base
+      creating: SpiroDesign/SpiroDesign.app/Contents/Resources/Scripts/.svn/prop-base/
+    extracting: SpiroDesign/SpiroDesign.app/Contents/Resources/Scripts/.svn/prop-base/main.scpt.svn-base
+     inflating: SpiroDesign/SpiroDesign.app/Contents/Resources/Scripts/.svn/all-wcprops
+      creating: SpiroDesign/SpiroDesign.app/Contents/Resources/Scripts/.svn/tmp/
+      creating: SpiroDesign/SpiroDesign.app/Contents/Resources/Scripts/.svn/tmp/props/
+      creating: SpiroDesign/SpiroDesign.app/Contents/Resources/Scripts/.svn/tmp/text-base/
+      creating: SpiroDesign/SpiroDesign.app/Contents/Resources/Scripts/.svn/tmp/prop-base/
+     inflating: SpiroDesign/SpiroDesign.app/Contents/Resources/Scripts/main.scpt
+     inflating: SpiroDesign/SpiroDesign.app/Contents/Info.plist
+    extracting: SpiroDesign/SpiroDesign.app/Contents/PkgInfo
+    </pre>
+      <li>展開して得られるSpiroDesignのディレクトリに移動する。
+    <pre class="belt">$ cd SpiroDesign</pre>
+      <li>makeをしてjarファイルを生成する。
+    <pre class="belt"> $ make
+     env LC_ALL=ja_JP.UTF-8 ant all
+     Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
+     Buildfile: /Users/mikitoshishi/Desktop/file/SpiroDesign/build.xml
+
+     prepare:
+     [exec] 2019年 7月18日 木曜日 22時31分14秒 JST
+
+     compile:
+     [javac] Compiling 1 source file to /Users/mikitoshishi/Desktop/file/SpiroDesign/Classes
+     [javac] Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
+     [exec] 2019年 7月18日 木曜日 22時31分16秒 JST
+
+     jar:
+      [jar] Building jar: /Users/mikitoshishi/Desktop/file/SpiroDesign/spiroDesign.jar
+     [exec] 2019年 7月18日 木曜日 22時31分16秒 JST
+
+     all:
+     [exec] 2019年 7月18日 木曜日 22時31分16秒 JST
+
+     BUILD SUCCESSFUL
+     Total time: 2 seconds
+    </pre>
+      <li>spiroDesign.jarが生成されている事を確認する。
+    <pre class="belt">$ ls *
+    Makefile			clang-format-for-java.yaml	spiroDesign.mf
+    build.xml			spiroDesign.jar
+
+    Classes:
+    spiroDesign
+
+    SpiroDesign.app:
+    Contents
+
+    spiroDesign:
+    DesignLocus.java	SpiroController.java	SpiroGear.java		SpiroModel.java		SpurGear.java
+    PinionGear.java		SpiroDesign.java	SpiroIO.java		SpiroView.java
+    </pre>
+      <li>生成されたspiroDesign.jarをアプリケーション(SpiroModel.app)の中にインストールする。
+    <pre class="belt">$ make install
+    env LC_ALL=ja_JP.UTF-8 ant install
+    Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
+    Buildfile: /Users/mikitoshishi/Desktop/file/SpiroDesign/build.xml
+
+    prepare:
+      [exec] 2019年 7月18日 木曜日 22時40分41秒 JST
+
+    compile:
+      [exec] 2019年 7月18日 木曜日 22時40分41秒 JST
+
+    jar:
+      [exec] 2019年 7月18日 木曜日 22時40分41秒 JST
+
+    all:
+      [exec] 2019年 7月18日 木曜日 22時40分41秒 JST
+
+    install:
+      [copy] Copying 1 file to /Users/mikitoshishi/Desktop/file/SpiroDesign/SpiroDesign.app/Contents/Resources/Java
+      [exec] 2019年 7月18日 木曜日 22時40分41秒 JST
+
+    BUILD SUCCESSFUL
+    Total time: 0 seconds
+    </pre>
+  </ol>
+<div class="belt">
+  <h3><a name="Execution_method">実行方法</a>[実行ファイルの動かし方]</h3>
+</div>
+<p>実行するための方法は以下の通りである</p>
+  <blockquote><code>java -jar spiroModel.jar</code></blockquote>
+<p>Mac OS Xの場合、アプリケーションSpiroModel.appをダブルクリックする方が簡便である。</p>
+<blockquote>SpiroDesign.app<img class="borderless" src="../Images/SpiroDesign.png" width="128" height="128" alt="spiroDesign.png"></blockquote>
+<p>また、openコマンドでSpiroDesign.appを開いても実行可能である。</p>
+<blockquote><code>open SpiroDesign.app</code></blockquote>
+<p>以下に実行例を示す</p>
+<blockquote>
+  <table class="belt" summary="table">
+    <tbody>
+      <tr>
+        <td>
+        <table class="content" summary="table">
+          <tbody>
+            <tr>
+              <td class="center-small"><a href="../Images/playing1.png"><img class="borderless" src="../Images/playing1.png" width="620" height="450" alt="playing1"></a>
+            </tr>
+          </tbody>
+        </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="belt" summary="table">
+    <tbody>
+      <tr>
+        <td>
+        <table class="content" summary="table">
+          <tbody>
+            <tr>
+              <td class="center-small"><a href="../Images/playing2.png"><img class="borderless" src="../Images/playing2.png" width="620" height="450" alt="playing2"></a></td>
+            </tr>
+          </tbody>
+        </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="belt" summary="table">
+    <tbody>
+      <tr>
+        <td>
+        <table class="content" summary="table">
+          <tbody>
+              <tr>
+              <td class="center-small"><a href="../Images/playing3.png"><img class="borderless" src="../Images/playing3.png" width="620" height="450" alt="playing3"></a></td>
+            </tr>
+          </tbody>
+        </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</blockquote>
+<hr>
+<div class="right-small">Copyright 2019 Project ごんごん, Updated: 2019/07/18 (Created: 2019/06/14)</div>
+</body>
+</html>
